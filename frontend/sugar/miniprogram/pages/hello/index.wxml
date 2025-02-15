@@ -33,8 +33,11 @@
 
     </view>
     <view class="usermotto">
-      <button class="primary" bind:tap="onSubmit">吃糖果</button>
+      <button class="primary" bind:tap="onSubmit" disabled="{{eatSugar}}">吃糖果</button>
     </view>
+
+    <view class="{{showIndictor?'show':'hide'}}">
+    <view class="lds-ellipsis"><view></view><view></view><view></view><view></view></view></view>
 
     <view class="answer-wrapper">
           <towxml nodes="{{answer}}"/>

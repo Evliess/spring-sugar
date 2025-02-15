@@ -25,9 +25,11 @@ Component({
     canIUseGetUserProfile: wx.canIUse('getUserProfile'),
     canIUseNicknameComp: wx.canIUse('input.type.nickname'),
     sexs: [
-      {value: 0, text: '男'},
-      {value: 1, text: '女'}
+      { value: 0, text: '男' },
+      { value: 1, text: '女' }
     ],
+    showIndictor: false,
+    eatSugar: false,
   },
   methods: {
     // 事件处理函数
@@ -46,7 +48,7 @@ Component({
     },
     onNameChange(e: any) {
       const name = e.detail.value;
-      if (name!==null && name.length > 0) {
+      if (name !== null && name.length > 0) {
         this.setData({
           "userInput.name": name,
         })
@@ -87,17 +89,17 @@ Component({
       const regex = /^(19\d{2}|20\d{2})\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/;
       const dateString = this.data.userInput.birthday;
       if (!regex.test(dateString)) {
-          return false; 
+        return false;
       }
       const [year, month, day] = dateString.split('/').map(Number);
       const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
       const daysInMonth = [
-          31, isLeapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+        31, isLeapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
       ];
       return day <= daysInMonth[month - 1];
     },
 
-    checkTime(){
+    checkTime() {
       const timeString = this.data.userInput.birthTime;
       const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
       return regex.test(timeString);
@@ -116,12 +118,13 @@ Component({
         placeholderText: '请输入口令',
         editable: true,
         success: (res) => {
-          if(res.confirm) {
+          if (res.confirm) {
             this.setData({
               "token": res.content
             });
             const userInput = this.buildData();
             this.sendReq(userInput);
+            this.setData({ "eatSugar": true, "showIndictor": true, "answer": {} });
           }
         }
       });
@@ -149,32 +152,18 @@ Component({
     },
 
     buildData() {
-      const data:any = {}
+      const data: any = {}
       data.name = this.data.userInput.name;
-      data.sex = this.data.userInput.sex == '0'? '男': '女';
+      data.sex = this.data.userInput.sex == '0' ? '男' : '女';
       const dateString = this.data.userInput.birthday;
       const [year, month, day] = dateString.split('/').map(Number);
       const timeString = this.data.userInput.birthTime;
-      const[hour, minute] = timeString.split(':').map(Number);
-      data.birth = year+'年'+month+'月'+day+'日 '+hour + '时';
+      const [hour, minute] = timeString.split(':').map(Number);
+      data.birth = year + '年' + month + '月' + day + '日 ' + hour + '时';
       return data;
     },
 
-
-    // sendReq() {
-    //   wx.request({
-    //     url: 'http://localhost:8080/public/stocks',
-    //     method: 'GET',
-    //     success: (res) => {
-    //       this.setData({
-    //         "answer": res.data.toString().trim(),
-    //       })
-    //     }
-    //   })
-    // },
-
-    sendReq(data: any){
-      console.log(data)
+    sendReq(data: any) {
       wx.request({
         // url: 'http://localhost:8080/public/sugar',
         url: 'https://www.tyty.wang/public/sugar',
@@ -184,28 +173,32 @@ Component({
           'content-type': 'application/json'
         },
         success: (res) => {
-          const obj = app.towxml(res.data, 'markdown', {theme: 'light'});
+          const obj = app.towxml(res.data, 'markdown', { theme: 'light' });
           this.setData({
             "answer": obj,
           })
-        }
+          this.setData({ "eatSugar": false, "showIndictor": false });
+        },
+        fail: () => {
+          this.setData({ "eatSugar": false, "showIndictor": false, "answer":{} });
+        },
       })
 
     },
 
-    checkToken(){
-      if(this.data.token=="123") return true;
+    checkToken() {
+      if (this.data.token == "123") return true;
       this.showToast("你的口令无效，请联系管理员")
       return false;
     },
 
     onSubmit(e: any) {
-      if(this.checkUserInput()) {
+      if (this.checkUserInput()) {
         this.showTokenModal();
-       
+
       }
 
-      
+
     },
     getUserProfile() {
       // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
