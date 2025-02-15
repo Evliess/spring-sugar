@@ -3,9 +3,7 @@ package evliess.io.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -15,6 +13,7 @@ import java.util.Map;
 
 public class RestUtils {
     private static final String CHAT_URL = "https://api.deepseek.com/chat/completions";
+    private static final String QW_CHAT_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
     private static final String SYSTEM_MESSAGE =
             """
                     你精通星座分析，易经八卦，占卜预测。请根据下面提供的内容，为我做深层次的综合分析并且做预测。
@@ -38,7 +37,7 @@ public class RestUtils {
         ).replace("%3", birth);
     }
 
-    public static String chat(String msg) throws JsonProcessingException {
+    public static String dpskChat(String msg) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
@@ -47,14 +46,56 @@ public class RestUtils {
         ResponseEntity<String> response = restTemplate.postForEntity(CHAT_URL, request, String.class);
         if (response.getStatusCode().is2xxSuccessful()) {
             String respBody = response.getBody();
-            return convertJsonResponse(respBody);
+            return convertDpskJsonResponse(respBody);
         } else {
             System.err.println("Failed to chat with deepseek");
             return null;
         }
     }
 
-    private static String convertJsonResponse(String response) throws JsonProcessingException {
+    public static String qwChat(String msg) throws JsonProcessingException {
+        System.out.println("qwChat answer");
+        String model = "qwen-plus";
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("Authorization", "Bearer " + System.getenv("QW_API_KEY"));
+        // 构建请求体
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", model);
+
+        List<Map<String, String>> messages = List.of(
+                Map.of("role", "system", "content", SYSTEM_MESSAGE),
+                Map.of("role", "user", "content", msg)
+        );
+        requestBody.put("messages", messages);
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                QW_CHAT_URL,
+                HttpMethod.POST,
+                requestEntity,
+                String.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return convertQwJsonResponse(response.getBody());
+        } else {
+            System.err.println("Failed to chat with qw");
+            return null;
+        }
+    }
+
+    private static String convertQwJsonResponse(String response) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response);
+        JsonNode choices = jsonNode.get("choices");
+        if (choices.isArray()) {
+            JsonNode choice = choices.get(0);
+            JsonNode message = choice.get("message");
+            return message.get("content").asText();
+        }
+        return "请修改输入，再试一次！";
+    }
+
+    private static String convertDpskJsonResponse(String response) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response);
         JsonNode choices = jsonNode.get("choices");
