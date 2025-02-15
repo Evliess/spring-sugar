@@ -1,0 +1,43 @@
+<!--index.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <view class="userinfo">
+      <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
+        <view class="nickname-wrapper">
+          <text class="nickname-label">名字</text>
+          <input type="nickname" class="nickname-input" placeholder="请输入姓名" bind:change="onNameChange" />
+        </view>
+
+        <view class="sex-wrapper">
+          <text class="sex-label">性别</text>
+          <!-- <radio type="sex" class="sex-input" placeholder="请输入姓名" bind:change="onInputChange" /> -->
+          <radio-group bind:change="onSexChange">
+            <label class="sex-input" wx:for="{{sexs}}" wx:key="value">
+              <radio value="{{item.value}}">{{item.text}}</radio>
+            </label>
+          </radio-group>
+        </view>
+
+        <view class="birthday-wrapper">
+          <text class="birthday-label">出生日期</text>
+          <input type="birthday" class="birthday-input" placeholder="1999/02/28" bind:change="onBirthdayChange" />
+        </view>
+
+        <view class="birthtime-wrapper">
+          <text class="birthtime-label">出生时间</text>
+          <input type="birthtime" class="birthtime-input" placeholder="14:02" bind:change="onBirthTimeChange" />
+        </view>
+
+        
+      </block>
+
+    </view>
+    <view class="usermotto">
+      <button class="primary" bind:tap="onSubmit">吃糖果</button>
+    </view>
+
+    <view class="answer-wrapper">
+          <towxml nodes="{{answer}}"/>
+    </view>
+  </view>
+</scroll-view>
