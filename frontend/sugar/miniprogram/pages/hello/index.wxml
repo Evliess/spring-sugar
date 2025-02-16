@@ -10,7 +10,6 @@
 
         <view class="sex-wrapper">
           <text class="sex-label">性别</text>
-          <!-- <radio type="sex" class="sex-input" placeholder="请输入姓名" bind:change="onInputChange" /> -->
           <radio-group bind:change="onSexChange">
             <label class="sex-input" wx:for="{{sexs}}" wx:key="value">
               <radio value="{{item.value}}">{{item.text}}</radio>
@@ -20,27 +19,38 @@
 
         <view class="birthday-wrapper">
           <text class="birthday-label">出生日期</text>
-          <input type="birthday" class="birthday-input" placeholder="1999/02/28" bind:change="onBirthdayChange" />
+          <picker mode="date" value="{{userInput.birthday}}" start="1950-01-01" end="2027-12-31" bindchange="onBirthdayChange">
+            <view class="picker">
+              当前选择：{{userInput.birthday}}
+            </view>
+          </picker>
         </view>
 
         <view class="birthtime-wrapper">
           <text class="birthtime-label">出生时间</text>
-          <input type="birthtime" class="birthtime-input" placeholder="14:02" bind:change="onBirthTimeChange" />
+          <picker mode="time" value="{{userInput.birthTime}}" start="00:00" end="23:59" bindchange="onBirthTimeChange">
+            <view class="picker">
+              当前选择：{{userInput.birthTime}}
+            </view>
+          </picker>
         </view>
-
-        
       </block>
-
     </view>
     <view class="usermotto">
       <button class="primary" bind:tap="onSubmit" disabled="{{eatSugar}}">吃糖果</button>
     </view>
 
     <view class="{{showIndictor?'show':'hide'}}">
-    <view class="lds-ellipsis"><view></view><view></view><view></view><view></view></view></view>
+      <view class="lds-ellipsis">
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+      </view>
+    </view>
 
     <view class="answer-wrapper">
-          <towxml nodes="{{answer}}"/>
+      <towxml nodes="{{answer}}" />
     </view>
   </view>
 </scroll-view>

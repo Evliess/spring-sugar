@@ -84,14 +84,13 @@ Component({
       return this.data.userInput.sex !== '';
     },
 
-
     checkBirthday() {
-      const regex = /^(19\d{2}|20\d{2})\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/;
-      const dateString = this.data.userInput.birthday;
+      const regex = /^(19\d{2}|20\d{2})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+      const dateString = this.data.userInput.birthday + "";
       if (!regex.test(dateString)) {
         return false;
       }
-      const [year, month, day] = dateString.split('/').map(Number);
+      const [year, month, day] = dateString.split('-').map(Number);
       const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
       const daysInMonth = [
         31, isLeapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
@@ -156,7 +155,7 @@ Component({
       data.name = this.data.userInput.name;
       data.sex = this.data.userInput.sex == '0' ? '男' : '女';
       const dateString = this.data.userInput.birthday;
-      const [year, month, day] = dateString.split('/').map(Number);
+      const [year, month, day] = dateString.split('-').map(Number);
       const timeString = this.data.userInput.birthTime;
       const [hour, minute] = timeString.split(':').map(Number);
       data.birth = year + '年' + month + '月' + day + '日 ' + hour + '时';
@@ -187,7 +186,7 @@ Component({
     },
 
     checkToken() {
-      if (this.data.token == "123") return true;
+      if (this.data.token == "1111") return true;
       this.showToast("你的口令无效，请联系管理员")
       return false;
     },
