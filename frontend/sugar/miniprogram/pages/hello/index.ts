@@ -162,6 +162,19 @@ Component({
       return data;
     },
 
+    handleContact(data: any) {
+      
+    },
+
+    getPhoneNumber(e: any) {
+      console.log(e.detail.code);
+      console.log(e.detail.errMsg);
+      console.log(e.detail.errno);
+
+      
+
+    },
+
     sendReq(data: any) {
       wx.request({
         // url: 'http://localhost:8080/public/sugar',

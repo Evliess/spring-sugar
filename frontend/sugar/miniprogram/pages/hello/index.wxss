@@ -139,9 +139,14 @@ page {
 .nickname-label, .birthday-label, 
 .birthtime-label, .sex-label {
   width: 105px;
+  font-family: 'SourceHanSerifSC-Light', Courier, monospace;
 }
 
 .nickname-input, .birthday-input, 
 .birthtime-input, .sex-input {
   flex: 1;
+}
+
+.contact {
+  height: 50px;
 }

@@ -9,18 +9,25 @@ import org.springframework.stereotype.Service;
 public class SugarService implements Inference {
 
     @Autowired
-    private DpskService service;
+    private DpskService dpskService;
 
     @Autowired
     private QwService qwService;
 
+    @Autowired
+    private HunYService hunYService;
+
+    @Autowired
+    private OAService oaService;
+
 
     @Override
     public String chat(String message) throws JsonProcessingException {
-        String response = service.chat(message);
+        String response = dpskService.chat(message);
         if (response == null) {
             response = qwService.chat(message);
         }
+        System.out.println(response);
         return response;
     }
 

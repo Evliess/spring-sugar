@@ -40,6 +40,14 @@
       <button class="primary" bind:tap="onSubmit" disabled="{{eatSugar}}">吃糖果</button>
     </view>
 
+    <view class="">
+      <button class="primary" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">手机号</button>
+    </view>
+
+    <view class="contact">
+    <button open-type="contact" style="background-color: transparent; border: none;"bindcontact="handleContact" session-from="sessionForm">联系客服</button>
+    </view>
+
     <view class="{{showIndictor?'show':'hide'}}">
       <view class="lds-ellipsis">
         <view></view>
