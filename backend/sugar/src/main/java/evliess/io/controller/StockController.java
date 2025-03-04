@@ -1,10 +1,9 @@
 package evliess.io.controller;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeCreator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import evliess.io.service.DpskService;
 import evliess.io.service.HunYService;
 import evliess.io.service.QwService;
@@ -43,7 +42,15 @@ public class StockController {
     }
 
     @PostMapping("/public/tokens")
-    public ResponseEntity<String> generateToken(@RequestBody String body) {
+    public ResponseEntity<String> generateToken(@RequestBody String body) throws JsonProcessingException {
+        String user;
+        try {
+            JsonNode jsonNode =  new ObjectMapper().readTree(body);
+            String name = jsonNode.get("user").asText();
+            System.out.println(name);
+        } catch (Exception e) {
+            return ResponseEntity.ok("Invalid user!");
+        }
         String uuid = UUID.randomUUID() + "-" + System.currentTimeMillis();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("token", uuid);

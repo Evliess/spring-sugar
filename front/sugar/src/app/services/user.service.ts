@@ -12,10 +12,10 @@ export class UserService {
 
   tokens: Array<string> = [];
 
-  getToken(): Array<string> {
+  getToken(user: string): Array<string> {
     const apiUrl = 'http://localhost:8080/public/tokens';
     const body = {
-      "name": 'John Doe',
+      "user": user,
     }
     this.http.post(apiUrl, body).subscribe((data: any) => {
       console.log(data);

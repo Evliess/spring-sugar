@@ -16,30 +16,34 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 export class WelcomeComponent {
   isLogin: boolean = false;
   tokens: Array<string> = [];
+  user: string = '';
 
-  constructor(private userService: UserService
-    , private notification: NzNotificationService
-  ) {}
+  constructor(
+    private userService: UserService,
+    private notification: NzNotificationService
+  ) { }
 
-  loginEvent(event: boolean): void {
-    this.isLogin = event; 
+  loginEvent(event: string): void {
+    if (event.length > 0) {
+      this.user = event;
+      this.isLogin = true;
+    }
   }
 
   getToken(): void {
-    this.tokens = this.userService.getToken();
-    console.log(this.tokens);
+    this.tokens = this.userService.getToken(this.user);
   }
 
   copy(token: string): void {
     navigator.clipboard.writeText(token).then(() => {
       this.notification.success('复制成功', `已复制: ${token}`, {
-        nzPlacement: 'bottomRight' // 设置提示位置为右下角
+        nzPlacement: 'bottomRight'
       });
     }).catch(err => {
       this.notification.error('复制失败', `已复制: ${token}`, {
-        nzPlacement: 'bottomRight' // 设置提示位置为右下角
+        nzPlacement: 'bottomRight'
       });
     });
   }
-  
+
 }

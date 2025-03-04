@@ -40,13 +40,13 @@ export class UserLoginComponent {
     remember: this.fb.control(true)
   });
 
-  @Output() loginEvent = new EventEmitter<boolean>();
+  @Output() loginEvent = new EventEmitter<string>();
 
   submitForm(): void {
     if (this.validateForm.value.username === 'admin') {
-      this.loginEvent.emit(true);
+      this.loginEvent.emit(this.validateForm.value.username);
     } else {
-      this.loginEvent.emit(false);
+      this.loginEvent.emit("");
     }
   }
 }
