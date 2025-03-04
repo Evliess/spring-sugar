@@ -45,11 +45,11 @@ public class StockController {
     public ResponseEntity<String> generateToken(@RequestBody String body) throws JsonProcessingException {
         String user;
         try {
-            JsonNode jsonNode =  new ObjectMapper().readTree(body);
+            JsonNode jsonNode = new ObjectMapper().readTree(body);
             String name = jsonNode.get("user").asText();
             System.out.println(name);
         } catch (Exception e) {
-            return ResponseEntity.ok("Invalid user!");
+            return ResponseEntity.ok("非法用户!");
         }
         String uuid = UUID.randomUUID() + "-" + System.currentTimeMillis();
         JSONObject jsonObject = new JSONObject();
