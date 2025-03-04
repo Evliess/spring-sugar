@@ -1,0 +1,19 @@
+<user-login *ngIf="!isLogin" (loginEvent)="loginEvent($event)"></user-login>
+
+<div *ngIf="isLogin">
+    <button nz-button nzType="primary" (click)="getToken()" class="btn-token">生成口令</button>
+    <nz-list nzBordered nzSize="small">
+        @for (item of tokens; track item) {
+            <li nz-list-item nzNoFlex>
+              <ul nz-list-item-actions>
+                <nz-list-item-action>
+                  <a (click)="copy(item)">复制</a>
+                </nz-list-item-action>
+              </ul>
+              {{ item }}
+            </li>
+          }
+      </nz-list>
+    </div>
+
+

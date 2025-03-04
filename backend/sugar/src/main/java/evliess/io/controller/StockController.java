@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 public class StockController {
 
@@ -34,6 +36,12 @@ public class StockController {
     @PostMapping("/public/sugar")
     public ResponseEntity<String> getSugar(@RequestBody String body) throws JsonProcessingException {
         return ResponseEntity.ok(service.chat(body));
+    }
+
+    @PostMapping("/public/tokens")
+    public ResponseEntity<String> generateToken(@RequestBody String body) {
+        String uuid = UUID.randomUUID() + "-" + System.currentTimeMillis();
+        return ResponseEntity.ok(uuid);
     }
 
     @PostMapping("/public/dp")
