@@ -1,15 +1,26 @@
 import { Injectable } from '@angular/core';
 
+import { HttpClient } from '@angular/common/http';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
-  token: Array<string> = ["123", "456", "789"];
+  tokens: Array<string> = [];
 
   getToken(): Array<string> {
-    return this.token;
+    const apiUrl = 'http://localhost:8080/public/tokens';
+    const body = {
+      "name": 'John Doe',
+    }
+    this.http.post(apiUrl, body).subscribe((data: any) => {
+      console.log(data);
+      this.tokens.push(data.token);
+    });
+    return this.tokens;
   }
 }

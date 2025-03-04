@@ -1,6 +1,10 @@
 package evliess.io.controller;
 
+import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeCreator;
 import evliess.io.service.DpskService;
 import evliess.io.service.HunYService;
 import evliess.io.service.QwService;
@@ -41,7 +45,9 @@ public class StockController {
     @PostMapping("/public/tokens")
     public ResponseEntity<String> generateToken(@RequestBody String body) {
         String uuid = UUID.randomUUID() + "-" + System.currentTimeMillis();
-        return ResponseEntity.ok(uuid);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token", uuid);
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @PostMapping("/public/dp")

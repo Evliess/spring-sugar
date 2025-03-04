@@ -43,7 +43,6 @@ export class UserLoginComponent {
   @Output() loginEvent = new EventEmitter<boolean>();
 
   submitForm(): void {
-    console.log('submit', this.validateForm.value);
     if (this.validateForm.value.username === 'admin') {
       this.loginEvent.emit(true);
     } else {
