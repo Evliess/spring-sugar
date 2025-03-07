@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public class TokenUtils {
 
-    public static final char[] ENCODING_MAP = {
+    private static final char[] ENCODING_MAP = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
 
-    public static String encode(String input) {
+    private static String encode(String input) {
         StringBuilder encoded = new StringBuilder();
         for (char c : input.toCharArray()) {
             if (Character.isDigit(c)) {
@@ -22,7 +22,7 @@ public class TokenUtils {
         return encoded.toString();
     }
 
-    public static String decode(String input) {
+    private static String decode(String input) {
         StringBuilder sb = new StringBuilder();
         for (char c : input.toCharArray()) {
             int index = c - 'A';
@@ -35,7 +35,7 @@ public class TokenUtils {
         return sb.toString();
     }
 
-    public static String getNowPlusDaysToken(int days) {
+    private static String getNowPlusDaysToken(int days) {
         return encode(Instant.now().plus(Duration.ofDays(days)).toEpochMilli() + "");
     }
 
@@ -52,10 +52,5 @@ public class TokenUtils {
         String decodedTime = decode(encodedTime);
         long time = Long.parseLong(decodedTime);
         return Instant.ofEpochMilli(time).isAfter(Instant.now());
-    }
-
-    public static void main(String[] args) {
-        String now = generateToken(1);
-        System.out.println(isValidToken(now));
     }
 }
