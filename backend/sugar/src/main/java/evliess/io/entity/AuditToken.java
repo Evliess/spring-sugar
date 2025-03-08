@@ -1,20 +1,21 @@
 package evliess.io.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "S_AUDITS")
 public class AuditToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "token")
     private String token;
+    @Column(name = "s_name")
     private String user;
+    @Column(name = "consumed_at")
     private Date consumedAt;
 
     public Long getId() {

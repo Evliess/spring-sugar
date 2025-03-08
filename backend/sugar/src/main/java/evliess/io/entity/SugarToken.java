@@ -1,18 +1,23 @@
 package evliess.io.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "S_TOKEN")
 public class SugarToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "token")
     private String token;
+    @Column(name = "s_name")
     private String user;
+
+    public SugarToken(String token, String user) {
+        this.token = token;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

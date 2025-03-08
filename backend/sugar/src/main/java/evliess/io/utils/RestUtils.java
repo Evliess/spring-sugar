@@ -1,5 +1,8 @@
 package evliess.io.utils;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,6 +100,7 @@ public class RestUtils {
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
+        System.out.println(System.getenv("API_KEY"));
         headers.add("Authorization", "Bearer " + System.getenv("API_KEY"));
         String uuid = UUID.randomUUID().toString();
         HttpEntity<String> request = getStringHttpEntity(uuid, DPSK_MODEL, headers, msg);
@@ -154,17 +158,16 @@ public class RestUtils {
         }
     }
 
-    private static String convertOpenAIJsonResponse(String response) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
+    private static String convertOpenAIJsonResponse(String response) {
         if (response == null) {
             return SORRY_MESSAGE;
         }
-        JsonNode jsonNode = objectMapper.readTree(response);
-        JsonNode choices = jsonNode.get("choices");
-        if (choices.isArray()) {
-            JsonNode choice = choices.get(0);
-            JsonNode message = choice.get("message");
-            return message.get("content").asText();
+        JSONObject jsonObject = JSON.parseObject(response);
+        JSONArray choices = jsonObject.getJSONArray("choices");
+        if (choices != null && !choices.isEmpty()) {
+            JSONObject choice = (JSONObject) choices.get(0);
+            JSONObject message = (JSONObject) choice.get("message");
+            return message.getString("content");
         }
         return SORRY_MESSAGE;
     }
@@ -175,7 +178,7 @@ public class RestUtils {
         messages.add(Map.of("role", "system", "content", SYSTEM_MSG));
         String userMessage = replaceUserMessage(msg);
         log.info("User message - {}: {}", uuid, userMessage);
-        messages.add(Map.of("role", "user", "content",userMessage));
+        messages.add(Map.of("role", "user", "content", userMessage));
         body.put("messages", messages);
         body.put("model", model);
         body.put("stream", false);
