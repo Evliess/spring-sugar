@@ -23,7 +23,15 @@ public class StockUserController {
 
     @PostMapping("/public/user")
     public ResponseEntity<String> verify(@RequestBody String body) {
-        return ResponseEntity.ok(sugarUserService.findByUsername(body));
+        String token = sugarUserService.findByUsername(body);
+
+        JSONObject jsonObject = new JSONObject();
+        if (token.endsWith("T")) {
+            jsonObject.put("token", token.replace("T", ""));
+        } else {
+            jsonObject.put("token", "F");
+        }
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @PostMapping("/public/tokens")
@@ -35,7 +43,9 @@ public class StockUserController {
         Integer days = jsonNode.getInteger("days");
         String token = TokenUtils.generateToken(days);
         sugarUserService.save(new SugarToken(token, ""));
-        return ResponseEntity.ok(token);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token", token);
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
 }

@@ -4,6 +4,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'user-login',
@@ -40,13 +41,24 @@ export class UserLoginComponent {
     remember: this.fb.control(true)
   });
 
+  constructor(private userService: UserService) {
+
+  }
+
   @Output() loginEvent = new EventEmitter<string>();
 
   submitForm(): void {
-    if (this.validateForm.value.username === 'admin') {
-      this.loginEvent.emit(this.validateForm.value.username);
-    } else {
-      this.loginEvent.emit("");
+    if (this.validateForm.value.username == undefined || this.validateForm.value.password == undefined) {
+      return;
     }
+    this.userService.login(this.validateForm.value.username, this.validateForm.value.password).subscribe((data: any) => {
+      let token = data.token;
+      if (token !== "F") {
+        this.loginEvent.emit(token);
+      } else {
+        this.loginEvent.emit("");
+      }
+    });
+    
   }
 }

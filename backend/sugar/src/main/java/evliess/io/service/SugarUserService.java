@@ -6,7 +6,6 @@ import evliess.io.entity.SugarToken;
 import evliess.io.entity.SugarUser;
 import evliess.io.jpa.SugarTokenRepository;
 import evliess.io.jpa.SugarUserRepository;
-import evliess.io.utils.EncryptUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class SugarUserService {
             if (name == null || name.isEmpty()
                     || privateKey == null || privateKey.isEmpty()
                     || name.length() > 20
-                    || (!privateKey.startsWith("-----BEGIN PRIVATE KEY-----") && !privateKey.endsWith("-----END PRIVATE KEY-----"))) {
+                    ) {
                 log.error("User: {} not found!", name);
                 return Instant.now().minusSeconds(60).toEpochMilli() + "";
             }
@@ -49,9 +48,9 @@ public class SugarUserService {
                 log.error("User: {} not found!", name);
                 return Instant.now().minusSeconds(60).toEpochMilli() + "";
             }
-            if (EncryptUtils.verifyUser(privateKey, name, sugarUser.getAccessKey())) {
+            if (name.equals(sugarUser.getAccessKey())) {
                 log.info("User: {} verified!", name);
-                return Instant.now().plus(Duration.ofDays(1)).toEpochMilli() + "";
+                return Instant.now().plus(Duration.ofDays(1)).toEpochMilli() + "T";
             } else {
                 log.error("User: {} not found!", name);
                 return Instant.now().minusSeconds(60).toEpochMilli() + "";
