@@ -2,11 +2,16 @@ package evliess.io.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import evliess.io.interfaces.Inference;
+import evliess.io.utils.RestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SugarService implements Inference {
+    private static final Logger log = LoggerFactory.getLogger(SugarService.class);
+
 
     @Autowired
     private DpskService dpskService;
@@ -27,7 +32,7 @@ public class SugarService implements Inference {
         if (response == null) {
             response = qwService.chat(message);
         }
-        System.out.println(response);
+        log.info(response);
         return response;
     }
 

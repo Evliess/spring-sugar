@@ -91,7 +91,7 @@ public class RestUtils {
             log.info("OA response: {} - {}", uuid, result);
             return result;
         } else {
-            System.err.println("Failed to chat with deepseek");
+            log.error("Failed to chat with deepseek");
             return null;
         }
     }
@@ -100,7 +100,7 @@ public class RestUtils {
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        System.out.println(System.getenv("API_KEY"));
+        log.info(System.getenv("API_KEY"));
         headers.add("Authorization", "Bearer " + System.getenv("API_KEY"));
         String uuid = UUID.randomUUID().toString();
         HttpEntity<String> request = getStringHttpEntity(uuid, DPSK_MODEL, headers, msg);
@@ -111,13 +111,13 @@ public class RestUtils {
             log.info("DP response: {} - {}", uuid, result);
             return result;
         } else {
-            System.err.println("Failed to chat with deepseek");
+            log.error("Failed to chat with deepseek");
             return null;
         }
     }
 
     public static String hunYChat(String msg) throws JsonProcessingException {
-        System.out.println("HY is answering...");
+        log.info("HY is answering...");
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
@@ -132,13 +132,13 @@ public class RestUtils {
             log.info("HY response: {} - {}", uuid, result);
             return result;
         } else {
-            System.err.println("Failed to chat with deepseek");
+            log.error("Failed to chat with deepseek");
             return null;
         }
     }
 
     public static String qwChat(String msg) throws JsonProcessingException {
-        System.out.println("QW is answering...");
+        log.info("QW is answering...");
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
@@ -153,7 +153,7 @@ public class RestUtils {
             log.info("QW response: {} - {}", uuid, result);
             return result;
         } else {
-            System.err.println("Failed to chat with qw");
+            log.error("Failed to chat with qw");
             return null;
         }
     }

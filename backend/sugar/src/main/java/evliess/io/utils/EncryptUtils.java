@@ -4,6 +4,8 @@ import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import java.io.File;
@@ -17,6 +19,9 @@ import java.security.Security;
 import java.util.UUID;
 
 public class EncryptUtils {
+
+    private static final Logger log = LoggerFactory.getLogger(EncryptUtils.class);
+
 
     private static PrivateKey readPrivateKey(String filename) throws Exception {
         PEMParser pemParser = new PEMParser(new FileReader(filename));
@@ -66,7 +71,7 @@ public class EncryptUtils {
             tmp.deleteOnExit();
             return decryptedText.equals(accessKey);
         } catch (Exception e) {
-            System.err.println("Failed to verify user: " + e.getMessage());
+            log.error("Failed to verify user: {}", e.getMessage());
         }
         return false;
     }
