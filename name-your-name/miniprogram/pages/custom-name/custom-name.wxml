@@ -1,0 +1,30 @@
+<view class="custom-name">
+  <text class="card-head">英文名定制专线</text>
+  <view class="card">
+    <view class="card-body">
+      <view class="card-text">
+        <textarea class="textarea" placeholder="请输入券码" auto-height maxlength="200" show-count />
+      </view>
+    </view>
+  </view>
+  <view class="card-footer"><button style="width:20vw;" class="align-right btn btn-primary" bind:tap="">立即兑换</button></view>
+
+  <view class="msg">
+    <view class="lds-ellipsis">
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+      </view>
+    <text class="wait-msg">预计等待120秒</text>
+  </view>
+  <scroll-view scroll-y style="height: 300px;">
+    <view class="answer">
+      <text>{{answer}}</text>
+    </view>
+
+  </scroll-view>
+  <button style="width:20vw;" class="btn btn-primary" bind:tap="">复制结果</button>
+  <view class="bottom-text">注：若您还没有激活码，可点此联系客服获取</view>
+
+</view>

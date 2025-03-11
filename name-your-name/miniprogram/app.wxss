@@ -1,0 +1,78 @@
+/**app.wxss**/
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 12rpx;
+  box-sizing: border-box;
+  margin-top: 2rem;
+} 
+
+/* 基本样式 */
+.card {
+  border: 1px solid #1976D2;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 4px;
+  width: 90%;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 1.8rem;
+  text-align: center;
+  display: block;
+  color: #1976D2
+}
+
+.card-head {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 16px;
+  display: block;
+  font-weight: 800;
+}
+
+.card-text {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 16px;
+  display: block;
+  font-weight: 600;
+  text-align: center;
+  line-height: 70%;
+}
+
+.spliter {
+  margin: 1rem 0;
+}
+
+.btn {
+  padding: 8px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  align-self: flex-end; 
+}
+
+.btn-primary {
+  background-color: #FFB300;
+}
+.btn-primary:active {
+  background-color: #ffe69c;
+}
