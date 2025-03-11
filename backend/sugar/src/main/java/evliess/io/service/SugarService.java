@@ -2,11 +2,13 @@ package evliess.io.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import evliess.io.interfaces.Inference;
-import evliess.io.utils.RestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SugarService implements Inference {
@@ -28,9 +30,31 @@ public class SugarService implements Inference {
 
     @Override
     public String chat(String message) throws JsonProcessingException {
-        String response = dpskService.chat(message);
-        if (response == null) {
-            response = qwService.chat(message);
+        Duration timeout = Duration.ofMinutes(1);
+        String response;
+        CompletableFuture<String> dpskResponseFuture = CompletableFuture.supplyAsync(() -> {
+            try {
+                return dpskService.chat(message);
+            } catch (Exception e) {
+                log.error("Error in dpsk.chat", e);
+                return "";
+            }
+        });
+        try {
+            response = dpskResponseFuture.get(timeout.toMillis(), java.util.concurrent.TimeUnit.MILLISECONDS);
+            if (response != null && !response.isEmpty()) {
+                return response;
+            }
+        } catch (Exception e) {
+            CompletableFuture<String> qwResponseFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return qwService.chat(message);
+                } catch (JsonProcessingException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            response = qwResponseFuture.join();
+
         }
         log.info(response);
         return response;

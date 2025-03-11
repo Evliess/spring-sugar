@@ -26,7 +26,7 @@ public class StockController {
     @Autowired
     private HunYService hunYService;
 
-    @GetMapping("/public/stocks")
+    @GetMapping("/private/stocks")
     public ResponseEntity<String> getStock() throws JsonProcessingException {
         return ResponseEntity.ok("123Test");
     }

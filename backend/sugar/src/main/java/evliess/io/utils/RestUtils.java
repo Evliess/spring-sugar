@@ -9,7 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -23,6 +26,8 @@ public class RestUtils {
     private static final String SORRY_MESSAGE = "服务器繁忙，工程师正在抢修中，请稍后再试！";
 
     private static final String SYSTEM_MSG = """
+            你是一名博士，精通中英文历史文化，善于运用各种心理学手段以润物细无声的方式使别人信服。
+            下面的格式描述了我的意图，请遵循我意图的情况下以润物细无声的方式回答。切记回答的方式必须自然，不要显得生硬刻板！
             请根据我提供的中文名字及特征要求给出3个不同的英文名。必须按照下面格式回答：
             You must use this json schema:
             [{
@@ -38,13 +43,14 @@ public class RestUtils {
             针对列表中的每一项，必须按照一下要求回答：
             名字：英文名字(该英文名字对应的中文译名)
                 - 示例：John(约翰)
-            寓意：你的回复务必包含只包含起源，寓意，英文名组成解释，以及这个名字出名的原因！用60个汉字详细描述。(注意：这3个名字的寓意不能重复，必须使用不同的词语表达)
+            寓意：你的回复务必包含只包含起源，寓意，英文名，以及你推荐这个名字的缘由！用80个汉字详细描述。(注意：这3个名字的寓意不能重复，必须使用不同的词语表达)
             发音：这个名字的音标和音节数。如果该发音和中文发音相似，请解释哪里相似！
                 - 内容必须包含：音标和音节数。
                 - 如果该发音和中文发音相似，请指出相似的那个英文和中文部分。
             人物形象：
                 - 用大于100个字不超过300个字描述。
-                - 四个名字的人物形象语言描述不能有重复描述，可以使用不同的词语或者语气，使答案看起来丰富多彩。
+                - 四个名字的人物形象语言描述不能有重复描述，可以使用不同的词语或者语气，使回复看起来丰富多彩并且用非常自然的叙述方式。
+                - 人物形象的描述不要出现星座的信息。
             流行度：这个名字在过去的流行度(注意：不包含欧美地区)。
             </回答要求>
             """;
