@@ -10,6 +10,10 @@ page {
   text-align: center;
 }
 
+.card-text {
+  margin-bottom: 4px;
+}
+
 .user-input .card {
   border: 0px solid #1976D2;
   /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); */

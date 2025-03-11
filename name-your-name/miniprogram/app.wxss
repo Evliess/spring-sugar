@@ -76,3 +76,7 @@
 .btn-primary:active {
   background-color: #ffe69c;
 }
+
+.btn-blue:active {
+  background-color: #91d5ff;
+}
