@@ -5,13 +5,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    answer: "123"
+    answer: "123",
+    userInput: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
+  onLoad(options: any) {
+    this.data.userInput = JSON.parse(decodeURIComponent(options.data))
+    console.log(this.data.userInput)
+
 
   },
 

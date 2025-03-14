@@ -16,42 +16,42 @@
     <view class="card">
       <view class="nickname-wrapper">
         <text class="nickname-label">名字</text>
-        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bind:change="" />
+        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bind:change="onNameChange" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">性别：</text>
-        <radio-group bindchange="">
+        <radio-group bindchange="onSexChange">
           <label class="radio-item">
-            <radio value="male" checked="{{gender === 'male'}}" /> 男
+            <radio value="男" checked="{{gender === '男'}}" /> 男
           </label>
           <label class="radio-item">
-            <radio value="female" checked="{{gender === 'female'}}" /> 女
+            <radio value="女" checked="{{gender === '女'}}" /> 女
           </label>
           <label class="radio-item">
-            <radio value="neutral" checked="{{gender === 'neutral'}}" /> 中性
+            <radio value="中性" checked="{{gender === '中性'}}" /> 中性
           </label>
         </radio-group>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">星座</text>
-        <input class="nickname-input" placeholder="也可输入MBTI" bind:change="" />
+        <input class="nickname-input" placeholder="也可输入MBTI" bind:change="onStarChange" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">期望寓意</text>
-        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bind:change="" />
+        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bind:change="onMeaningChange" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">其他要求</text>
-        <input class="nickname-input" placeholder="如 A开头、小众、好听" bind:change="" />
+        <input class="nickname-input" placeholder="如 A开头、小众、好听" bind:change="onOtherChange" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">是否需要和中文发音一致</text>
-        <radio-group bindchange="">
+        <radio-group bindchange="onVoiceChange">
           <label class="radio-item">
-            <radio value="male" checked="{{voice === 'male'}}" /> 是
+            <radio value="true" checked="{{voice === 'true'}}" /> 是
           </label>
           <label class="radio-item">
-            <radio value="female" checked="{{voice === 'female'}}" /> 否
+            <radio value="false" checked="{{voice === 'false'}}" /> 否
           </label>
 
         </radio-group>
