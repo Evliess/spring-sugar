@@ -119,3 +119,11 @@
  font-size: 14px;
  width: fit-content;
 }
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}

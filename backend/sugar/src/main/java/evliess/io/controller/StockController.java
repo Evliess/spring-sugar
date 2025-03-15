@@ -5,6 +5,7 @@ import evliess.io.service.DpskService;
 import evliess.io.service.HunYService;
 import evliess.io.service.QwService;
 import evliess.io.service.SugarService;
+import evliess.io.utils.RestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,8 @@ public class StockController {
 
     @PostMapping("/public/sugar")
     public ResponseEntity<String> getSugar(@RequestBody String body) throws JsonProcessingException {
-        return ResponseEntity.ok(service.chat(body));
+        System.out.println(body);
+        return ResponseEntity.ok(RestUtils.jsonArrayToString(service.chat(body)));
     }
 
 

@@ -8,7 +8,7 @@ Component({
     userInput: {
       name: '',
       sex: '',
-      star: '',
+      mbti: '',
       meaning: '',
       other: '',
       voice: true
@@ -36,7 +36,7 @@ Component({
       const star = e.detail.value;
       // check star length
       this.setData({
-        "userInput.star": star,
+        "userInput.mbti": star,
       })
     },
     onMeaningChange(e: any) {

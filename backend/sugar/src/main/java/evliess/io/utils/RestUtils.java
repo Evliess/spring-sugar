@@ -191,4 +191,26 @@ public class RestUtils {
         body.put("temperature", TEMPERATURE);
         return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
     }
+
+    public static String jsonArrayToString(String resp) {
+        System.out.println(resp);
+        if (resp == null || resp.isEmpty()) {
+            return "没有找到合适的名字，请等会再试试！";
+        }
+        if (resp.startsWith("```json") && resp.endsWith("```")) {
+            resp = resp.replace("```json", "");
+            resp = resp.substring(0, resp.length() - 3);
+        }
+        JSONArray jsonArray = JSON.parseArray(resp);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            sb.append("- **名字**: ").append(jsonObject.getString("名字")).append("\n");
+            sb.append("- **寓意**: ").append(jsonObject.getString("寓意")).append("\n");
+            sb.append("- **发音**: ").append(jsonObject.getString("发音")).append("\n");
+            sb.append("- **人物形象**: ").append(jsonObject.getString("人物形象")).append("\n");
+            sb.append("---\n");
+        }
+        return sb.toString();
+    }
 }

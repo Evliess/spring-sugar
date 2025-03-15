@@ -7,25 +7,28 @@
   </view>
   <view class="contact">注：若您还没有激活码，可点此联系客服获取</view>
 
-  <button style="width:20vw;" class="btn btn-primary btn-check" bind:tap="">立即兑换</button>
+  <button style="width:20vw;" class="btn btn-primary btn-check" bind:tap="sendRequest">立即兑换</button>
 
   <view class="two-btn-container">
-    <button style="width:20vw;" class="btn btn-blue btn-copy" bind:tap="">复制结果</button>
-    <button style="width:20vw;" class="btn btn-blue btn-regen" bind:tap="">再换一批</button>
+    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-blue btn-copy" bind:tap="copyResponse">复制结果</button>
+    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-blue btn-regen" bind:tap="sendRequest">再换一批</button>
   </view>
-  <view class="msg">
-    <view class="lds-ellipsis">
-      <view></view>
-      <view></view>
-      <view></view>
-      <view></view>
+
+  <view class="{{showIndictor?'show':'hide'}}">
+    <view class="msg">
+      <view class="lds-ellipsis">
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+      </view>
+      <text class="wait-msg">请等待片刻</text>
     </view>
-    <text class="wait-msg">预计等待120秒</text>
   </view>
 
   <scroll-view scroll-y>
     <view class="answer">
-      <text>{{answer}}</text>
+      <towxml nodes="{{answer}}" />
     </view>
   </scroll-view>
 

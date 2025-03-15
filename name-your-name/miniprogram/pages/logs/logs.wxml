@@ -48,10 +48,10 @@
         <text class="nickname-label">是否需要和中文发音一致</text>
         <radio-group bindchange="onVoiceChange">
           <label class="radio-item">
-            <radio value="true" checked="{{voice === 'true'}}" /> 是
+            <radio value="是" checked="{{voice === '是'}}" /> 是
           </label>
           <label class="radio-item">
-            <radio value="false" checked="{{voice === 'false'}}" /> 否
+            <radio value="否" checked="{{voice === '否'}}" /> 否
           </label>
 
         </radio-group>
