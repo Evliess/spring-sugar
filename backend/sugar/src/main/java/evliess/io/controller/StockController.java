@@ -35,7 +35,14 @@ public class StockController {
     @PostMapping("/private/sugar")
     public ResponseEntity<String> getSugar(@RequestBody String body) throws JsonProcessingException {
         System.out.println(body);
-        return ResponseEntity.ok(RestUtils.jsonArrayToString(service.chat(body)));
+        String result = service.chat(body);
+        try {
+            result = RestUtils.jsonArrayToString(result);
+        } catch (Exception e) {
+            System.err.println("LLM response format error!");
+            result = RestUtils.jsonArrayToString(service.chat(body));
+        }
+        return ResponseEntity.ok(result);
     }
 
 

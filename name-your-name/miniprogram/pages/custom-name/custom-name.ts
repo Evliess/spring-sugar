@@ -36,12 +36,11 @@ Page({
     this.setData({
       "token": token,
     })
-    console.log(token)
   },
 
   callApi(data: any) {
     const app = getApp();
-    this.setData({"showIndictor": true, "validToken": false});
+    this.setData({"showIndictor": true});
     wx.request({
       url: 'http://localhost:8080/private/sugar',
       method: 'POST',
@@ -50,6 +49,10 @@ Page({
       success: (res) => {
         if (res.statusCode === 401) {
           this.setData({"showIndictor": false});
+          wx.showToast({
+            title: '券码无效！',
+            duration: 1000
+          });
           return;
         }
         this.data.answerInString = res.data.toString();
