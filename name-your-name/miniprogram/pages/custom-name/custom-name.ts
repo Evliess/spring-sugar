@@ -4,7 +4,9 @@ Page({
     answer: {},
     userInput: {},
     answerInString: "",
-    showIndictor: false
+    showIndictor: false,
+    token: "",
+    validToken: false
   },
 
   copyResponse() {
@@ -29,25 +31,37 @@ Page({
     this.callApi(this.data.userInput);
   },
 
+  onTokenChange(e: any) {
+    const token = e.detail.value;
+    this.setData({
+      "token": token,
+    })
+    console.log(token)
+  },
+
   callApi(data: any) {
     const app = getApp();
-    this.setData({"showIndictor": true});
+    this.setData({"showIndictor": true, "validToken": false});
     wx.request({
-      url: 'http://localhost:8080/public/sugar',
+      url: 'http://localhost:8080/private/sugar',
       method: 'POST',
       data: data,
-      header: {'content-type': 'application/json', 'X-TK': '123'},
+      header: {'content-type': 'application/json', 'X-token': this.data.token},
       success: (res) => {
+        if (res.statusCode === 401) {
+          this.setData({"showIndictor": false});
+          return;
+        }
         this.data.answerInString = res.data.toString();
         const obj = app.towxml(
           res.data, 'markdown', {theme: 'light'}
         );
         this.setData({"answer": obj});
-        this.setData({"showIndictor": false});
+        this.setData({"showIndictor": false, "validToken": true});
       },
       fail:()=> {
-        this.setData({"showIndictor": false});
-      },
+        this.setData({"showIndictor": false, "validToken": false});
+      }
     });
   },
 

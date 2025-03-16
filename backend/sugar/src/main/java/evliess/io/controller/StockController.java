@@ -32,7 +32,7 @@ public class StockController {
         return ResponseEntity.ok("123Test");
     }
 
-    @PostMapping("/public/sugar")
+    @PostMapping("/private/sugar")
     public ResponseEntity<String> getSugar(@RequestBody String body) throws JsonProcessingException {
         System.out.println(body);
         return ResponseEntity.ok(RestUtils.jsonArrayToString(service.chat(body)));

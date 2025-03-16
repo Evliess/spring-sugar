@@ -1,29 +1,30 @@
 <view class="custom-name">
   <text class="card-head">英文名定制专线</text>
-  <view class="card-quan">
+  <view class="{{validToken? 'card-quan card-quan-pass': 'card-quan'}}">
     <view class="card-text">
-      <input class="textarea" placeholder="请输入券码" maxlength="100" show-count />
+      <input class="textarea" placeholder="请输入券码" maxlength="100" bind:change="onTokenChange"  />
     </view>
   </view>
   <view class="contact">注：若您还没有激活码，可点此联系客服获取</view>
 
-  <button style="width:20vw;" class="btn btn-primary btn-check" bind:tap="sendRequest">立即兑换</button>
+  <!-- <button style="width:20vw;" class="btn btn-primary btn-check" bind:tap="sendRequest">立即兑换</button> -->
 
   <view class="two-btn-container">
-    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-blue btn-copy" bind:tap="copyResponse">复制结果</button>
-    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-blue btn-regen" bind:tap="sendRequest">再换一批</button>
-  </view>
-
-  <view class="{{showIndictor?'show':'hide'}}">
-    <view class="msg">
-      <view class="lds-ellipsis">
-        <view></view>
-        <view></view>
-        <view></view>
-        <view></view>
+    <button disabled="!{{showIndictor}}" style="width:20vw;" class="btn btn-blue btn-copy" bind:tap="copyResponse">复制结果</button>
+    <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
+      <view class="wait-indictor">
+        <view class="msg">
+          <view class="lds-ellipsis">
+            <view></view>
+            <view></view>
+            <view></view>
+            <view></view>
+          </view>
+          <text class="wait-msg">请等待片刻</text>
+        </view>
       </view>
-      <text class="wait-msg">请等待片刻</text>
     </view>
+    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-primary btn-regen" bind:tap="sendRequest">立即兑换</button>
   </view>
 
   <scroll-view scroll-y>
@@ -31,5 +32,4 @@
       <towxml nodes="{{answer}}" />
     </view>
   </scroll-view>
-
 </view>

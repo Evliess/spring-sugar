@@ -73,10 +73,36 @@
 .btn-primary {
   background-color: #FFB300;
 }
+
 .btn-primary:active {
   background-color: #ffe69c;
 }
 
+.btn-primary[disabled]  {
+  background-color: #FFB300 !important; 
+  color: rgba(255, 255, 255, 0.6) !important; 
+  opacity: 0.7 !important; 
+  cursor: not-allowed !important;
+}
+
+.btn-blue {
+  background-color: #096dd9; 
+  color: #ffffff; 
+  border-radius: 4px; 
+  text-align: center; 
+  opacity: 1;
+  transition: opacity 0.3s ease; 
+  position: relative; 
+  overflow: hidden; 
+}
+
 .btn-blue:active {
-  background-color: #91d5ff;
+  background-color: #91d5ff !important;
+}
+
+.btn-blue[disabled] {
+  background-color: #096dd9 !important; 
+  color: rgba(255, 255, 255, 0.6) !important; 
+  opacity: 0.7 !important; 
+  cursor: not-allowed !important;
 }

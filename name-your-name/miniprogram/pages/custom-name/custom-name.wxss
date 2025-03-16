@@ -7,9 +7,13 @@
 }
 
 .card-quan {
-  border: 1px solid #1976D2;
+  border: 1px solid #E0E0E0;
   border-radius: 8px;
-  /* background-color: #b7eb8f; */
+  
+}
+
+.card-quan-pass {
+  background-color: #b7eb8f;
 }
 
 .contact {
@@ -105,17 +109,18 @@
 }
 
 .two-btn-container {
+  margin-top: 10px;
   margin-bottom: 14px;
   padding: 0 12px;
+  height: 20px;
 }
 
-.btn-blue {
-  background-color: #007bff;
+.wait-indictor {
+  display: inline-block;
 }
 
 .wait-msg {
- float: right;
- margin-right: 6px;
+ margin-left: 48px;
  font-size: 14px;
  width: fit-content;
 }
@@ -125,5 +130,5 @@
 }
 
 .show {
-  display: block;
+  display: inline-block;
 }
