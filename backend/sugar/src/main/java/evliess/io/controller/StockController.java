@@ -46,6 +46,13 @@ public class StockController {
     }
 
 
+    @PostMapping("/public/uid")
+    public ResponseEntity<String> getUserId(@RequestBody String body)  {
+        RestUtils.getUid(body);
+        return ResponseEntity.ok("123456");
+    }
+
+
 
     @PostMapping("/public/dp")
     public ResponseEntity<String> getSugar0(@RequestBody String body) throws JsonProcessingException {

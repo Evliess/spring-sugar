@@ -13,9 +13,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 public class CustomFilter extends OncePerRequestFilter {
-    public static final String PUBLIC_PATH_PREFIX = "/public/";
+
     private final AuthenticationManager authenticationManager;
-    private static final String X_TOKEN = "X-token";
 
     public CustomFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -24,11 +23,11 @@ public class CustomFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
-        if (path.startsWith(PUBLIC_PATH_PREFIX)) {
+        if (path.startsWith(Constants.PUBLIC_PATH_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
-        String token = request.getHeader(X_TOKEN);
+        String token = request.getHeader(Constants.X_TOKEN);
         Authentication authentication = new UsernamePasswordAuthenticationToken(token, token);
         Authentication verifiedAuth = this.authenticationManager.authenticate(authentication);
         SecurityContextHolder.getContext().setAuthentication(verifiedAuth);

@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import evliess.io.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -214,5 +215,15 @@ public class RestUtils {
             sb.append("---\n");
         }
         return sb.toString();
+    }
+
+    public static String getUid(String code) {
+        String appId = System.getenv(Constants.APP_ID);
+        String appSecret = System.getenv(Constants.APP_SECRET);
+        String url = Constants.UID_ENDPOINT.replace("${appid}", appId)
+                .replace("${secret}", appSecret).replace("${code}", code);
+        RestTemplate restTemplate = buildRestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
     }
 }
