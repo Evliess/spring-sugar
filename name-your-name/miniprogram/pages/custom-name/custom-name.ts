@@ -41,11 +41,15 @@ Page({
   callApi(data: any) {
     const app = getApp();
     this.setData({"showIndictor": true});
+    let openId = "";
+    try {
+      openId = wx.getStorageSync("openId");
+    } catch(e) {}
     wx.request({
       url: 'http://localhost:8080/private/sugar',
       method: 'POST',
       data: data,
-      header: {'content-type': 'application/json', 'X-token': this.data.token},
+      header: {'content-type': 'application/json', 'X-token': this.data.token, 'X-openId': openId},
       success: (res) => {
         if (res.statusCode === 401) {
           this.setData({"showIndictor": false});
@@ -70,7 +74,6 @@ Page({
 
   onLoad(options: any) {
     this.data.userInput = JSON.parse(decodeURIComponent(options.data))
-    console.log(this.data.userInput)
   },
 
   onReady() {},

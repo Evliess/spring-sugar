@@ -16,9 +16,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (authentication != null) {
             String principal = authentication.getPrincipal().toString();
-            if (TokenUtils.isValidToken(principal)) {
+            String credentials = authentication.getCredentials().toString();
+            if (TokenUtils.isValidToken(credentials)) {
                 List<SimpleGrantedAuthority> roles = List.of();
-                return new UsernamePasswordAuthenticationToken("", "", roles);
+                return new UsernamePasswordAuthenticationToken(principal + Constants.DOUBLE_COLON + credentials, credentials, roles);
             } else {
                 return authentication;
             }

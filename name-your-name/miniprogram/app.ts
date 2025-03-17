@@ -11,8 +11,18 @@ App({
     // 登录
     wx.login({
       success: res => {
-        console.log(res.code)
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        wx.request({
+          url: 'http://localhost:8080/public/uid',
+          method: 'POST',
+          data: {"code": res.code},
+          header: {'content-type': 'application/json'},
+          success: (res) => {
+            wx.setStorageSync('openId', res.data.openId);
+          },
+          fail:()=> {
+           
+          }
+        });
       },
     })
   },

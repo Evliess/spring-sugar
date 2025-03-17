@@ -1,13 +1,13 @@
 package evliess.io.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import evliess.io.service.DpskService;
-import evliess.io.service.HunYService;
-import evliess.io.service.QwService;
-import evliess.io.service.SugarService;
+import evliess.io.config.Constants;
+import evliess.io.service.*;
 import evliess.io.utils.RestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +27,9 @@ public class StockController {
     @Autowired
     private HunYService hunYService;
 
+    @Autowired
+    private AuditTokenService auditTokenService;
+
     @GetMapping("/private/stocks")
     public ResponseEntity<String> getStock() throws JsonProcessingException {
         return ResponseEntity.ok("123Test");
@@ -41,18 +44,19 @@ public class StockController {
         } catch (Exception e) {
             System.err.println("LLM response format error!");
             result = RestUtils.jsonArrayToString(service.chat(body));
+        } finally {
+            try {
+                UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+                String principal = authenticationToken.getPrincipal().toString();
+                String[] info = principal.split(Constants.DOUBLE_COLON);
+                auditTokenService.saveAudit(info[0], info[1]);
+            } catch (Exception e) {
+                System.err.println("LLM save audit error!");
+            }
+
         }
         return ResponseEntity.ok(result);
     }
-
-
-    @PostMapping("/public/uid")
-    public ResponseEntity<String> getUserId(@RequestBody String body)  {
-        RestUtils.getUid(body);
-        return ResponseEntity.ok("123456");
-    }
-
-
 
     @PostMapping("/public/dp")
     public ResponseEntity<String> getSugar0(@RequestBody String body) throws JsonProcessingException {

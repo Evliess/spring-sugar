@@ -28,7 +28,8 @@ public class CustomFilter extends OncePerRequestFilter {
             return;
         }
         String token = request.getHeader(Constants.X_TOKEN);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(token, token);
+        String openid = request.getHeader(Constants.X_OPENID);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(openid, token);
         Authentication verifiedAuth = this.authenticationManager.authenticate(authentication);
         SecurityContextHolder.getContext().setAuthentication(verifiedAuth);
         filterChain.doFilter(request, response);

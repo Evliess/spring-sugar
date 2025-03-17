@@ -223,7 +223,13 @@ public class RestUtils {
         String url = Constants.UID_ENDPOINT.replace("${appid}", appId)
                 .replace("${secret}", appSecret).replace("${code}", code);
         RestTemplate restTemplate = buildRestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        return response.getBody();
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            JSONObject body = JSON.parseObject(response.getBody());
+            assert body != null;
+            return body.getString("openid");
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

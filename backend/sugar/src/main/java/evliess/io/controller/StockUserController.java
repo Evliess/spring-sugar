@@ -2,9 +2,9 @@ package evliess.io.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import evliess.io.entity.SugarToken;
 import evliess.io.service.SugarUserService;
+import evliess.io.utils.RestUtils;
 import evliess.io.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class StockUserController {
     }
 
     @PostMapping("/public/tokens")
-    public ResponseEntity<String> generateToken(@RequestBody String body) throws JsonProcessingException {
+    public ResponseEntity<String> generateToken(@RequestBody String body) {
         if (body == null || body.isEmpty()) {
             return ResponseEntity.ok("Invalid request");
         }
@@ -47,5 +47,17 @@ public class StockUserController {
         jsonObject.put("token", token);
         return ResponseEntity.ok(jsonObject.toString());
     }
+
+    @PostMapping("/public/uid")
+    public ResponseEntity<String> getUserId(@RequestBody String body) {
+        JSONObject jsonNode = JSON.parseObject(body);
+        String code = jsonNode.getString("code");
+        String openId = RestUtils.getUid(code);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("openId", openId);
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
+
 
 }
