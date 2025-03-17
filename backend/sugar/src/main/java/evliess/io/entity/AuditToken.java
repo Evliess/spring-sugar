@@ -2,7 +2,7 @@ package evliess.io.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Entity
 @Table(name = "S_AUDIT")
@@ -17,16 +17,17 @@ public class AuditToken {
     private String user;
     @Column(name = "consumed_at")
     private Long consumedAt;
-    @Column(name="s_type")
+    @Column(name = "s_type")
     private String type;
 
     public AuditToken() {
     }
+
     public AuditToken(String user, String token, String type) {
         this.token = token;
         this.user = user;
         this.type = type;
-        this.consumedAt = new Date().getTime();
+        this.consumedAt = Instant.now().toEpochMilli();
     }
 
     public Long getId() {

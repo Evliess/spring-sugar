@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -48,5 +50,30 @@ public class AuditTokenService {
 
     public List<AuditToken> findByUser(String user) {
         return this.auditTokenRepository.findByUser(user);
+    }
+
+
+    public List<AuditToken> findLast24H() {
+        Long end = Instant.now().toEpochMilli();
+        Long start = Instant.now().minus(Duration.ofDays(1)).toEpochMilli();
+        return this.auditTokenRepository.findByTimeSpan(start, end);
+    }
+
+    public List<AuditToken> findLast3D() {
+        Long end = Instant.now().toEpochMilli();
+        Long start = Instant.now().minus(Duration.ofDays(3)).toEpochMilli();
+        return this.auditTokenRepository.findByTimeSpan(start, end);
+    }
+
+    public List<AuditToken> findLast7D() {
+        Long end = Instant.now().toEpochMilli();
+        Long start = Instant.now().minus(Duration.ofDays(7)).toEpochMilli();
+        return this.auditTokenRepository.findByTimeSpan(start, end);
+    }
+
+    public List<AuditToken> findLast30D() {
+        Long end = Instant.now().toEpochMilli();
+        Long start = Instant.now().minus(Duration.ofDays(30)).toEpochMilli();
+        return this.auditTokenRepository.findByTimeSpan(start, end);
     }
 }

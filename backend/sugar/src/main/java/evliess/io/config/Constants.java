@@ -12,4 +12,9 @@ public class Constants {
     public static final String DOUBLE_COLON = "::";
     public static final String TYPE_DICT = "dict";
     public static final String TYPE_LLM = "llm";
+
+    public static final String LATEST_24H = "latest_24h";
+    public static final String LATEST_3D = "latest_3d";
+    public static final String LATEST_7D = "latest_7d";
+    public static final String LATEST_30D = "latest_30d";
 }
