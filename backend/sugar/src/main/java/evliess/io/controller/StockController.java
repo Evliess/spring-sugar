@@ -1,13 +1,11 @@
 package evliess.io.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import evliess.io.config.Constants;
 import evliess.io.service.*;
-import evliess.io.utils.RestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +28,8 @@ public class StockController {
     @Autowired
     private AuditTokenService auditTokenService;
 
+    private static final Logger log = LoggerFactory.getLogger(StockController.class);
+
     @GetMapping("/private/stocks")
     public ResponseEntity<String> getStock() throws JsonProcessingException {
         return ResponseEntity.ok("123Test");
@@ -37,24 +37,12 @@ public class StockController {
 
     @PostMapping("/private/sugar")
     public ResponseEntity<String> getSugar(@RequestBody String body) throws JsonProcessingException {
-        System.out.println(body);
+        log.info(body);
         String result = service.chat(body);
-        try {
-            result = RestUtils.jsonArrayToString(result);
-        } catch (Exception e) {
-            System.err.println("LLM response format error!");
-            result = RestUtils.jsonArrayToString(service.chat(body));
-        } finally {
-            try {
-                UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-                String principal = authenticationToken.getPrincipal().toString();
-                String[] info = principal.split(Constants.DOUBLE_COLON);
-                auditTokenService.saveAudit(info[0], info[1]);
-            } catch (Exception e) {
-                System.err.println("LLM save audit error!");
-            }
-
+        if (null == result) {
+            result = service.chat(body);
         }
+        log.info(result);
         return ResponseEntity.ok(result);
     }
 

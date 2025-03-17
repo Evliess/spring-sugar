@@ -109,7 +109,6 @@ public class RestUtils {
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        log.info(System.getenv("API_KEY"));
         headers.add("Authorization", "Bearer " + System.getenv("API_KEY"));
         String uuid = UUID.randomUUID().toString();
         HttpEntity<String> request = getStringHttpEntity(uuid, DPSK_MODEL, headers, msg);
