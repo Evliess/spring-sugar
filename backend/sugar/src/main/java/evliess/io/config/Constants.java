@@ -10,4 +10,6 @@ public class Constants {
     public static final String PUBLIC_PATH_PREFIX = "/public/";
     public static final String UID_ENDPOINT = "https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code";
     public static final String DOUBLE_COLON = "::";
+    public static final String TYPE_DICT = "dict";
+    public static final String TYPE_LLM = "llm";
 }

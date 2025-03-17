@@ -1,6 +1,7 @@
 package evliess.io.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import evliess.io.config.Constants;
 import evliess.io.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,10 @@ public class StockController {
             result = service.chat(body);
         }
         log.info(result);
+        auditTokenService.saveAuditToken(Constants.TYPE_LLM);
         return ResponseEntity.ok(result);
     }
+
 
     @PostMapping("/public/dp")
     public ResponseEntity<String> getSugar0(@RequestBody String body) throws JsonProcessingException {

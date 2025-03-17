@@ -17,12 +17,15 @@ public class AuditToken {
     private String user;
     @Column(name = "consumed_at")
     private Long consumedAt;
+    @Column(name="s_type")
+    private String type;
 
     public AuditToken() {
     }
-    public AuditToken(String user, String token) {
+    public AuditToken(String user, String token, String type) {
         this.token = token;
         this.user = user;
+        this.type = type;
         this.consumedAt = new Date().getTime();
     }
 
@@ -56,5 +59,13 @@ public class AuditToken {
 
     public void setConsumedAt(Long consumedAt) {
         this.consumedAt = consumedAt;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

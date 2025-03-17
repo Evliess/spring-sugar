@@ -195,7 +195,6 @@ public class RestUtils {
     }
 
     public static String jsonArrayToString(String resp) {
-        System.out.println(resp);
         if (resp == null || resp.isEmpty()) {
             return "没有找到合适的名字，请等会再试试！";
         }
