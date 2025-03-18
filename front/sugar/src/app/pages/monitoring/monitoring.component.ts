@@ -79,7 +79,7 @@ export class MonitoringComponent implements OnInit{
       this.userInfos = data;
       this.loading = false;
       this.uniqueUsers = new Set(data.map((item: any)=>item.user)).size;
-      this.llmTotal = data.filter((item: any)=> item.type="llm").length;
+      this.llmTotal = data.filter((item: any)=> item.type == "llm").length;
       this.requestTotal = data.length;
       this.dictTotal = this.requestTotal - this.llmTotal;
     });
@@ -90,7 +90,7 @@ export class MonitoringComponent implements OnInit{
       this.userInfos = data;
       this.loading = false;
       this.uniqueUsers = new Set(data.map((item: any)=>item.user)).size;
-      this.llmTotal = data.filter((item: any)=> item.type="llm").length;
+      this.llmTotal = data.filter((item: any)=> item.type == "llm").length;
       this.requestTotal = data.length;
       this.dictTotal = this.requestTotal - this.llmTotal;
     });
