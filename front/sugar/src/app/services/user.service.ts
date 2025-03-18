@@ -34,4 +34,29 @@ export class UserService {
     }
     return this.http.post(apiUrl, body);
   }
+
+  getAuditInfo(timeSpan: string): Observable<any[]> {
+    const apiUrl = 'http://localhost:8080/public/audit/time-span';
+    const body = {
+      "timeSpan": timeSpan
+    }
+    return this.http.post<any[]>(apiUrl, body);
+  }
+
+
+  padZero(num: number): string {
+    return num < 10 ? `0${num}` : num.toString();
+  }
+
+  formatDate(timestamp: number): string {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = this.padZero(date.getMonth() + 1);
+    const day = this.padZero(date.getDate());
+    const hours = this.padZero(date.getHours());
+    const minutes = this.padZero(date.getMinutes());
+    const seconds = this.padZero(date.getSeconds());
+
+    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+  }
 }

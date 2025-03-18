@@ -1,0 +1,38 @@
+nz-select {
+    width: 100%;
+}
+
+.row {
+    padding: 0 6px;
+}
+
+.summary, .table {
+    margin-top: 14px;
+}
+
+.summary-value {
+   font-size: 60px;
+   float: right;
+   color: #ff8000;
+}
+
+.summary-icon {
+    font-size: 30px;
+    font-weight: bold;
+    color: #096dd9;
+}
+
+.ant-card {
+    border: none; /* 移除边框 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加 Material Design 阴影 */
+    border-radius: 4px; /* 调整圆角 */
+    font-family: 'Roboto', sans-serif; /* 使用 Roboto 字体 */
+  }
+  
+  .ant-card-head {
+    border-bottom: none; /* 移除头部边框 */
+  }
+  
+  .ant-card-actions {
+    border-top: none; /* 移除操作区域边框 */
+  }
