@@ -4,14 +4,15 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { FormsModule } from '@angular/forms';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzTableModule, NzTableSortFn, NzTableSortOrder} from 'ng-zorro-antd/table';
+import { NzTableModule, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { GlobalService } from '../../services/global.service'
 
 
 
 import { CommonModule } from "@angular/common";
 import { UserService } from '../../services/user.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 interface Option {
   label: string;
@@ -20,7 +21,7 @@ interface Option {
 
 interface UserInfo {
   user: string;
-  
+
 }
 
 interface ColumnItem {
@@ -36,14 +37,14 @@ interface ColumnItem {
   templateUrl: './monitoring.component.html',
   styleUrl: './monitoring.component.css'
 })
-export class MonitoringComponent implements OnInit{
+export class MonitoringComponent implements OnInit {
 
-  constructor(public userService: UserService) { }
+  constructor(public userService: UserService, private globalSvc:GlobalService) { }
 
   selectedItem: Option = { label: '最近三天', value: 'latest_3d' };
   items: Option[] = [
-    { label: '最近24时', value: 'latest_24h' }, 
-    { label: '最近三天', value: 'latest_3d' }, 
+    { label: '最近24时', value: 'latest_24h' },
+    { label: '最近三天', value: 'latest_3d' },
     { label: '最近一周', value: 'latest_7d' },
     // { label: '最近一月', value: 'latest_30d' }
   ];
@@ -73,32 +74,44 @@ export class MonitoringComponent implements OnInit{
   compareFn = (o1: Option | null, o2: Option | null) => (o1 && o2 ? o1.value === o2.value : o1 === o2);
   userInfos: any[] = [];
   loading = true;
+  isLogin = false;
+  logoutSubscription: Subscription | undefined;
+
 
   ngOnInit(): void {
+    this.isLogin = localStorage.getItem("user") == "user";
+    if(!this.isLogin) return;
+    
+    
     this.userService.getAuditInfo("latest_3d").subscribe((data: any) => {
       this.userInfos = data;
       this.loading = false;
-      this.uniqueUsers = new Set(data.map((item: any)=>item.user)).size;
-      this.llmTotal = data.filter((item: any)=> item.type == "llm").length;
+      this.uniqueUsers = new Set(data.map((item: any) => item.user)).size;
+      this.llmTotal = data.filter((item: any) => item.type == "llm").length;
       this.requestTotal = data.length;
       this.dictTotal = this.requestTotal - this.llmTotal;
     });
+
+    this.logoutSubscription = this.globalSvc.buttonClick$.subscribe((logout)=> {
+      if (logout == "logout") this.isLogin = false;
+    });
+  
   }
 
   onTimeSpanChange(item: Option): void {
     this.userService.getAuditInfo(item.value).subscribe((data: any) => {
       this.userInfos = data;
       this.loading = false;
-      this.uniqueUsers = new Set(data.map((item: any)=>item.user)).size;
-      this.llmTotal = data.filter((item: any)=> item.type == "llm").length;
+      this.uniqueUsers = new Set(data.map((item: any) => item.user)).size;
+      this.llmTotal = data.filter((item: any) => item.type == "llm").length;
       this.requestTotal = data.length;
       this.dictTotal = this.requestTotal - this.llmTotal;
     });
   }
-  
-  
 
 
-  
+
+
+
 
 }

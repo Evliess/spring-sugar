@@ -54,6 +54,7 @@ export class UserLoginComponent {
     this.userService.login(this.validateForm.value.username, this.validateForm.value.password).subscribe((data: any) => {
       let token = data.token;
       if (token !== "F") {
+        localStorage.setItem('user', 'user')
         this.loginEvent.emit(token);
       } else {
         this.loginEvent.emit("");

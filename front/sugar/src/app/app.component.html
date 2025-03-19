@@ -1,4 +1,5 @@
 <nz-layout class="app-layout">
+  
   <nz-sider class="menu-sidebar"
     nzCollapsible
     nzWidth="256px"
@@ -41,7 +42,9 @@
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
           <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
         </span>
+        <button nz-button nzType="dashed" class="logout-btn" (click)="logout()">退出登录</button>
       </div>
+      
     </nz-header>
     <nz-content>
       <div class="inner-content">

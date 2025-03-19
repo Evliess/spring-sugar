@@ -1,57 +1,60 @@
-<div class="time-span">
+<div class="container" *ngIf="isLogin">
+  <div class="time-span">
     <nz-select [compareWith]="compareFn" nzSize="large" nzShowSearch [(ngModel)]="selectedItem" nzPlaceHolder="选择时间段"
-        (ngModelChange)="onTimeSpanChange($event)">
-        @for (option of items; track option) {
-        <nz-option [nzValue]="option" [nzLabel]="option.label"></nz-option>
-        }
+      (ngModelChange)="onTimeSpanChange($event)">
+      @for (option of items; track option) {
+      <nz-option [nzValue]="option" [nzLabel]="option.label"></nz-option>
+      }
     </nz-select>
-</div>
+  </div>
 
-<div nz-row class="summary">
+  <div nz-row class="summary">
     <div nz-col nzSpan="6" class="row">
-        <nz-card nzTitle="用户总数">
-            <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon"/> <span class="summary-value">{{uniqueUsers}}</span></p>
-        </nz-card>
+      <nz-card nzTitle="用户总数">
+        <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon" /> <span
+            class="summary-value">{{uniqueUsers}}</span></p>
+      </nz-card>
     </div>
-    <div nz-col nzSpan="6"  class="row">
-        <nz-card nzTitle="请求总数">
-            <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon"/><span class="summary-value">{{requestTotal}}</span></p>
-        </nz-card>
+    <div nz-col nzSpan="6" class="row">
+      <nz-card nzTitle="请求总数">
+        <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon" /><span
+            class="summary-value">{{requestTotal}}</span></p>
+      </nz-card>
     </div>
-    <div nz-col nzSpan="6"  class="row">
-        <nz-card nzTitle="AI请求总数">
-            <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon"/><span class="summary-value">{{llmTotal}}</span></p>
-        </nz-card>
+    <div nz-col nzSpan="6" class="row">
+      <nz-card nzTitle="AI请求总数">
+        <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon" /><span
+            class="summary-value">{{llmTotal}}</span></p>
+      </nz-card>
     </div>
-    <div nz-col nzSpan="6"  class="row">
-        <nz-card nzTitle="字典请求总数">
-            <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon"/><span class="summary-value">{{dictTotal}}</span></p>
-        </nz-card>
+    <div nz-col nzSpan="6" class="row">
+      <nz-card nzTitle="字典请求总数">
+        <p><nz-icon nzType="user" nzTheme="outline" class="summary-icon" /><span
+            class="summary-value">{{dictTotal}}</span></p>
+      </nz-card>
     </div>
-</div>
+  </div>
 
-<div class="table" >
+  <div class="table">
     <nz-table #basicTable [nzData]="userInfos" [nzLoading]="loading">
-        <thead>
-            <tr>
-                @for (column of listOfColumns; track column) {
-                  <th
-                    [nzSortOrder]="column.sortOrder"
-                    [nzSortFn]="column.sortFn"
-                  >
-                    {{ column.name }}
-                  </th>
-                }
-              </tr>
-        </thead>
-        <tbody>
-          @for (data of basicTable.data; track data.id) {
-            <tr>
-              <td>{{ data.user }}</td>
-              <td>{{ data.type }}</td>
-              <td>{{ userService.formatDate(data.consumedAt) }}</td>
-            </tr>
+      <thead>
+        <tr>
+          @for (column of listOfColumns; track column) {
+          <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn">
+            {{ column.name }}
+          </th>
           }
-        </tbody>
-      </nz-table>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of basicTable.data; track data.id) {
+        <tr>
+          <td>{{ data.user }}</td>
+          <td>{{ data.type }}</td>
+          <td>{{ userService.formatDate(data.consumedAt) }}</td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
 </div>
