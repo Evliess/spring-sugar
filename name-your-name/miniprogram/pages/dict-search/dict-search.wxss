@@ -1,0 +1,26 @@
+.dict-search {
+  padding: 0 12px;
+}
+
+.line-1 {
+  display: flex;
+  align-items: center;
+  padding-top: 14px;
+}
+
+.answer {
+  padding: 12px;
+}
+
+.name-input {
+  flex: 1;
+  margin-top: 8px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  border-bottom: .5px solid transparent;
+  border-image: linear-gradient(to right, #1976D2, #1976D2);
+  border-image-slice: 1;
+  color: black;
+  border-top: 0px solid transparent;
+}
+

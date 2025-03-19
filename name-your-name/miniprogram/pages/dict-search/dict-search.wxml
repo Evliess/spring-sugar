@@ -1,0 +1,14 @@
+<view class="dict-search">
+
+  <view class="line-1">
+    <input class="name-input" placeholder="请输入名字的开头，例如：A" bind:change="onNameChange" />
+    <button style="width:20vw;" class="btn btn-primary btn-search" bind:tap="sendRequest">查询</button>
+  </view>
+
+  <scroll-view scroll-y>
+    <view class="answer">
+      <towxml nodes="{{answer}}" />
+    </view>
+  </scroll-view>
+
+</view>

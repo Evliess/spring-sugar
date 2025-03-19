@@ -14,5 +14,10 @@ Component({
         url: '../logs/logs',
       })
     },
+    toDict() {
+      wx.navigateTo({
+        url: '../dict-search/dict-search',
+      })
+    },
   },
 })

@@ -18,7 +18,7 @@
         <text class="card-text">每个名字都有独特的含</text>
         <text class="card-text">义，代表着不同的个性特</text>
         <text class="card-text">征，快来查询吧！</text>
-        <button style="width:20vw;" class="btn btn-primary">自主查询</button>
+        <button style="width:20vw;" class="btn btn-primary" bind:tap="toDict">自主查询</button>
       </view>
     </view>
   </view>

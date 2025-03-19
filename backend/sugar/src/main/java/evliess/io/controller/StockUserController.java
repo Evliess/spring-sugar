@@ -6,6 +6,8 @@ import evliess.io.entity.SugarToken;
 import evliess.io.service.SugarUserService;
 import evliess.io.utils.RestUtils;
 import evliess.io.utils.TokenUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StockUserController {
     private final SugarUserService sugarUserService;
+    private static final Logger log = LoggerFactory.getLogger(StockUserController.class);
 
     @Autowired
     public StockUserController(SugarUserService sugarUserService) {
@@ -58,6 +61,19 @@ public class StockUserController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
+    @PostMapping("/public/search/name")
+    public ResponseEntity<String> searchName(@RequestBody String body) {
+        log.info(body);
+        JSONObject jsonNode = JSON.parseObject(body);
+        String name = jsonNode.getString("name");
+        JSONObject jsonObject = new JSONObject();
+        if (name == null || name.isEmpty()) {
+            jsonObject.put("name", "请输入名字或者名字开头的字母");
+            return ResponseEntity.ok(jsonObject.toString());
+        }
+        jsonObject.put("name", "Jack");
+        return ResponseEntity.ok("- Jack \n - Jack");
+    }
 
 
 }
