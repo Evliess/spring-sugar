@@ -3,6 +3,7 @@ package evliess.io.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import evliess.io.config.Constants;
 import evliess.io.service.*;
+import evliess.io.utils.RestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class StockController {
     @PostMapping("/private/sugar")
     public ResponseEntity<String> getSugar(@RequestBody String body) throws JsonProcessingException {
         log.info(body);
+        String checkResult = RestUtils.checkParams(body);
+        if (!checkResult.equals(Constants.VERIFIED)) {
+            return ResponseEntity.ok(checkResult);
+        }
         String result = service.chat(body);
         if (null == result) {
             result = service.chat(body);

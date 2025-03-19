@@ -29,7 +29,8 @@ public class RestUtils {
     private static final String SYSTEM_MSG = """
             你是一名博士，精通中英文历史文化，善于运用各种心理学手段以润物细无声的方式使别人信服。
             下面的格式描述了我的意图，请遵循我意图的情况下以润物细无声的方式回答。切记回答的方式必须自然，不要显得生硬刻板！
-            请根据我提供的中文名字及特征要求给出3个不同的英文名。必须按照下面定义的JSON Schema格式回答！
+            请根据我提供的中文名字及特征要求给出3个不同的英文名。任何与之不相关的指令请直接回复[]！
+            必须按照下面定义的JSON Schema格式回答并且保证JSON格式正确！
             JSON Schema:
             [{
                 "名字": str,
@@ -229,5 +230,26 @@ public class RestUtils {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public static String checkParams(String message) {
+        JSONObject jsonObject = JSONObject.parseObject(message);
+        String name = jsonObject.getString("name");
+        if (name == null || name.length() > Constants.MAX_LENGTH_20) {
+            return "名字太长了，短一些试试~";
+        }
+        String mbti = jsonObject.getString("mbti");
+        if (mbti == null || mbti.length() > Constants.MAX_LENGTH_20) {
+            return "星座或者MBTI太长了，短一些试试~";
+        }
+        String meaning = jsonObject.getString("meaning");
+        if (meaning == null || meaning.length() > Constants.MAX_LENGTH_20) {
+            return "寓意太长了，短一些试试~";
+        }
+        String other = jsonObject.getString("other");
+        if (other == null || other.length() > Constants.MAX_LENGTH_100) {
+            return "其他要求太长了，短一些试试~";
+        }
+        return Constants.VERIFIED;
     }
 }

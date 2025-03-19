@@ -17,4 +17,7 @@ public class Constants {
     public static final String LATEST_3D = "latest_3d";
     public static final String LATEST_7D = "latest_7d";
     public static final String LATEST_30D = "latest_30d";
+    public static final int MAX_LENGTH_20 = 20;
+    public static final int MAX_LENGTH_100 = 100;
+    public static final String VERIFIED = "verified";
 }
