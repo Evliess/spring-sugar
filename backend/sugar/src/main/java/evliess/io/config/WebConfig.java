@@ -11,5 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/public/sugar/welcome")
                 .setViewName("forward:/public/sugar/index.html");
+
+        registry.addViewController("/public/sugar/monitoring")
+                .setViewName("forward:/public/sugar/index.html");
     }
 }
