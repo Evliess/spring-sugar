@@ -31,6 +31,10 @@ public class SugarUserService {
         sugarTokenRepository.save(sugarToken);
     }
 
+    public SugarToken findByToken(String token) {
+        return sugarTokenRepository.findByToken(token);
+    }
+
     public String findByUsername(String body) {
         try {
             JSONObject jsonNode = JSON.parseObject(body);
@@ -39,7 +43,7 @@ public class SugarUserService {
             if (name == null || name.isEmpty()
                     || privateKey == null || privateKey.isEmpty()
                     || name.length() > 20
-                    ) {
+            ) {
                 log.error("User: {} not found!", name);
                 return Instant.now().minusSeconds(60).toEpochMilli() + "";
             }

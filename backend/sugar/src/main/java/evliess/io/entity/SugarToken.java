@@ -14,6 +14,7 @@ public class SugarToken {
     @Column(name = "s_name")
     private String user;
 
+    public SugarToken() {}
     public SugarToken(String token, String user) {
         this.token = token;
         this.user = user;
