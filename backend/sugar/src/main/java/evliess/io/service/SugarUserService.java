@@ -35,6 +35,10 @@ public class SugarUserService {
         return sugarTokenRepository.findByToken(token);
     }
 
+    public void deactiveToken(String token) {
+        sugarTokenRepository.updateByToken(token, token + "inactive");
+    }
+
     public String findByUsername(String body) {
         try {
             JSONObject jsonNode = JSON.parseObject(body);
