@@ -54,17 +54,17 @@ public class StockController {
     }
 
 
-    @PostMapping("/public/dp")
+    @PostMapping("/private/dp")
     public ResponseEntity<String> getSugar0(@RequestBody String body) throws JsonProcessingException {
         return ResponseEntity.ok(dpskService.chat(body));
     }
 
-    @PostMapping("/public/hy")
+    @PostMapping("/private/hy")
     public ResponseEntity<String> getSugar1(@RequestBody String body) throws JsonProcessingException {
         return ResponseEntity.ok(hunYService.chat(body));
     }
 
-    @PostMapping("/public/qw")
+    @PostMapping("/private/qw")
     public ResponseEntity<String> getSugar2(@RequestBody String body) throws JsonProcessingException {
         return ResponseEntity.ok(qwService.chat(body));
     }
