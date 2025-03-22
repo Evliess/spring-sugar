@@ -56,7 +56,9 @@ public class StockUserController {
         JSONObject jsonNode = JSON.parseObject(body);
         String token = jsonNode.getString("token");
         sugarUserService.deactiveToken(token);
-        return ResponseEntity.ok("token is inactive " + token);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg", "deactived");
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @PostMapping("/public/uid")

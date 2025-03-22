@@ -1,7 +1,17 @@
 <user-login *ngIf="!isLogin" (loginEvent)="loginEvent($event)"></user-login>
 
 <div *ngIf="isLogin">
-    <button nz-button nzType="primary" (click)="getToken()" class="btn-token">生成口令</button>
+
+  <div class="deactive-token-row">
+    <input nz-input placeholder="使口令失效" nzSize="large" class="deactive-token" (change)="onDeactiveTokenChange($event)"/>
+    <button nz-button nzType="primary" (click)="deactive()" class="btn-token" nzSize="large">撤销口令</button>
+  </div>
+
+  <div class="generate-token-row">
+    <input nz-input placeholder="口令有效期，请输入纯数字！" [(ngModel)]="tokenLiveDays" nzSize="large" class="generate-token" (change)="onTokenLiveDaysChange($event)"/>
+    <button nz-button nzType="primary" (click)="getToken()" class="btn-token" nzSize="large">生成口令</button>
+  </div>
+    
     <nz-list nzBordered nzSize="small">
         @for (item of tokens; track item) {
             <li nz-list-item nzNoFlex>
@@ -14,6 +24,8 @@
             </li>
           }
       </nz-list>
+
+      
     </div>
 
 

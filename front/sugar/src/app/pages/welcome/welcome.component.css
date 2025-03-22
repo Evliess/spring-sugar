@@ -1,3 +1,16 @@
 .btn-token {
     margin-bottom: 2rem;
 }
+
+.deactive-token {
+    width: 50%;
+    margin-right: 12px;
+}
+.generate-token {
+    width: 50%;
+    margin-right: 12px;
+}
+
+nz-list {
+    width: 50%;
+}

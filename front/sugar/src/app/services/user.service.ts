@@ -13,10 +13,10 @@ export class UserService {
 
   tokens: Array<string> = [];
 
-  getToken(user: string): Array<string> {
+  getToken(user: string, tokenLiveDays: string): Array<string> {
     const apiUrl = 'http://localhost:8080/public/tokens';
     const body = {
-      "days": 5
+      "days": tokenLiveDays
     }
     this.http.post(apiUrl, body).subscribe((data: any) => {
       console.log(data);
@@ -25,6 +25,11 @@ export class UserService {
     return this.tokens;
   }
 
+  deactive(token: string): Observable<any> {
+    const apiUrl = 'http://localhost:8080/public/token/deactive';
+    const body = {"token": token};
+    return this.http.post(apiUrl, body);
+  }
 
   login(name: string, key: string): Observable<any> {
     const apiUrl = 'http://localhost:8080/public/user';
