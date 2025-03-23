@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  padding: 0 4px 0 4px;
+}
+
+.scroll-view {
+  height: calc(100vh - 100px);
+  background-color: #f0f0f0;
+}
+
+.answer {
+  height: 90%;
+  padding: 12px;
+}
+
+.button-container {
+  height: 30px; /* 固定高度 */
+  display: flex;
+  padding: 10px;
+  width: 100%;
+}

@@ -63,16 +63,15 @@ Component({
     },
 
     toCustomName(){
+      const app = getApp();
+      app.globalData.userInput = this.data.userInput;
       wx.navigateTo({
         url: '../custom-name/custom-name?data=' + encodeURIComponent(JSON.stringify(this.data.userInput)),
       })
     },
   },
   lifetimes: {
-    attached() {
-    },
-    detached() {
-      console.log("leave...");
-    },
+    attached() {},
+    detached() {},
   },
 })

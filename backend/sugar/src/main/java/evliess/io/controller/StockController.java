@@ -44,13 +44,14 @@ public class StockController {
         if (!checkResult.equals(Constants.VERIFIED)) {
             return ResponseEntity.ok(checkResult);
         }
-        String result = service.chat(body);
-        if (null == result) {
-            result = service.chat(body);
-        }
-        log.info(result);
-        auditTokenService.saveAuditToken(Constants.TYPE_LLM);
-        return ResponseEntity.ok(result);
+//        String result = service.chat(body);
+//        if (null == result) {
+//            result = service.chat(body);
+//        }
+//        log.info(result);
+//        auditTokenService.saveAuditToken(Constants.TYPE_LLM);
+//        return ResponseEntity.ok(result);
+        return ResponseEntity.ok("123Test");
     }
 
 

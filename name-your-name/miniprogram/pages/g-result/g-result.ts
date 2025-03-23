@@ -1,41 +1,18 @@
+// pages/g-result/g-result.ts
 Page({
-
   data: {
     answer: {},
-    userInput: {},
-    answerInString: "",
-    showIndictor: false,
-    token: "",
-    validToken: false
   },
 
-  copyResponse() {
-    wx.setClipboardData({
-      data: this.data.answerInString,
-      success: ()=> {
-        wx.showToast({
-          title: '复制成功',
-          duration: 1000
-        });
-      },
-      fail: ()=> {
-        wx.showToast({
-          title: '复制失败',
-          duration: 1000
-        });
-      },
-    });
-  },
-
-  sendRequest() {
-    this.callApi(this.data.userInput);
-  },
-
-  onTokenChange(e: any) {
-    const token = e.detail.value;
+  onLoad() {
+    const app = getApp();
     this.setData({
-      "token": token,
-    })
+      answer: app.globalData.answer,
+    });
+    const obj = app.towxml(
+      this.data.answer, 'markdown', {theme: 'light'}
+    );
+    this.setData({"answer": obj});
   },
 
   callApi(data: any) {
@@ -61,13 +38,10 @@ Page({
         }
         app.globalData.answer = res.data.toString();
         this.data.answerInString = res.data.toString();
-        wx.navigateTo({
-            url: '/pages/g-result/g-result',
-          });
-        // const obj = app.towxml(
-        //   res.data, 'markdown', {theme: 'light'}
-        // );
-        // this.setData({"answer": obj});
+        const obj = app.towxml(
+          res.data, 'markdown', {theme: 'light'}
+        );
+        this.setData({"answer": obj});
         this.setData({"showIndictor": false, "validToken": true});
       },
       fail:()=> {
@@ -76,12 +50,9 @@ Page({
     });
   },
 
-  onLoad(options: any) {
-    this.data.userInput = JSON.parse(decodeURIComponent(options.data))
-  },
+  editInput() {},
+  sendRequest(){},
 
   onReady() {},
   onShow() {},
-  onHide() {},
-  onUnload() {},
 })

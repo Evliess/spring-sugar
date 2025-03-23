@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/custom-name/custom-name",
-    "pages/dict-search/dict-search"
+    "pages/dict-search/dict-search",
+    "pages/g-result/g-result"
   ],
   "window": {
     "navigationBarTextStyle": "black",

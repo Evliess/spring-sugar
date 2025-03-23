@@ -1,6 +1,16 @@
 // app.ts
 App({
-  globalData: {},
+  globalData: {
+    answer: {},
+    userInput: {
+      name: '',
+      sex: '',
+      mbti: '',
+      meaning: '',
+      other: '',
+      voice: true
+    }
+  },
   towxml: require('/towxml/index'),
   onLaunch() {
     // 展示本地存储能力
