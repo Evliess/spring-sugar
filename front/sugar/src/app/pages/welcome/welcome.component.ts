@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from '@angular/forms';
 import { UserLoginComponent } from '../user-login/user-login.component';
@@ -7,9 +7,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { GlobalService } from '../../services/global.service'
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 
 
 
@@ -30,11 +29,15 @@ export class WelcomeComponent implements OnInit {
   constructor(
     private userService: UserService,
     private notification: NzNotificationService,
-    private globalSvc:GlobalService
+    private globalSvc:GlobalService,
+
   ) { }
 
   ngOnInit(): void {
     this.isLogin = localStorage.getItem("user") != null;
+    if(this.isLogin) {
+      this.user = localStorage.getItem("user") as string;
+    }
     this.logoutSubscription = this.globalSvc.buttonClick$.subscribe((logout)=> {
       if (logout == "logout") this.isLogin = false;
     });
@@ -60,7 +63,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   deactive(): void {
-    this.userService.deactive(this.deactiveToken).subscribe((data: any) => {
+    this.userService.deactive(this.user, this.deactiveToken).subscribe((data: any) => {
       if(data.msg == "deactived") {
         this.notification.success('停用成功', `已停用: ${this.deactiveToken}`, {
           nzPlacement: 'bottomRight'

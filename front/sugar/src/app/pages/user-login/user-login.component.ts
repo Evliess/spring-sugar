@@ -51,11 +51,12 @@ export class UserLoginComponent {
     if (this.validateForm.value.username == undefined || this.validateForm.value.password == undefined) {
       return;
     }
+    let username = this.validateForm.value.username;
     this.userService.login(this.validateForm.value.username, this.validateForm.value.password).subscribe((data: any) => {
       let token = data.token;
       if (token !== "F") {
-        localStorage.setItem('user', 'user')
-        this.loginEvent.emit(token);
+        localStorage.setItem('user', username);
+        this.loginEvent.emit(username);
       } else {
         this.loginEvent.emit("");
       }

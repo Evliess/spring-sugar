@@ -79,9 +79,8 @@ export class MonitoringComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.isLogin = localStorage.getItem("user") == "user";
+    this.isLogin = localStorage.getItem("user") != null;
     if(!this.isLogin) return;
-    
     
     this.userService.getAuditInfo("latest_3d").subscribe((data: any) => {
       this.userInfos = data;
