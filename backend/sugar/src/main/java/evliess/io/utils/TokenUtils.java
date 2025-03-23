@@ -39,8 +39,17 @@ public class TokenUtils {
         return encode(Instant.now().plus(Duration.ofDays(days)).toEpochMilli() + "");
     }
 
-    public static String generateToken(int days) {
-        return UUID.randomUUID() + "--" + getNowPlusDaysToken(days);
+    private static String getNowPlusMinutesToken(int minutes) {
+        return encode(Instant.now().plus(Duration.ofMinutes(minutes)).toEpochMilli() + "");
+    }
+
+    public static String generateToken(String days) {
+        if (days.startsWith("-")) {
+            int minutes = Integer.parseInt(days.substring(1));
+            return UUID.randomUUID() + "--" + getNowPlusMinutesToken(minutes);
+        }
+        int daysInt = Integer.parseInt(days);
+        return UUID.randomUUID() + "--" + getNowPlusDaysToken(daysInt);
     }
 
     public static boolean isValidToken(String token) {

@@ -25,7 +25,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (authentication != null) {
             if (authentication.getPrincipal() == null) {
-                return null;
+                return authentication;
             }
             String principal = authentication.getPrincipal().toString();
             if (sugarUserRepository.findByUsername(principal) != null) {
@@ -33,7 +33,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             }
 
             if (authentication.getCredentials() == null) {
-                return null;
+                return authentication;
             }
             String credentials = authentication.getCredentials().toString();
             if (TokenUtils.isValidToken(credentials) && sugarUserService.findByToken(credentials) != null) {

@@ -43,7 +43,7 @@ public class StockUserController {
             return ResponseEntity.ok("Invalid request");
         }
         JSONObject jsonNode = JSON.parseObject(body);
-        Integer days = jsonNode.getInteger("days");
+        String days = jsonNode.getString("days");
         String token = TokenUtils.generateToken(days);
         sugarUserService.save(new SugarToken(token, ""));
         JSONObject jsonObject = new JSONObject();
