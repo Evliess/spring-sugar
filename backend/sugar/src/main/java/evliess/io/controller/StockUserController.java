@@ -37,7 +37,7 @@ public class StockUserController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
-    @PostMapping("/public/tokens")
+    @PostMapping("/private/tokens")
     public ResponseEntity<String> generateToken(@RequestBody String body) {
         if (body == null || body.isEmpty()) {
             return ResponseEntity.ok("Invalid request");
@@ -51,7 +51,7 @@ public class StockUserController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
-    @PostMapping("/public/token/deactive")
+    @PostMapping("/private/token/deactive")
     public ResponseEntity<String> deactiveToken(@RequestBody String body) {
         JSONObject jsonNode = JSON.parseObject(body);
         String token = jsonNode.getString("token");
