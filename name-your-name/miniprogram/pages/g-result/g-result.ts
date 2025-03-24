@@ -3,6 +3,7 @@ Page({
   data: {
     answer: {},
     answerInString: '',
+    showIndictor: false,
   },
 
   onLoad() {
@@ -18,6 +19,7 @@ Page({
 
   callApi(data: any) {
     const app = getApp();
+    this.setData({"showIndictor": true});
     const token = app.globalData.token;
     const openId = app.globalData.openId;
     this.setData({"showIndictor": true});
@@ -33,21 +35,22 @@ Page({
             title: '券码无效！',
             duration: 1000
           });
+          this.setData({"showIndictor": false});
           wx.navigateTo({
             url: '/pages/custom-name/custom-name',
           })
           return;
         }
+        this.setData({"showIndictor": false});
         app.globalData.answer = res.data.toString();
         this.data.answerInString = res.data.toString();
         const obj = app.towxml(
           res.data, 'markdown', {theme: 'light'}
         );
         this.setData({"answer": obj});
-        this.setData({"showIndictor": false, "validToken": true});
       },
       fail:()=> {
-        this.setData({"showIndictor": false, "validToken": false});
+        this.setData({"showIndictor": false});
       }
     });
   },

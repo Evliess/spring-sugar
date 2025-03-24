@@ -16,42 +16,42 @@
     <view class="card">
       <view class="nickname-wrapper">
         <text class="nickname-label">名字</text>
-        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bind:change="onNameChange" />
+        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bind:change="onNameChange" value="{{userInput.name}}"/>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">性别：</text>
         <radio-group bindchange="onSexChange">
           <label class="radio-item">
-            <radio value="男" checked="{{gender === '男'}}" /> 男
+            <radio value="{{userInput.sex}}" checked="{{userInput.sex === '男'}}" /> 男
           </label>
           <label class="radio-item">
-            <radio value="女" checked="{{gender === '女'}}" /> 女
+            <radio value="{{userInput.sex}}" checked="{{userInput.sex === '女'}}" /> 女
           </label>
           <label class="radio-item">
-            <radio value="中性" checked="{{gender === '中性'}}" /> 中性
+            <radio value="{{userInput.sex}}" checked="{{userInput.sex === '中性'}}" /> 中性
           </label>
         </radio-group>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">星座</text>
-        <input class="nickname-input" placeholder="也可输入MBTI" bind:change="onStarChange" />
+        <input class="nickname-input" placeholder="也可输入MBTI" bind:change="onStarChange" value="{{userInput.mbti}}" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">期望寓意</text>
-        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bind:change="onMeaningChange" />
+        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bind:change="onMeaningChange" value="{{userInput.meaning}}" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">其他要求</text>
-        <input class="nickname-input" placeholder="如 A开头、小众、好听" bind:change="onOtherChange" />
+        <input class="nickname-input" placeholder="如 A开头、小众、好听" bind:change="onOtherChange" value="{{userInput.other}}" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">是否需要和中文发音一致</text>
         <radio-group bindchange="onVoiceChange">
           <label class="radio-item">
-            <radio value="是" checked="{{voice === '是'}}" /> 是
+            <radio value="{{userInput.voice}}" checked="{{userInput.voice === '是'}}" /> 是
           </label>
           <label class="radio-item">
-            <radio value="否" checked="{{voice === '否'}}" /> 否
+            <radio value="{{userInput.voice}}" checked="{{userInput.voice === '否'}}" /> 否
           </label>
 
         </radio-group>

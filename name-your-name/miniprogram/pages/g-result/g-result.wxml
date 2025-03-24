@@ -9,7 +9,20 @@
 
   <!-- 下半部分：两个按钮 -->
   <view class="button-container">
-    <button style="width:20vw;" class="btn btn-blue btn-edit" bind:tap="editInput">返回修改</button>
-    <button style="width:20vw;" class="btn btn-blue btn-req" bind:tap="sendRequest">再来一组</button>
+    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-primary btn-edit" bind:tap="editInput">返回修改</button>
+    <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
+      <view class="wait-indictor">
+        <view class="msg">
+          <view class="lds-ellipsis">
+            <view></view>
+            <view></view>
+            <view></view>
+            <view></view>
+          </view>
+          <text class="wait-msg">请等待片刻</text>
+        </view>
+      </view>
+    </view>
+    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-primary btn-req" bind:tap="sendRequest">再来一组</button>
   </view>
 </view>

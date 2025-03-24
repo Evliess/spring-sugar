@@ -71,7 +71,10 @@ Component({
     },
   },
   lifetimes: {
-    attached() {},
+    attached() {
+      const app = getApp();
+      this.setData({"userInput": app.globalData.userInput});
+    },
     detached() {},
   },
 })

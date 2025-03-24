@@ -32,7 +32,7 @@ Page({
   },
 
   onTokenChange(e: any) {
-    const token = e.detail.value;
+    const token = e.detail.value.trim();
     this.setData({
       "token": token,
     })
