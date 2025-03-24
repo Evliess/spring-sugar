@@ -61,13 +61,10 @@ Page({
         }
         app.globalData.answer = res.data.toString();
         this.data.answerInString = res.data.toString();
+        app.globalData.token = this.data.token;
         wx.navigateTo({
             url: '/pages/g-result/g-result',
           });
-        // const obj = app.towxml(
-        //   res.data, 'markdown', {theme: 'light'}
-        // );
-        // this.setData({"answer": obj});
         this.setData({"showIndictor": false, "validToken": true});
       },
       fail:()=> {
@@ -76,8 +73,9 @@ Page({
     });
   },
 
-  onLoad(options: any) {
-    this.data.userInput = JSON.parse(decodeURIComponent(options.data))
+  onLoad() {
+    const app = getApp();
+    this.data.userInput = app.globalData.userInput;
   },
 
   onReady() {},

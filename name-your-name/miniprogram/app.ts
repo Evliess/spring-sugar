@@ -2,6 +2,9 @@
 App({
   globalData: {
     answer: {},
+    token: "",
+    openId: "",
+    validToken: false,
     userInput: {
       name: '',
       sex: '',
@@ -26,8 +29,8 @@ App({
           method: 'POST',
           data: {"code": res.code},
           header: {'content-type': 'application/json'},
-          success: (res) => {
-            wx.setStorageSync('openId', res.data.openId);
+          success: (res: any) => {
+            this.globalData.openId = res.data.openId;
           },
           fail:()=> {
            

@@ -33,7 +33,7 @@ public class StockController {
     private static final Logger log = LoggerFactory.getLogger(StockController.class);
 
     @GetMapping("/private/stocks")
-    public ResponseEntity<String> getStock() throws JsonProcessingException {
+    public ResponseEntity<String> getStock() {
         return ResponseEntity.ok("123Test");
     }
 
@@ -44,14 +44,14 @@ public class StockController {
         if (!checkResult.equals(Constants.VERIFIED)) {
             return ResponseEntity.ok(checkResult);
         }
-//        String result = service.chat(body);
-//        if (null == result) {
-//            result = service.chat(body);
-//        }
-//        log.info(result);
-//        auditTokenService.saveAuditToken(Constants.TYPE_LLM);
-//        return ResponseEntity.ok(result);
-        return ResponseEntity.ok("123Test");
+        String result = service.chat(body);
+        if (null == result) {
+            result = service.chat(body);
+        }
+        log.info(result);
+        auditTokenService.saveAuditToken(Constants.TYPE_LLM);
+        return ResponseEntity.ok(result);
+//        return ResponseEntity.ok("123Test");
     }
 
 

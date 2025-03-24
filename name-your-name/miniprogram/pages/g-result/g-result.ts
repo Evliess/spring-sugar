@@ -2,6 +2,7 @@
 Page({
   data: {
     answer: {},
+    answerInString: '',
   },
 
   onLoad() {
@@ -17,16 +18,14 @@ Page({
 
   callApi(data: any) {
     const app = getApp();
+    const token = app.globalData.token;
+    const openId = app.globalData.openId;
     this.setData({"showIndictor": true});
-    let openId = "";
-    try {
-      openId = wx.getStorageSync("openId");
-    } catch(e) {}
     wx.request({
       url: 'http://localhost:8080/private/sugar',
       method: 'POST',
       data: data,
-      header: {'content-type': 'application/json', 'X-token': this.data.token, 'X-openId': openId},
+      header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId},
       success: (res) => {
         if (res.statusCode === 401) {
           this.setData({"showIndictor": false});
@@ -34,6 +33,9 @@ Page({
             title: '券码无效！',
             duration: 1000
           });
+          wx.navigateTo({
+            url: '/pages/custom-name/custom-name',
+          })
           return;
         }
         app.globalData.answer = res.data.toString();
@@ -50,8 +52,16 @@ Page({
     });
   },
 
-  editInput() {},
-  sendRequest(){},
+  editInput() {
+    wx.navigateTo({
+      url: '/pages/logs/logs',
+    })
+  },
+  sendRequest(){
+    const app = getApp();
+    const data = app.globalData.userInput;
+    this.callApi(data);
+  },
 
   onReady() {},
   onShow() {},
