@@ -16,4 +16,7 @@ public interface AuditTokenRepository extends JpaRepository<AuditToken, Long> {
 
     @Query("SELECT a FROM AuditToken a WHERE a.consumedAt >= ?1 and a.consumedAt <= ?2")
     List<AuditToken> findByTimeSpan(Long start, Long end);
+
+    @Query("SELECT a FROM AuditToken a WHERE a.user = ?1 order by a.consumedAt desc limit 1")
+    AuditToken findLatestTokenByUser(String user);
 }

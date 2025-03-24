@@ -2,6 +2,7 @@ package evliess.io.service;
 
 import evliess.io.entity.AuditToken;
 import evliess.io.jpa.AuditTokenRepository;
+import evliess.io.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +76,18 @@ public class AuditTokenService {
         Long end = Instant.now().toEpochMilli();
         Long start = Instant.now().minus(Duration.ofDays(30)).toEpochMilli();
         return this.auditTokenRepository.findByTimeSpan(start, end);
+    }
+
+    public AuditToken findLatestValidToken(String user) {
+        AuditToken auditToken = auditTokenRepository.findLatestTokenByUser(user);
+        if (auditToken == null) {
+            return null;
+        } else {
+            if (TokenUtils.isValidToken(auditToken.getToken())) {
+                return auditToken;
+            } else {
+                return null;
+            }
+        }
     }
 }

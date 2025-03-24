@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import evliess.io.config.Constants;
+import evliess.io.entity.AuditToken;
 import evliess.io.service.AuditTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,5 +56,19 @@ public class AuditTokenController {
             jsonArray.addAll(this.auditTokenService.findLast24H());
         }
         return ResponseEntity.ok(jsonArray.toString());
+    }
+
+    @PostMapping("/public/audit/user-token")
+    public ResponseEntity<String> findLatestValidToken(@RequestBody String body) {
+        JSONObject jsonNode = JSON.parseObject(body);
+        String openid = jsonNode.getString("openid");
+        AuditToken auditToken = this.auditTokenService.findLatestValidToken(openid);
+        JSONObject jsonObject = new JSONObject();
+        if (auditToken == null) {
+            jsonObject.put("token", "token");
+            return ResponseEntity.ok(jsonObject.toString());
+        }
+        jsonObject.put("token", auditToken.getToken());
+        return ResponseEntity.ok(jsonObject.toString());
     }
 }
