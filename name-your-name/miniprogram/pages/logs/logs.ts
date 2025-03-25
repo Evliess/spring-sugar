@@ -29,12 +29,11 @@ Component({
       const sex = e.detail.value;
       this.setData({
           "userInput.sex": sex,
-        })
+      })
     },
 
     onStarChange(e: any) {
       const star = e.detail.value;
-      // check star length
       this.setData({
         "userInput.mbti": star,
       })
@@ -65,15 +64,34 @@ Component({
     toCustomName(){
       const app = getApp();
       app.globalData.userInput = this.data.userInput;
+      //isValidToken
+      const openId = app.globalData.openId;
+      wx.request({
+        url: 'http://localhost:8080/public/audit/user-token',
+        method: 'POST',
+        data: {"openId": openId},
+        header: {'content-type': 'application/json'},
+        success: (res: any) => {
+          if(res.data != "token") {
+            app.globalData.token = res.data.token;
+          }
+        },
+        fail:()=> {
+         
+        }
+      });
       wx.navigateTo({
-        url: '../custom-name/custom-name?data=' + encodeURIComponent(JSON.stringify(this.data.userInput)),
+        url: '../custom-name/custom-name'
       })
     },
   },
   lifetimes: {
     attached() {
       const app = getApp();
-      this.setData({"userInput": app.globalData.userInput});
+      const userInput = app.globalData.userInput;
+      if (userInput.name != "") {
+        this.setData({"userInput": app.globalData.userInput});
+      }
     },
     detached() {},
   },

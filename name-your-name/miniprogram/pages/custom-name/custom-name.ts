@@ -43,7 +43,7 @@ Page({
     this.setData({"showIndictor": true});
     let openId = "";
     try {
-      openId = wx.getStorageSync("openId");
+      openId = app.globalData.openId;
     } catch(e) {}
     wx.request({
       url: 'http://localhost:8080/private/sugar',
@@ -76,6 +76,10 @@ Page({
   onLoad() {
     const app = getApp();
     this.data.userInput = app.globalData.userInput;
+    const token = app.globalData.token;
+    if(token.length >0) {
+      this.setData({"token": token, "validToken": true});
+    }
   },
 
   onReady() {},

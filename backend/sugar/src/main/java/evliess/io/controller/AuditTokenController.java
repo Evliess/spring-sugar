@@ -61,7 +61,7 @@ public class AuditTokenController {
     @PostMapping("/public/audit/user-token")
     public ResponseEntity<String> findLatestValidToken(@RequestBody String body) {
         JSONObject jsonNode = JSON.parseObject(body);
-        String openid = jsonNode.getString("openid");
+        String openid = jsonNode.getString("openId");
         AuditToken auditToken = this.auditTokenService.findLatestValidToken(openid);
         JSONObject jsonObject = new JSONObject();
         if (auditToken == null) {

@@ -36,7 +36,7 @@ Page({
             duration: 1000
           });
           this.setData({"showIndictor": false});
-          wx.navigateTo({
+          wx.redirectTo({
             url: '/pages/custom-name/custom-name',
           })
           return;
@@ -56,7 +56,7 @@ Page({
   },
 
   editInput() {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/logs/logs',
     })
   },

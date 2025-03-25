@@ -2,7 +2,7 @@
   <text class="card-head">英文名定制专线</text>
   <view class="{{validToken? 'card-quan card-quan-pass': 'card-quan'}}">
     <view class="card-text">
-      <input class="textarea" placeholder="请输入券码" maxlength="100" bind:change="onTokenChange"  />
+      <input class="textarea" placeholder="请输入券码" maxlength="100" bind:change="onTokenChange"  value="{{token}}"/>
     </view>
   </view>
   <view class="contact">注：若您还没有激活码，可点此联系客服获取</view>
@@ -23,7 +23,7 @@
         </view>
       </view>
     </view>
-    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-primary btn-regen" bind:tap="sendRequest">立即兑换</button>
+    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-primary btn-regen" bind:tap="sendRequest">{{validToken? '立即定制': '立即兑换'}}</button>
   </view>
 
   <scroll-view scroll-y>

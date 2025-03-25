@@ -22,13 +22,13 @@
         <text class="nickname-label">性别：</text>
         <radio-group bindchange="onSexChange">
           <label class="radio-item">
-            <radio value="{{userInput.sex}}" checked="{{userInput.sex === '男'}}" /> 男
+            <radio value="男" checked="{{userInput.sex == '男'}}"/> 男
           </label>
           <label class="radio-item">
-            <radio value="{{userInput.sex}}" checked="{{userInput.sex === '女'}}" /> 女
+            <radio value="女" checked="{{userInput.sex == '女'}}"/> 女
           </label>
           <label class="radio-item">
-            <radio value="{{userInput.sex}}" checked="{{userInput.sex === '中性'}}" /> 中性
+            <radio value="中性" checked="{{userInput.sex == '中性'}}"/> 中性
           </label>
         </radio-group>
       </view>
@@ -48,12 +48,11 @@
         <text class="nickname-label">是否需要和中文发音一致</text>
         <radio-group bindchange="onVoiceChange">
           <label class="radio-item">
-            <radio value="{{userInput.voice}}" checked="{{userInput.voice === '是'}}" /> 是
+            <radio value="是" checked="{{userInput.voice == '是'}}"/> 是
           </label>
           <label class="radio-item">
-            <radio value="{{userInput.voice}}" checked="{{userInput.voice === '否'}}" /> 否
+            <radio value="否" checked="{{userInput.voice == '否'}}"/> 否
           </label>
-
         </radio-group>
       </view>
     </view>
