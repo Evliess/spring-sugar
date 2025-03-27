@@ -14,3 +14,16 @@
 nz-list {
     width: 50%;
 }
+
+
+.user-dict {
+    width: 50%;
+    margin-right: 12px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+.user-dict .ant-input {
+    width: 50% !important;
+    margin-right: 12px;
+}

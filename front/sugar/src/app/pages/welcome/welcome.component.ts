@@ -16,7 +16,7 @@ import { GlobalService } from '../../services/global.service'
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css',
-  imports: [UserLoginComponent, CommonModule, NzListModule, NzButtonModule, NzInputModule, FormsModule],
+  imports: [UserLoginComponent, CommonModule, NzListModule, NzButtonModule, NzInputModule, FormsModule, ],
 })
 export class WelcomeComponent implements OnInit {
   isLogin: boolean = false;
@@ -25,6 +25,9 @@ export class WelcomeComponent implements OnInit {
   logoutSubscription: Subscription | undefined;
   deactiveToken: string = '';
   tokenLiveDays: string = '5';
+  femaleNames: string = '';
+  maleNames: string = '';
+  midNames: string = '';
 
   constructor(
     private userService: UserService,
@@ -82,6 +85,45 @@ export class WelcomeComponent implements OnInit {
         nzPlacement: 'bottomRight'
       });
     });
+  }
+
+  onFemaleNamesChange(): void {
+    if(this.femaleNames.length > 0) {
+      length = this.femaleNames.split("\n").length;
+      this.userService.insertNames(this.femaleNames, "female").subscribe((data: any) => {
+        if(data.msg == "ok") {
+          this.notification.success('插入成功', `已插入: ${length}`, {
+            nzPlacement: 'bottomRight'
+          });
+        }
+      });
+    }
+  }
+
+  onMaleNamesChange(): void {
+    if(this.maleNames.length > 0) {
+      length = this.maleNames.split("\n").length;
+      this.userService.insertNames(this.maleNames, "male").subscribe((data: any) => {
+        if(data.msg == "ok") {
+          this.notification.success('插入成功', `已插入: ${length}`, {
+            nzPlacement: 'bottomRight'
+          });
+        }
+      });
+    }
+  }
+
+  onMidNamesChange(): void {
+    if(this.midNames.length > 0) {
+      length = this.midNames.split("\n").length;
+      this.userService.insertNames(this.midNames, "mid").subscribe((data: any) => {
+        if(data.msg == "ok") {
+          this.notification.success('插入成功', `已插入: ${length}`, {
+            nzPlacement: 'bottomRight'
+          });
+        }
+      });
+    }
   }
 
 }

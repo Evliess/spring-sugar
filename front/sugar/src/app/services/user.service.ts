@@ -69,4 +69,22 @@ export class UserService {
 
     return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
   }
+
+  insertNames(names: string, type: string): Observable<any> {
+    if(type == "female") {
+      const apiUrl = 'http://localhost:8080/public/dict/batch/female';
+      return this.http.post(apiUrl, names);
+    }
+    if (type == "male") {
+      const apiUrl = 'http://localhost:8080/public/dict/batch/male';
+      return this.http.post(apiUrl, names);
+    }
+    if (type == "mid") {
+      const apiUrl = 'http://localhost:8080/public/dict/batch/mid';
+      return this.http.post(apiUrl, names);
+    }
+    return new Observable();
+  }
+
+
 }

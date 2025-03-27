@@ -50,20 +50,26 @@ public class NameDictController {
     @PostMapping("/public/dict/batch/male")
     public ResponseEntity<String> man(@RequestBody String body) {
         this.nameDictService.insertOrUpdate(body, "male");
-        return ResponseEntity.ok("success");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg", "ok");
+        return ResponseEntity.ok(jsonObject.toString());
 
     }
 
     @PostMapping("/public/dict/batch/female")
     public ResponseEntity<String> woman(@RequestBody String body) {
         this.nameDictService.insertOrUpdate(body, "female");
-        return ResponseEntity.ok("success");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg", "ok");
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @PostMapping("/public/dict/batch/mid")
     public ResponseEntity<String> mid(@RequestBody String body) {
         this.nameDictService.insertOrUpdate(body, "mid");
-        return ResponseEntity.ok("success");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg", "ok");
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @PostMapping("/public/dict/match")

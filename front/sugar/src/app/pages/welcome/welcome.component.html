@@ -25,7 +25,28 @@
           }
       </nz-list>
 
+
+
+  <div class="user-dict-row">
+    <textarea nz-input placeholder="女生名字" [(ngModel)]="femaleNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}"></textarea>
+    <button nz-button nzType="primary" (click)="onFemaleNamesChange()" class="btn-token" nzSize="large">录入女生名字</button>
+  </div>
+
+
+  <div class="user-dict-row">
+    <textarea nz-input placeholder="男生名字" [(ngModel)]="maleNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}">></textarea>
+    <button nz-button nzType="primary" (click)="onMaleNamesChange()" class="btn-token" nzSize="large">录入男生名字</button>
+  </div>
+  
+
+
+  <div class="user-dict-row">
+    <textarea nz-input placeholder="中性名字" [(ngModel)]="midNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}">></textarea>
+    <button nz-button nzType="primary" (click)="onMidNamesChange()" class="btn-token" nzSize="large">录入中性名字</button>
+  </div>
+  
+
       
-    </div>
+</div>
 
 
