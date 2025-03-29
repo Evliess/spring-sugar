@@ -6,7 +6,7 @@
         <icon type="info" size="20"></icon><text class="card-text-icon">设置取名要求，精准定制最适合你的英文名</text>
       </view>
       <view class="card-text">
-        <icon type="info" size="20"></icon><text class="card-text-icon">单次推荐4个英文名，可多次调整条件重新推荐</text>
+        <icon type="info" size="20"></icon><text class="card-text-icon">单次推荐3个英文名，可多次调整条件重新推荐</text>
       </view>
     </view>
   </view>

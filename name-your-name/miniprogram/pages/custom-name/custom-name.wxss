@@ -3,13 +3,13 @@
 }
 
 .custom-name {
-  padding: 0 4px 0 4px;
+  padding: 0 16px;
 }
 
 .card-quan {
   border: 1px solid #E0E0E0;
   border-radius: 8px;
-  
+  height: 30vh;
 }
 
 .card-quan-pass {

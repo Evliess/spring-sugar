@@ -1,4 +1,10 @@
 /**app.wxss**/
+page {
+
+  font-family: 'hs-Regular', 'Courier New', Courier, monospace;
+}
+
+
 .container {
   height: 100%;
   display: flex;
