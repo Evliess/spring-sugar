@@ -5,7 +5,7 @@
       <input class="textarea" placeholder="请输入券码" maxlength="100" bind:change="onTokenChange"  value="{{token}}"/>
     </view>
   </view>
-  <view class="contact">注：若您还没有激活码，可点此联系客服获取</view>
+  <view class="contact">注：若您还没有激活码，可点此<button open-type="contact" class="contact-btn">联系客服</button>获取</view>
 
     <button disabled="{{showIndictor}}" class="btn btn-primary btn-regen" bind:tap="sendRequest">{{validToken? '立即定制': '立即兑换'}}</button>
     <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">

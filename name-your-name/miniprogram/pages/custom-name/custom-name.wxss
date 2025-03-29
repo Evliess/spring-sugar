@@ -5,7 +5,16 @@
 .custom-name {
   padding: 0 16px;
 }
+.contact-btn {
+  color: #3b71ca;
+  background-color: transparent;
+  border: none;
+  line-height: inherit;
+  padding: 0;
+  display: inline;
+  font-size: 16px;
 
+}
 .card-quan {
   border: 1px solid #E0E0E0;
   border-radius: 8px;
@@ -44,6 +53,7 @@
   font-size: 14px;
   min-height: 14px;
   padding-top: 50px;
+  
 }
 
 .answer {
