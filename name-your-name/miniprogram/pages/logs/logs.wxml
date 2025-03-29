@@ -56,7 +56,7 @@
         </radio-group>
       </view>
     </view>
-    <view class="card-footer"><button style="width:30vw;" class="align-right btn btn-primary" bind:tap="toCustomName">激活定制取名</button></view>
+    <view class="card-footer"><button class="align-right btn btn-primary" bind:tap="toCustomName">激活定制取名</button></view>
   </view>
 
 </scroll-view>

@@ -1,24 +1,24 @@
 <!--index.wxml-->
 <scroll-view class="scrollarea" scroll-y type="list">
-  <view class="container">
+  <view class="container llm-name">
     <text class="card-head">英文名定制专线</text>
-    <view class="card">
+    <view class="card custom-name">
       <view class="card-body">
         <text class="card-title">精准定制</text>
         <text class="card-text">根据中文名谐音，寓意</text>
         <text class="card-text">星座，MBTI</text>
         <text class="card-text">定制专属英文名</text>
-        <button style="width:20vw;" class="btn btn-primary" bind:tap="toLogs">开始定制</button>
+        <button class="btn btn-primary" bind:tap="toLogs">开始定制</button>
       </view>
     </view>
     <view class="spliter"></view>
-    <view class="card">
+    <view class="card custom-name">
       <view class="card-body">
         <text class="card-title">英文名词典</text>
         <text class="card-text">每个名字都有独特的含</text>
         <text class="card-text">义，代表着不同的个性特</text>
         <text class="card-text">征，快来查询吧！</text>
-        <button style="width:20vw;" class="btn btn-primary" bind:tap="toDict">自主查询</button>
+        <button class="btn btn-primary" bind:tap="toDict">自主查询</button>
       </view>
     </view>
   </view>

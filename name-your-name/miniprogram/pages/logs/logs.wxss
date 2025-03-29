@@ -86,3 +86,9 @@ page {
   display: flex;
   justify-content: flex-start;
 }
+
+button.align-right {
+    width: 30vw;
+    height: 10vw;
+    font-size: 16px;
+}
