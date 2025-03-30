@@ -22,7 +22,7 @@
 }
 
 .card-quan-pass {
-  background-color: #b7eb8f;
+  border: 1px solid #b7eb8f;
 }
 
 .contact {

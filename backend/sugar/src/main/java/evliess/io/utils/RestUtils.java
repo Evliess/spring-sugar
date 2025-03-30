@@ -21,9 +21,7 @@ import java.util.*;
 
 public class RestUtils {
     private static final String DPSK_CHAT_URL = "https://api.deepseek.com/chat/completions";
-    private static final String HY_CHAT_URL = "https://api.hunyuan.cloud.tencent.com/v1/chat/completions";
     private static final String QW_CHAT_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
-    private static final String OA_CHAT_URL = "https://api.openai.com/v1/chat/completions";
     private static final String SORRY_MESSAGE = "服务器繁忙，工程师正在抢修中，请稍后再试！";
 
     private static final String SYSTEM_MSG = """
@@ -62,16 +60,14 @@ public class RestUtils {
 
     private static final String USER_MESSAGE = "中文名字：%1。 性别：%2。星座或者MBTI：%3。期望寓意: %4。其他要求: %5。是否需要和中文名字发音相似：%6。";
     private static final String DPSK_MODEL = "deepseek-chat";
-    private static final String HY_MODEL = "hunyuan-turbo";
     private static final String QW_MODEl = "qwen-max";
-    private static final String OA_MODEL = "gpt-4o-mini";
 
     private static final Double TEMPERATURE = 1.9;
     private static final Logger log = LoggerFactory.getLogger(RestUtils.class);
 
     private static RestTemplate buildRestTemplate() {
-        return new RestTemplateBuilder().setConnectTimeout(Duration.ofMinutes(2l))
-                .setReadTimeout(Duration.ofMinutes(2l)).build();
+        return new RestTemplateBuilder().setConnectTimeout(Duration.ofMinutes(2L))
+                .setReadTimeout(Duration.ofMinutes(2L)).build();
     }
 
     private static String replaceUserMessage(String body) throws JsonProcessingException {
@@ -88,30 +84,14 @@ public class RestUtils {
                 .replace("%5", other).replace("%6", voice);
     }
 
-    public static String oaChat(String msg) throws JsonProcessingException {
-        RestTemplate restTemplate = buildRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "Bearer " + System.getenv("OA_API_KEY"));
-        String uuid = UUID.randomUUID().toString();
-        HttpEntity<String> request = getStringHttpEntity(uuid, OA_MODEL, headers, msg);
-        ResponseEntity<String> response = restTemplate.postForEntity(OA_CHAT_URL, request, String.class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            String respBody = response.getBody();
-            String result = convertOpenAIJsonResponse(respBody);
-            log.info("OA response: {} - {}", uuid, result);
-            return result;
-        } else {
-            log.error("Failed to chat with deepseek");
-            return null;
-        }
-    }
 
-    public static String dpskChat(String msg) throws JsonProcessingException {
+
+    public static String dpskChat(String msg, String token) throws JsonProcessingException {
+        log.info("dpsk is answering...");
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "Bearer " + System.getenv("API_KEY"));
+        headers.add("Authorization", "Bearer " + token);
         String uuid = UUID.randomUUID().toString();
         HttpEntity<String> request = getStringHttpEntity(uuid, DPSK_MODEL, headers, msg);
         ResponseEntity<String> response = restTemplate.postForEntity(DPSK_CHAT_URL, request, String.class);
@@ -126,33 +106,14 @@ public class RestUtils {
         }
     }
 
-    public static String hunYChat(String msg) throws JsonProcessingException {
-        log.info("HY is answering...");
-        RestTemplate restTemplate = buildRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "Bearer " + System.getenv("HY_API_KEY"));
-        String uuid = UUID.randomUUID().toString();
-        HttpEntity<String> request = getStringHttpEntity(uuid, HY_MODEL, headers, msg);
-        ResponseEntity<String> response = restTemplate
-                .postForEntity(HY_CHAT_URL, request, String.class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            String respBody = response.getBody();
-            String result = convertOpenAIJsonResponse(respBody);
-            log.info("HY response: {} - {}", uuid, result);
-            return result;
-        } else {
-            log.error("Failed to chat with deepseek");
-            return null;
-        }
-    }
 
-    public static String qwChat(String msg) throws JsonProcessingException {
+
+    public static String qwChat(String msg, String token) throws JsonProcessingException {
         log.info("QW is answering...");
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "Bearer " + System.getenv("QW_API_KEY"));
+        headers.add("Authorization", "Bearer " + token);
         String uuid = UUID.randomUUID().toString();
         HttpEntity<String> request = getStringHttpEntity(uuid, QW_MODEl, headers, msg);
         ResponseEntity<String> response = restTemplate

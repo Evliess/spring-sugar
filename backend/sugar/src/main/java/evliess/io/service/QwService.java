@@ -9,12 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class QwService implements Inference {
     @Override
-    public String chat(String message) throws JsonProcessingException {
-        return RestUtils.qwChat(message);
+    public String chat(String message, String token) throws JsonProcessingException {
+        return RestUtils.qwChat(message, token);
     }
 
-    @Override
-    public String chat(String message, String userPrompt, String systemPrompt) {
-        return "null";
-    }
+
 }
