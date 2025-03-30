@@ -9,6 +9,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subscription } from 'rxjs';
 import { GlobalService } from '../../services/global.service'
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 
 
@@ -16,7 +17,7 @@ import { GlobalService } from '../../services/global.service'
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css',
-  imports: [UserLoginComponent, CommonModule, NzListModule, NzButtonModule, NzInputModule, FormsModule, ],
+  imports: [UserLoginComponent, CommonModule, NzListModule, NzButtonModule, NzInputModule, FormsModule, NzTabsModule],
 })
 export class WelcomeComponent implements OnInit {
   isLogin: boolean = false;

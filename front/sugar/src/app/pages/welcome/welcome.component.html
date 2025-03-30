@@ -2,48 +2,58 @@
 
 <div *ngIf="isLogin">
 
-  <div class="deactive-token-row">
-    <input nz-input placeholder="使口令失效" nzSize="large" class="deactive-token" (change)="onDeactiveTokenChange($event)"/>
-    <button nz-button nzType="primary" (click)="deactive()" class="btn-token" nzSize="large">撤销口令</button>
-  </div>
 
-  <div class="generate-token-row">
-    <input nz-input placeholder="口令有效期，请输入纯数字！" [(ngModel)]="tokenLiveDays" nzSize="large" class="generate-token" (change)="onTokenLiveDaysChange($event)"/>
-    <button nz-button nzType="primary" (click)="getToken()" class="btn-token" nzSize="large">生成口令</button>
-  </div>
+  <nz-tabset>
+    <nz-tab nzTitle="口令管理">
+      <div class="deactive-token-row">
+        <input nz-input placeholder="使口令失效" nzSize="large" class="deactive-token" (change)="onDeactiveTokenChange($event)"/>
+        <button nz-button nzType="primary" (click)="deactive()" class="btn-token" nzSize="large">撤销口令</button>
+      </div>
     
-    <nz-list nzBordered nzSize="small">
-        @for (item of tokens; track item) {
-            <li nz-list-item nzNoFlex>
-              <ul nz-list-item-actions>
-                <nz-list-item-action>
-                  <a (click)="copy(item)">复制</a>
-                </nz-list-item-action>
-              </ul>
-              {{ item }}
-            </li>
-          }
-      </nz-list>
+      <div class="generate-token-row">
+        <input nz-input placeholder="口令有效期，请输入纯数字！" [(ngModel)]="tokenLiveDays" nzSize="large" class="generate-token" (change)="onTokenLiveDaysChange($event)"/>
+        <button nz-button nzType="primary" (click)="getToken()" class="btn-token" nzSize="large">生成口令</button>
+      </div>
+        
+        <nz-list nzBordered nzSize="small">
+            @for (item of tokens; track item) {
+                <li nz-list-item nzNoFlex>
+                  <ul nz-list-item-actions>
+                    <nz-list-item-action>
+                      <a (click)="copy(item)">复制</a>
+                    </nz-list-item-action>
+                  </ul>
+                  {{ item }}
+                </li>
+              }
+        </nz-list>
+    </nz-tab>
+    <nz-tab nzTitle="字典管理">
+      <div class="user-dict-row">
+        <textarea nz-input placeholder="女生名字" [(ngModel)]="femaleNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}"></textarea>
+        <button nz-button nzType="primary" (click)="onFemaleNamesChange()" class="btn-token" nzSize="large">录入女生名字</button>
+      </div>
+    
+    
+      <div class="user-dict-row">
+        <textarea nz-input placeholder="男生名字" [(ngModel)]="maleNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}">></textarea>
+        <button nz-button nzType="primary" (click)="onMaleNamesChange()" class="btn-token" nzSize="large">录入男生名字</button>
+      </div>
+      
+    
+    
+      <div class="user-dict-row">
+        <textarea nz-input placeholder="中性名字" [(ngModel)]="midNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}">></textarea>
+        <button nz-button nzType="primary" (click)="onMidNamesChange()" class="btn-token" nzSize="large">录入中性名字</button>
+      </div>
+    </nz-tab>
+  </nz-tabset>
 
 
 
-  <div class="user-dict-row">
-    <textarea nz-input placeholder="女生名字" [(ngModel)]="femaleNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}"></textarea>
-    <button nz-button nzType="primary" (click)="onFemaleNamesChange()" class="btn-token" nzSize="large">录入女生名字</button>
-  </div>
 
 
-  <div class="user-dict-row">
-    <textarea nz-input placeholder="男生名字" [(ngModel)]="maleNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}">></textarea>
-    <button nz-button nzType="primary" (click)="onMaleNamesChange()" class="btn-token" nzSize="large">录入男生名字</button>
-  </div>
-  
-
-
-  <div class="user-dict-row">
-    <textarea nz-input placeholder="中性名字" [(ngModel)]="midNames" nzSize="large" class="generate-token" [nzAutosize]="{ minRows: 10, maxRows: 10}">></textarea>
-    <button nz-button nzType="primary" (click)="onMidNamesChange()" class="btn-token" nzSize="large">录入中性名字</button>
-  </div>
+ 
   
 
       
