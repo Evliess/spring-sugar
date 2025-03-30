@@ -129,6 +129,13 @@
   height: 40px;
 }
 
+.wait-indictor {
+  width: 100%;
+  text-align: center;
+  margin-top: 4px;
+  margin-left: -4px;
+}
+
 
 .wait-msg {
  margin-left: 48px;

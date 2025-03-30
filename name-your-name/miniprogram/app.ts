@@ -33,7 +33,6 @@ App({
             this.globalData.openId = res.data.openId;
           },
           fail:()=> {
-           
           }
         });
       },
@@ -45,16 +44,5 @@ App({
       source: 'url("http://localhost:8080/public/fonts/SourceHanSerifCN-Regular.otf")',
     });
 
-    // wx.loadFontFace({
-    //   family: 'hs-Bold',
-    //   global: true,
-    //   source: 'url("http://localhost:8080/public/fonts/SourceHanSerifSC-Bold.otf")',
-    // });
-
-    // wx.loadFontFace({
-    //   family: 'hs-Light',
-    //   global: true,
-    //   source: 'url("http://localhost:8080/public/fonts/SourceHanSerifSC-Light.otf")',
-    // });
   },
 })
