@@ -45,6 +45,10 @@ public class AuditTokenService {
         }
     }
 
+    public void saveAuditToken(String openid, String type) {
+        saveAudit(openid, "free", type);
+    }
+
     public List<String> findUsersByToken() {
         return this.auditTokenRepository.findUsersByToken();
     }

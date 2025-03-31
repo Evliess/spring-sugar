@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import evliess.io.config.Constants;
 import evliess.io.entity.NameDict;
+import evliess.io.service.AuditTokenService;
 import evliess.io.service.NameDictService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,9 @@ public class NameDictController {
     @Autowired
     private NameDictService nameDictService;
 
+    @Autowired
+    private AuditTokenService auditTokenService;
+
     @PostMapping("/public/dict/type")
     public ResponseEntity<String> getAllByType(@RequestBody String body) {
         JSONObject jsonObject = new JSONObject();
@@ -29,7 +33,7 @@ public class NameDictController {
         try {
             JSONObject jsonNode = JSON.parseObject(body);
             String openId = jsonNode.getString(Constants.X_OPENID);
-            log.info(openId);
+            auditTokenService.saveAuditToken(openId, Constants.TYPE_DICT);
             type = jsonNode.getString("type");
             if (type == null || type.isEmpty()) {
                 jsonObject.put("msg", "type is empty");
