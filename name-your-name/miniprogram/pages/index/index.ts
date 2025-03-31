@@ -16,7 +16,7 @@ Component({
     },
     toDict() {
       wx.navigateTo({
-        url: '../dict-search/dict-search',
+        url: '../dict-select/dict-select',
       })
     },
   },
