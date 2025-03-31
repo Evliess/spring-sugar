@@ -3,8 +3,11 @@ package evliess.io.controller;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import evliess.io.config.Constants;
 import evliess.io.entity.NameDict;
 import evliess.io.service.NameDictService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,9 +18,43 @@ import java.util.List;
 
 @Controller
 public class NameDictController {
+    private static final Logger log = LoggerFactory.getLogger(NameDictController.class);
     @Autowired
     private NameDictService nameDictService;
 
+    @PostMapping("/public/dict/type")
+    public ResponseEntity<String> getAllByType(@RequestBody String body) {
+        JSONObject jsonObject = new JSONObject();
+        String type;
+        try {
+            JSONObject jsonNode = JSON.parseObject(body);
+            String openId = jsonNode.getString(Constants.X_OPENID);
+            log.info(openId);
+            type = jsonNode.getString("type");
+            if (type == null || type.isEmpty()) {
+                jsonObject.put("msg", "type is empty");
+            } else {
+                List<NameDict> nameDicts = nameDictService.findAllByType(type);
+                if (nameDicts == null || nameDicts.isEmpty()) {
+                    jsonObject.put("msg", "type not found");
+                } else {
+                    JSONArray jsonArray = new JSONArray();
+                    nameDicts.forEach(nameDict -> {
+                        JSONObject object = new JSONObject();
+                        object.put("name", nameDict.getName());
+                        object.put("meaning", nameDict.getMeaning());
+                        object.put("type", nameDict.getType());
+                        jsonArray.add(object);
+                    });
+                    jsonObject.put("names", jsonArray);
+                }
+            }
+            return ResponseEntity.ok(jsonObject.toString());
+        } catch (Exception e) {
+            jsonObject.put("msg", body);
+            return ResponseEntity.ok(jsonObject.toString());
+        }
+    }
 
     @PostMapping("/public/dict/name")
     public ResponseEntity<String> getByName(@RequestBody String body) {

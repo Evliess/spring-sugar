@@ -29,6 +29,11 @@ public class NameDictService {
         return nameDictRepository.findManyByName(name, type);
     }
 
+
+    public List<NameDict> findAllByType(String type) {
+        return nameDictRepository.findAllByType(type);
+    }
+
     public void insertOrUpdate(String body, String type) {
         body.lines().forEach(line -> {
             String[] values = line.split("::");

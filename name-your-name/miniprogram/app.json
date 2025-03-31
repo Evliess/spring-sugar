@@ -4,7 +4,8 @@
     "pages/logs/logs",
     "pages/custom-name/custom-name",
     "pages/dict-search/dict-search",
-    "pages/g-result/g-result"
+    "pages/g-result/g-result",
+    "pages/dict-select/dict-select"
   ],
   "window": {
     "navigationBarTextStyle": "black",

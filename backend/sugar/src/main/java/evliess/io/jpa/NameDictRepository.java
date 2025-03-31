@@ -19,4 +19,7 @@ public interface NameDictRepository extends JpaRepository<NameDict, Long> {
 
     @Query("SELECT a FROM NameDict a WHERE a.name LIKE %?1% and a.type = ?2")
     List<NameDict> findManyByName(String name, String type);
+
+    @Query("SELECT a FROM NameDict a WHERE a.type = ?1")
+    List<NameDict> findAllByType(String type);
 }

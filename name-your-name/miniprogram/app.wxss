@@ -44,7 +44,7 @@ page {
 
 .card-head {
   font-size: 20px;
-  color: #666;
+  color: #6e6e6e;
   margin-bottom: 16px;
   display: block;
   font-weight: 800;
@@ -52,7 +52,7 @@ page {
 
 .card-text {
   font-size: 20px;
-  color: #666;
+  color: #6e6e6e;
   margin-bottom: 16px;
   display: block;
   font-weight: 600;

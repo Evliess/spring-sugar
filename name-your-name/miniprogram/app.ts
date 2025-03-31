@@ -12,7 +12,10 @@ App({
       meaning: '',
       other: '',
       voice: true
-    }
+    },
+    midNames: [],
+    femaleNames: [],
+    maleNames:[]
   },
   towxml: require('/towxml/index'),
   onLaunch() {
