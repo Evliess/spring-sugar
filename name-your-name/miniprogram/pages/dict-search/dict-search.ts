@@ -54,34 +54,11 @@ Page({
     this.setData({"answer": obj});
   },
 
-  onReady() {
-
-  },
-
-  onShow() {
-
-  },
-
-
-  onHide() {
-
-  },
-
-
-  onUnload() {
-
-  },
-
-
-  onPullDownRefresh() {
-
-  },
-
-  onReachBottom() {
-
-  },
-
-  onShareAppMessage() {
-
-  }
+  onReady() {},
+  onShow() {},
+  onHide() {},
+  onUnload() {},
+  onPullDownRefresh() {},
+  onReachBottom() {},
+  onShareAppMessage() {}
 })

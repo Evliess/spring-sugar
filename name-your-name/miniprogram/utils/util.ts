@@ -1,19 +1,32 @@
-export const formatTime = (date: Date) => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return (
-    [year, month, day].map(formatNumber).join('/') +
-    ' ' +
-    [hour, minute, second].map(formatNumber).join(':')
-  )
+interface RequestOptions {
+  url: string,
+  method: string,
+  data?: any,
+  header?: any
+}
+const BASE_URL = 'http://localhost:8080';
+export const request = <T = any>(options: RequestOptions) : Promise<T> => {
+  return new Promise((resolve, reject)=> {
+    wx.request({
+      url: BASE_URL + options.url,
+      method: options.method,
+      data: options.data || {},
+      header: options.header || {},
+      success: (res) => {
+        if(res.statusCode == 200) {
+          resolve(res.data as T);
+        } else {
+          reject(res)
+        }
+      },
+      fail: (err) => {reject(err);},
+    });
+  });
 }
 
-const formatNumber = (n: number) => {
-  const s = n.toString()
-  return s[1] ? s : '0' + s
-}
+export const fetchDictNamesByType = (url: string, type: string, openId: string) => request<any>({url: url, method: 'POST', data: {"type": type, 'X-Openid': openId}});
+
+export const fetchValidToken = (url: string, openId: string) => request<any>({url: url, method: 'POST', data: {"openId": openId}});
+
+export const fetchSugar = (url: string, openId: string, token: string, data: any)=> request<any>({url: url, method: 'POST', data: data, 
+header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId}});

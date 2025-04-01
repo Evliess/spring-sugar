@@ -1,115 +1,40 @@
-// pages/dict-select/dict-select.ts
+import {fetchDictNamesByType} from '../../utils/util'
+
 Page({
+  data: {},
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
-
-  onTapFemale(){
+  async onTapFemale() {
     const app = getApp();
-    wx.request({
-      url: 'http://localhost:8080/public/dict/type',
-      method: 'POST',
-      data: {"type": "female", 'X-Openid': app.globalData.openId},
-      header: {'content-type': 'application/json'},
-      success: (res) => {
-        app.globalData.femaleNames = res.data.names;
-        wx.navigateTo({
-          url: "../dict-search/dict-search?type=female",
-        })
-      },
-      fail:()=> {}
-    });
+    try {
+      const data = await fetchDictNamesByType("/public/dict/type", "female", app.globalData.openId);
+      app.globalData.femaleNames = data.names;
+      wx.navigateTo({url: "../dict-search/dict-search?type=female"})
+    } catch(error) {console.error("failed");}
   },
-  onTapMale(){
+
+  async onTapMale(){
     const app = getApp();
-    wx.request({
-      url: 'http://localhost:8080/public/dict/type',
-      method: 'POST',
-      data: {"type": "male", 'X-Openid': app.globalData.openId},
-      header: {'content-type': 'application/json'},
-      success: (res) => {
-        app.globalData.maleNames = res.data.names;
-        wx.navigateTo({
-          url: "../dict-search/dict-search?type=male",
-        })
-      },
-      fail:()=> {}
-    });
+    try {
+      const data = await fetchDictNamesByType("/public/dict/type", "male", app.globalData.openId);
+      app.globalData.femaleNames = data.names;
+      wx.navigateTo({url: "../dict-search/dict-search?type=female"})
+    } catch(error) {console.error("failed");}
   },
-  onTapMid(){
+  async onTapMid(){
     const app = getApp();
-    wx.request({
-      url: 'http://localhost:8080/public/dict/type',
-      method: 'POST',
-      data: {"type": "mid", 'X-Openid': app.globalData.openId},
-      header: {'content-type': 'application/json'},
-      success: (res) => {
-        app.globalData.midNames = res.data.names;
-        wx.navigateTo({
-          url: "../dict-search/dict-search?type=mid",
-        })
-      },
-      fail:()=> {}
-    });
+    try {
+      const data = await fetchDictNamesByType("/public/dict/type", "mid", app.globalData.openId);
+      app.globalData.femaleNames = data.names;
+      wx.navigateTo({url: "../dict-search/dict-search?type=female"})
+    } catch(error) {console.error("failed");}
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+  onLoad() {},
+  onReady() {},
+  onShow() {},
+  onHide() {},
+  onUnload() {},
+  onPullDownRefresh() {},
+  onReachBottom() {},
+  onShareAppMessage() {}
 })

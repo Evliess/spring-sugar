@@ -1,8 +1,7 @@
-// pages/g-result/g-result.ts
+import { fetchSugar } from '../../utils/util'
 Page({
   data: {
     answer: {},
-    answerInString: '',
     showIndictor: false,
   },
 
@@ -17,53 +16,32 @@ Page({
     this.setData({"answer": obj});
   },
 
-  callApi(data: any) {
-    const app = getApp();
-    this.setData({"showIndictor": true});
-    const token = app.globalData.token;
-    const openId = app.globalData.openId;
-    this.setData({"showIndictor": true});
-    wx.request({
-      url: 'http://localhost:8080/private/sugar',
-      method: 'POST',
-      data: data,
-      header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId},
-      success: (res) => {
-        if (res.statusCode === 401) {
-          this.setData({"showIndictor": false});
-          wx.showToast({
-            title: '券码无效！',
-            duration: 1000
-          });
-          this.setData({"showIndictor": false});
-          wx.redirectTo({
-            url: '/pages/custom-name/custom-name',
-          })
-          return;
-        }
-        this.setData({"showIndictor": false});
-        app.globalData.answer = res.data.toString();
-        this.data.answerInString = res.data.toString();
-        const obj = app.towxml(
-          res.data, 'markdown', {theme: 'light'}
-        );
-        this.setData({"answer": obj});
-      },
-      fail:()=> {
-        this.setData({"showIndictor": false});
-      }
-    });
-  },
-
   editInput() {
     wx.redirectTo({
       url: '/pages/logs/logs',
     })
   },
-  sendRequest(){
+  async sendRequest(){
+    this.setData({"showIndictor": true});
     const app = getApp();
-    const data = app.globalData.userInput;
-    this.callApi(data);
+    const userInput = app.globalData.userInput;
+    const token = app.globalData.token;
+    const openId = app.globalData.openId;
+    try {
+      this.setData({"showIndictor": false});
+      const resp = await fetchSugar("/private/sugar", openId, token, userInput);
+      app.globalData.answer = resp;
+      const obj = app.towxml(resp, 'markdown', {theme: 'light'});
+      this.setData({"answer": obj});
+    } catch(e) {
+        wx.showToast({title: '券码无效！', duration: 1000});
+        this.setData({"showIndictor": false});
+        wx.redirectTo({
+          url: '/pages/custom-name/custom-name',
+        })
+        app.globalData.validToken = false;
+        return;
+    }
   },
 
   onReady() {},
