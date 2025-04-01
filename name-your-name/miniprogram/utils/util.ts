@@ -12,6 +12,7 @@ export const request = <T = any>(options: RequestOptions) : Promise<T> => {
       method: options.method,
       data: options.data || {},
       header: options.header || {},
+      timeout: 120000,
       success: (res) => {
         if(res.statusCode == 200) {
           resolve(res.data as T);
@@ -25,8 +26,6 @@ export const request = <T = any>(options: RequestOptions) : Promise<T> => {
 }
 
 export const fetchDictNamesByType = (url: string, type: string, openId: string) => request<any>({url: url, method: 'POST', data: {"type": type, 'X-Openid': openId}});
-
 export const fetchValidToken = (url: string, openId: string) => request<any>({url: url, method: 'POST', data: {"openId": openId}});
-
 export const fetchSugar = (url: string, openId: string, token: string, data: any)=> request<any>({url: url, method: 'POST', data: data, 
-header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId}});
+                            header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId}});

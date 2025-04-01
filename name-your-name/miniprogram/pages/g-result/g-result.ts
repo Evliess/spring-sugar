@@ -28,11 +28,11 @@ Page({
     const token = app.globalData.token;
     const openId = app.globalData.openId;
     try {
-      this.setData({"showIndictor": false});
       const resp = await fetchSugar("/private/sugar", openId, token, userInput);
       app.globalData.answer = resp;
       const obj = app.towxml(resp, 'markdown', {theme: 'light'});
       this.setData({"answer": obj});
+      this.setData({"showIndictor": false});
     } catch(e) {
         wx.showToast({title: '券码无效！', duration: 1000});
         this.setData({"showIndictor": false});

@@ -1,4 +1,4 @@
-const app = getApp<IAppOption>()
+import { fetchValidToken } from '../../utils/util'
 
 Component({
   data: {
@@ -6,7 +6,16 @@ Component({
     
   },
   methods: {
-    toLogs() {
+    async toLogs() {
+      const app = getApp();
+      const openId = app.globalData.openId;
+      try {
+        const resp = await fetchValidToken("/public/audit/user-token", openId);
+        if (resp.token != "token") {
+          app.globalData.token = resp.token;
+          app.globalData.validToken = true;
+        }
+      } catch(error) {}
       wx.navigateTo({
         url: '../logs/logs',
       })

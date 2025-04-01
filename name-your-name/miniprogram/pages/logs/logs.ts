@@ -1,4 +1,4 @@
-import { fetchValidToken } from '../../utils/util'
+import { fetchSugar } from '../../utils/util'
 
 Component({
   data: {
@@ -10,7 +10,8 @@ Component({
       meaning: '',
       other: '',
       voice: true
-    }
+    },
+    showIndictor: false,
   },
   methods: {
     onNameChange(e: any) {
@@ -57,22 +58,29 @@ Component({
     async toCustomName(){
       const app = getApp();
       app.globalData.userInput = this.data.userInput;
-      const openId = app.globalData.openId;
-      try {
-        const resp = await fetchValidToken("/public/audit/user-token", openId);
-        if (resp.token != "token") {
-          app.globalData.token = resp.token;
-          app.globalData.validToken = true;
+      if (!app.globalData.validToken) {
+        wx.navigateTo({url: '../custom-name/custom-name'})
+      } else {
+        this.setData({"showIndictor": true});
+        const openId = app.globalData.openId;
+        const token =  app.globalData.token;
+        try {
+          const resp = await fetchSugar("/private/sugar", openId, token, app.globalData.userInput);
+          app.globalData.answer = resp;
+          this.setData({"showIndictor": false});
+          wx.navigateTo({url: '/pages/g-result/g-result',});
+        } catch(e) {
+          this.setData({"showIndictor": false});
+          return;
         }
-      } catch(error) {}
-      wx.navigateTo({url: '../custom-name/custom-name'})
+      }      
     },
   },
   lifetimes: {
     attached() {
       const app = getApp();
       const userInput = app.globalData.userInput;
-      if (userInput.name != "") {
+      if (userInput && userInput.name != "") {
         this.setData({"userInput": app.globalData.userInput});
       }
     },
