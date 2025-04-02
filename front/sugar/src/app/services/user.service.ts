@@ -7,14 +7,17 @@ import { Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
 
   constructor(private http:HttpClient) { }
-
+  
+  // BASE_URL = 'http://localhost:8080';
+  BASE_URL = 'https://www.tyty.wang';
   tokens: Array<string> = [];
 
   getToken(user: string, tokenLiveDays: string): Array<string> {
-    const apiUrl = 'http://localhost:8080/private/tokens';
+    const apiUrl = this.BASE_URL + '/private/tokens';
     const headers = {
       "X-Openid": user
     };
@@ -28,7 +31,7 @@ export class UserService {
   }
 
   deactive(user: string, token: string): Observable<any> {
-    const apiUrl = 'http://localhost:8080/private/token/deactive';
+    const apiUrl = this.BASE_URL + '/private/token/deactive';
     const body = {"token": token};
     const headers = {
       "X-Openid": user
@@ -37,7 +40,7 @@ export class UserService {
   }
 
   login(name: string, key: string): Observable<any> {
-    const apiUrl = 'http://localhost:8080/public/user';
+    const apiUrl = this.BASE_URL + '/public/user';
     const body = {
       "name": name,
       "key": key
@@ -46,7 +49,7 @@ export class UserService {
   }
 
   getAuditInfo(timeSpan: string): Observable<any[]> {
-    const apiUrl = 'http://localhost:8080/public/audit/time-span';
+    const apiUrl = this.BASE_URL + '/public/audit/time-span';
     const body = {
       "timeSpan": timeSpan
     }
@@ -72,15 +75,15 @@ export class UserService {
 
   insertNames(names: string, type: string): Observable<any> {
     if(type == "female") {
-      const apiUrl = 'http://localhost:8080/public/dict/batch/female';
+      const apiUrl = this.BASE_URL + '/public/dict/batch/female';
       return this.http.post(apiUrl, names);
     }
     if (type == "male") {
-      const apiUrl = 'http://localhost:8080/public/dict/batch/male';
+      const apiUrl = this.BASE_URL + '/public/dict/batch/male';
       return this.http.post(apiUrl, names);
     }
     if (type == "mid") {
-      const apiUrl = 'http://localhost:8080/public/dict/batch/mid';
+      const apiUrl = this.BASE_URL + '/public/dict/batch/mid';
       return this.http.post(apiUrl, names);
     }
     return new Observable();
