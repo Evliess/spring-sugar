@@ -18,6 +18,7 @@ App({
     maleNames:[]
   },
   towxml: require('/towxml/index'),
+  BASE_URL: 'https://www.tyty.wang',
   onLaunch() {
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
@@ -28,7 +29,7 @@ App({
     wx.login({
       success: res => {
         wx.request({
-          url: 'https://www.tyty.wang/public/uid',
+          url: this.BASE_URL + '/public/uid',
           method: 'POST',
           data: {"code": res.code},
           header: {'content-type': 'application/json'},
@@ -44,7 +45,7 @@ App({
     wx.loadFontFace({
       family: 'hs-Regular',
       global: true,
-      source: 'url("http://localhost:8080/public/fonts/SourceHanSerifCN-Regular.otf")',
+      source: 'url('+this.BASE_URL+'/public/fonts/SourceHanSerifCN-Regular.ttf)',
     });
 
   },
