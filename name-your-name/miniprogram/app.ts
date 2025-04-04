@@ -28,7 +28,7 @@ App({
     wx.login({
       success: res => {
         wx.request({
-          url: 'http://localhost:8080/public/uid',
+          url: 'https://www.tyty.wang/public/uid',
           method: 'POST',
           data: {"code": res.code},
           header: {'content-type': 'application/json'},
