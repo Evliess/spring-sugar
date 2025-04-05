@@ -1,6 +1,6 @@
 <view class="container">
   <view class="line-1">
-    <input class="name-input" placeholder="请输入名字的开头，例如：A" bind:change="onNameChange" />
+    <input class="name-input" placeholder="请输入名字的开头，例如：A" bind:change="onNameChange" placeholder-class="placeholder-class"/>
     <button style="width:20vw;" class="btn btn-primary btn-search" bind:tap="sendRequest">筛选</button>
   </view>
 

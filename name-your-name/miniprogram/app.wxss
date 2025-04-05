@@ -112,3 +112,7 @@ page {
   opacity: 0.7 !important; 
   cursor: not-allowed !important;
 }
+
+.placeholder-class {
+  font-family: 'hs-Regular', 'Courier New', Courier, monospace;
+}
