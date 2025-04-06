@@ -19,7 +19,7 @@
         <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bind:change="onNameChange" value="{{userInput.name}}" placeholder-class="placeholder-class"/>
       </view>
       <view class="nickname-wrapper">
-        <text class="nickname-label">性别：</text>
+        <text class="nickname-label">性别</text>
         <radio-group bindchange="onSexChange">
           <label class="radio-item">
             <radio value="男" checked="{{userInput.sex == '男'}}"/> 男

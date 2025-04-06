@@ -23,7 +23,7 @@ page {
 .card-text {
   display: flex;
   align-items: center; /* 垂直居中对齐 */
-  font-size: 14px; /* 设置文本大小 */
+  font-size: 28rpx; /* 设置文本大小 */
   color: #333; /* 设置文本颜色 */
 }
 
@@ -55,7 +55,7 @@ page {
 }
 
 .radio-item {
-  margin-right: 16px;
+  margin-right: 16rpx;
   font-size: 14px;
   color: #333;
 }
@@ -63,7 +63,7 @@ page {
 .nickname-wrapper {
   display: flex;
   width: 100%;
-  padding: 16px;
+  padding: 10rpx 32rpx;
   box-sizing: border-box;
   border-top: .5px solid transparent;
   border-bottom: .5px solid transparent;
@@ -73,8 +73,15 @@ page {
   border-top: 0px solid transparent;
 }
 
+.nickname-wrapper input, .nickname-wrapper radio-group {
+  height: 80rpx;
+}
+.nickname-wrapper .radio-item {
+  padding-top: 10px;
+}
 .nickname-label {
-  width: 105px;
+  width: 210rpx;
+  padding-top: 16rpx;
 }
 
 .nickname-input {
@@ -82,14 +89,14 @@ page {
 }
 
 .card-footer {
-  padding: 16px 0;
+  padding: 16px 0 0 0;
   display: flex;
   justify-content: flex-start;
 }
 
 button.align-right {
-    width: 30vw;
-    height: 10vw;
+    width: 120px;
+    height: 40px;
     font-size: 16px;
 }
 
