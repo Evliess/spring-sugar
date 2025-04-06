@@ -73,11 +73,17 @@ page {
   border-top: 0px solid transparent;
 }
 
-.nickname-wrapper input, .nickname-wrapper radio-group {
+.nickname-wrapper input {
   height: 80rpx;
 }
-.nickname-wrapper .radio-item {
-  padding-top: 10px;
+.nickname-wrapper .sex-group {
+  margin-top: 8px;
+  height: 70rpx;
+}
+
+.nickname-wrapper .voice-group {
+  margin-top: 14px;
+  height: 70rpx;
 }
 .nickname-label {
   width: 210rpx;
@@ -86,6 +92,10 @@ page {
 
 .nickname-input {
   flex: 1;
+}
+
+.card-body {
+  padding: 12px 0px 12px 4px;
 }
 
 .card-footer {

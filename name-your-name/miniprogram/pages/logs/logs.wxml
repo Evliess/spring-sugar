@@ -20,7 +20,7 @@
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">性别</text>
-        <radio-group bindchange="onSexChange">
+        <radio-group bindchange="onSexChange" class="sex-group">
           <label class="radio-item">
             <radio value="男" checked="{{userInput.sex == '男'}}"/> 男
           </label>
@@ -46,7 +46,7 @@
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">是否需要和中文发音一致</text>
-        <radio-group bindchange="onVoiceChange">
+        <radio-group bindchange="onVoiceChange" class="voice-group">
           <label class="radio-item">
             <radio value="是" checked="{{userInput.voice == '是'}}"/> 是
           </label>
