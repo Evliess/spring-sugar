@@ -9,7 +9,7 @@
 
   <!-- 下半部分：两个按钮 -->
   <view class="button-container">
-    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-primary btn-edit" bind:tap="editInput">返回修改</button>
+    <button disabled="{{showIndictor}}" style="width:80px;" class="btn btn-primary btn-edit" bind:tap="editInput">返回修改</button>
     <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
       <view class="wait-indictor">
         <view class="msg">
@@ -23,6 +23,6 @@
         </view>
       </view>
     </view>
-    <button disabled="{{showIndictor}}" style="width:20vw;" class="btn btn-primary btn-req" bind:tap="sendRequest">再来一组</button>
+    <button disabled="{{showIndictor}}" style="width:80px;" class="btn btn-primary btn-req" bind:tap="sendRequest">再来一组</button>
   </view>
 </view>
