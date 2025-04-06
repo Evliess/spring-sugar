@@ -15,9 +15,9 @@ Page({
   },
   sendRequest() {
     const app = getApp();
-    let keyword = this.data.name.toLowerCase();
+    let keyword = this.data.name.trimEnd();
     const filterdNames = this.data.allNames.filter(item => {
-      return item.name.toLowerCase().includes(keyword)}
+      return item.name.startsWith(keyword)}
     );
     let names = "";
     filterdNames.forEach((item) => {

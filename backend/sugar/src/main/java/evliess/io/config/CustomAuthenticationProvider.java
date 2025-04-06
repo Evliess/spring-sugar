@@ -36,7 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 return authentication;
             }
             String credentials = authentication.getCredentials().toString();
-            if (TokenUtils.isValidToken(credentials) && sugarUserService.findByToken(credentials) != null) {
+            if (TokenUtils.isValidToken(credentials) && TokenUtils.isValidOpenid(principal)) {
                 List<SimpleGrantedAuthority> roles = List.of();
                 return new UsernamePasswordAuthenticationToken(principal + Constants.DOUBLE_COLON + credentials, credentials, roles);
             } else {

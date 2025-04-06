@@ -7,6 +7,7 @@ import evliess.io.config.Constants;
 import evliess.io.entity.NameDict;
 import evliess.io.service.AuditTokenService;
 import evliess.io.service.NameDictService;
+import evliess.io.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,12 @@ public class NameDictController {
             JSONObject jsonNode = JSON.parseObject(body);
             String openId = jsonNode.getString(Constants.X_OPENID);
             auditTokenService.saveAuditToken(openId, Constants.TYPE_DICT);
+            if (!TokenUtils.isValidOpenid(openId)) {
+                JSONObject object = new JSONObject();
+                JSONArray jsonArray = new JSONArray();
+                object.put("names", jsonArray);
+                return ResponseEntity.ok(object.toString());
+            }
             type = jsonNode.getString("type");
             if (type == null || type.isEmpty()) {
                 jsonObject.put("msg", "type is empty");

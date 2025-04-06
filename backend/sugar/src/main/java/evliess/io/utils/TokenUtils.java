@@ -62,4 +62,11 @@ public class TokenUtils {
         long time = Long.parseLong(decodedTime);
         return Instant.ofEpochMilli(time).isAfter(Instant.now());
     }
+
+    public static boolean isValidOpenid(String openid) {
+        if (openid == null || openid.isEmpty()) {
+            return false;
+        }
+        return 28 == openid.length();
+    }
 }

@@ -20,7 +20,7 @@ public class NameDictService {
         return nameDictRepository.findByName(name, type);
     }
 
-    public void insertByName(String name, String meaning, String type){
+    public void insertByName(String name, String meaning, String type) {
         NameDict nameDict = new NameDict(name, meaning, type, "");
         nameDictRepository.save(nameDict);
     }
@@ -47,4 +47,6 @@ public class NameDictService {
             }
         });
     }
+
+
 }
