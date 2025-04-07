@@ -86,43 +86,46 @@ public class RestUtils {
 
 
     public static String dpskChat(String msg, String token) throws JsonProcessingException {
-        log.info("dpsk is answering...");
-        RestTemplate restTemplate = buildRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "Bearer " + token);
         String uuid = UUID.randomUUID().toString();
-        HttpEntity<String> request = getStringHttpEntity(uuid, DPSK_MODEL, headers, msg);
-        ResponseEntity<String> response = restTemplate.postForEntity(DPSK_CHAT_URL, request, String.class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            String respBody = response.getBody();
-            String result = convertOpenAIJsonResponse(respBody);
-            log.info("DP response: {} - {}", uuid, result);
-            return result;
+        log.info("DP is answering: {}", uuid);
+        String resp = postChat(msg, token, DPSK_MODEL, DPSK_CHAT_URL, uuid);
+        if (resp == null) {
+            log.error("Failed to chat with DP");
         } else {
-            log.error("Failed to chat with deepseek");
-            return null;
+            log.info("DP response: {} - {}", uuid, resp);
         }
+        return resp;
     }
 
 
     public static String qwChat(String msg, String token) throws JsonProcessingException {
-        log.info("QW is answering...");
+        String uuid = UUID.randomUUID().toString();
+        log.info("QW is answering: {}", uuid);
+        String resp = postChat(msg, token, QW_MODEl, QW_CHAT_URL, uuid);
+        if (resp == null) {
+            log.error("Failed to chat with qw");
+        } else {
+            log.info("QW response: {} - {}", uuid, resp);
+        }
+        return resp;
+    }
+
+    private static String postChat(String msg, String token, String model, String url, String uuid) throws JsonProcessingException {
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         headers.add("Authorization", "Bearer " + token);
-        String uuid = UUID.randomUUID().toString();
-        HttpEntity<String> request = getStringHttpEntity(uuid, QW_MODEl, headers, msg);
-        ResponseEntity<String> response = restTemplate
-                .postForEntity(QW_CHAT_URL, request, String.class);
-        if (response.getStatusCode() == HttpStatus.OK) {
-            String respBody = response.getBody();
-            String result = convertOpenAIJsonResponse(respBody);
-            log.info("QW response: {} - {}", uuid, result);
-            return result;
-        } else {
-            log.error("Failed to chat with qw");
+        HttpEntity<String> request = getStringHttpEntity(uuid, model, headers, msg);
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                String respBody = response.getBody();
+                return convertOpenAIJsonResponse(respBody);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("{}:{}", uuid, e.getMessage(), e);
             return null;
         }
     }
