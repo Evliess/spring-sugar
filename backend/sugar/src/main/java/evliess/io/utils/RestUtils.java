@@ -60,7 +60,7 @@ public class RestUtils {
 
     private static final String USER_MESSAGE = "中文名字：%1。 性别：%2。星座或者MBTI：%3。期望寓意: %4。其他要求: %5。是否需要和中文名字发音相似：%6。";
     private static final String DPSK_MODEL = "deepseek-chat";
-    private static final String QW_MODEl = "qwen-max";
+    private static final String QW_MODEl = "deepseek-r1";
 
     private static final Double TEMPERATURE = 1.9;
     private static final Logger log = LoggerFactory.getLogger(RestUtils.class);
