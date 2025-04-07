@@ -68,7 +68,6 @@ public class SugarService {
             }
             executor.shutdown();
 
-
         if (dpskResponse0.get() != null && !dpskResponse0.get().isEmpty()) {
             response = dpskResponse0.get();
         } else if (dpskResponse1.get() != null && !dpskResponse1.get().isEmpty()) {
@@ -76,7 +75,7 @@ public class SugarService {
         } else if (qwResponse.get() != null && !qwResponse.get().isEmpty()) {
             response = qwResponse.get();
         } else {
-            response = "请点击返回编辑试试！";
+            response = "请点击返回修改试试！";
         }
         return response;
     }

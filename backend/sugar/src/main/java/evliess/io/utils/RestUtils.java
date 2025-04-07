@@ -160,7 +160,7 @@ public class RestUtils {
 
     public static String jsonArrayToString(String resp) {
         if (resp == null || resp.isEmpty()) {
-            return "没有找到合适的名字，请等会再试试！";
+            return null;
         }
         if (resp.startsWith("```json") && resp.endsWith("```")) {
             resp = resp.replace("```json", "");
@@ -171,7 +171,7 @@ public class RestUtils {
             jsonArray = JSON.parseArray(resp);
         } catch (Exception e) {
             log.error("{}", resp);
-            return "";
+            return null;
         }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < jsonArray.size(); i++) {
