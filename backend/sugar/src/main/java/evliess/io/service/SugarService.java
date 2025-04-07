@@ -6,9 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -23,57 +24,60 @@ public class SugarService {
         this.qwService = qwService;
     }
 
-    public String chat(String message) {
-        String response;
-        AtomicReference<String> dpskResponse0 = new AtomicReference<>("");
-        AtomicReference<String> dpskResponse1 = new AtomicReference<>("");
-        AtomicReference<String> qwResponse = new AtomicReference<>("");
-        int numThreads = 3;
-        CountDownLatch latch = new CountDownLatch(numThreads);
-        ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-            executor.submit(() -> {
-                try {
-                    dpskResponse0.set(RestUtils.jsonArrayToString(dpskService.chat(message, System.getenv("API_KEY0"))));
-                } catch (Exception e) {
-                    dpskResponse0.set(null);
-                    log.error("Error in dpsk.chat", e);
-                } finally {
-                    latch.countDown();
-                }
-            });
-            executor.submit(() -> {
-                try {
-                    dpskResponse1.set(RestUtils.jsonArrayToString(dpskService.chat(message, System.getenv("API_KEY1"))));
-                } catch (Exception e) {
-                    dpskResponse1.set(null);
-                    log.error("Error in dpsk.chat", e);
-                } finally {
-                    latch.countDown();
-                }
-            });
-            executor.submit(() -> {
-                try {
-                    qwResponse.set(RestUtils.jsonArrayToString(qwService.chat(message, System.getenv("QW_API_KEY"))));
-                } catch (Exception e) {
-                    qwResponse.set(null);
-                    log.error("Error in qw.chat", e);
-                } finally {
-                    latch.countDown();
-                }
-            });
+    private CompletableFuture<String> createFuture(String message, String apiKeyEnv) {
+        return CompletableFuture.supplyAsync(() -> {
             try {
-                latch.await();
-            } catch (InterruptedException e) {
-                log.error("Error in latch.await", e);
+                if (apiKeyEnv.equals("QW_API_KEY")) {
+                    return RestUtils.jsonArrayToString(qwService.chat(message, System.getenv(apiKeyEnv)));
+                } else {
+                    return RestUtils.jsonArrayToString(dpskService.chat(message, System.getenv(apiKeyEnv)));
+                }
+            } catch (Exception e) {
+                log.error("{}", e.getMessage(), e);
+                return null;
             }
-            executor.shutdown();
+        }).thenApply(answer -> {
+            if (answer != null && !answer.isEmpty()) {
+                return answer;
+            }
+            return null;
+        }).exceptionally(e -> null);
+    }
 
-        if (dpskResponse0.get() != null && !dpskResponse0.get().isEmpty()) {
-            response = dpskResponse0.get();
-        } else if (dpskResponse1.get() != null && !dpskResponse1.get().isEmpty()) {
-            response = dpskResponse1.get();
-        } else if (qwResponse.get() != null && !qwResponse.get().isEmpty()) {
-            response = qwResponse.get();
+    public String chat(String message) {
+        CompletableFuture<String> future1 = createFuture(message, "QW_API_KEY");
+        CompletableFuture<String> future2 = createFuture(message, "API_KEY0");
+        CompletableFuture<String> future3 = createFuture(message, "API_KEY1");
+        List<CompletableFuture<String>> futureList = new ArrayList<>();
+        futureList.add(future1);
+        futureList.add(future2);
+        futureList.add(future3);
+        CompletableFuture<Object> firstValid = CompletableFuture.anyOf(
+                futureList.toArray(new CompletableFuture[0])
+        );
+        CompletableFuture<Void> allDone = CompletableFuture.allOf(
+                futureList.toArray(new CompletableFuture[0])
+        );
+        AtomicReference<String> finalResult = new AtomicReference<>("");
+        CompletableFuture.anyOf(firstValid, allDone).thenAcceptAsync(result -> {
+                    if (result instanceof String) {
+                        finalResult.set((String) result);
+                    } else {
+                        String validResult = futureList.stream()
+                                .map(f -> {
+                                    try {
+                                        return f.get();
+                                    } catch (Exception e) {
+                                        return null;
+                                    }
+                                })
+                                .filter(Objects::nonNull).findFirst().orElse(null);
+                        finalResult.set(validResult);
+                    }
+                }).join();
+        String response;
+        if (finalResult.get() != null && !finalResult.get().isEmpty()) {
+            response = finalResult.get();
         } else {
             response = "请点击返回修改试试！";
         }
