@@ -85,7 +85,6 @@ public class RestUtils {
     }
 
 
-
     public static String dpskChat(String msg, String token) throws JsonProcessingException {
         log.info("dpsk is answering...");
         RestTemplate restTemplate = buildRestTemplate();
@@ -105,7 +104,6 @@ public class RestUtils {
             return null;
         }
     }
-
 
 
     public static String qwChat(String msg, String token) throws JsonProcessingException {
@@ -165,7 +163,13 @@ public class RestUtils {
             resp = resp.replace("```json", "");
             resp = resp.substring(0, resp.length() - 3);
         }
-        JSONArray jsonArray = JSON.parseArray(resp);
+        JSONArray jsonArray;
+        try {
+            jsonArray = JSON.parseArray(resp);
+        } catch (Exception e) {
+            log.error("{}", resp);
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
