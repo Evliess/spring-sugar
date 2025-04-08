@@ -3,6 +3,7 @@ Page({
   data: {
     answer: {},
     showIndictor: false,
+    anchor: 'topAnchor',
   },
 
   onLoad() {
@@ -13,7 +14,7 @@ Page({
     const obj = app.towxml(
       this.data.answer, 'markdown', {theme: 'light'}
     );
-    this.setData({"answer": obj});
+    this.setData({"answer": obj, "anchor": "topAnchor"});
   },
 
   editInput() {
@@ -31,8 +32,7 @@ Page({
       const resp = await fetchSugar("/private/sugar", openId, token, userInput);
       app.globalData.answer = resp;
       const obj = app.towxml(resp, 'markdown', {theme: 'light'});
-      this.setData({"answer": obj});
-      this.setData({"showIndictor": false});
+      this.setData({"answer": obj, "anchor": "topAnchor", "showIndictor": false});
     } catch(e) {
         wx.showToast({title: '券码无效！', duration: 1000});
         this.setData({"showIndictor": false});
