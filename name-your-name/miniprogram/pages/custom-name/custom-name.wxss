@@ -55,9 +55,7 @@
   border-radius: 4px;
   padding: 8px;
   font-size: 14px;
-  min-height: 14px;
-  padding-top: 50px;
-  
+  min-height: 200px;
 }
 
 .answer {

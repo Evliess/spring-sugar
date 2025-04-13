@@ -13,13 +13,10 @@
 .card .card-title {
   margin-bottom: 0;
   font-size: 24px;
-  color: #6e6e6e;
+  color: black;
+  font-weight: 400;
 }
 
 .card .title {
-  /* background-color: #FFB300;
-  border-radius: 6px; */
-  /* box-shadow: 0 2px #FFB300; */
   padding: 4px;
-  /* margin-right: 4px; */
 }
