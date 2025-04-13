@@ -11,7 +11,7 @@
 }
 
 .card-body {
-  font-family: 'hs-Regular', 'Courier New', Courier, monospace;
+  /* font-family: 'hs-Regular', 'Courier New', Courier, monospace; */
 }
 
 .name-input {
