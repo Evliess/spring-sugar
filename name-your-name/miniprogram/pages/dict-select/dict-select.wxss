@@ -16,7 +16,3 @@
   color: black;
   font-weight: 400;
 }
-
-.card .title {
-  padding: 4px;
-}
