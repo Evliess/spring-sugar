@@ -24,7 +24,7 @@ page {
 .card-text {
   display: flex;
   align-items: center;
-  font-size: 30rpx; 
+  font-size: 15px; 
   font-weight: 500;
   color: #778ec9;
 }
@@ -41,22 +41,6 @@ page {
   padding: 4px;
 }
 
-/* 标签样式 */
-.label {
-  font-size: 14px;
-  color: #333;
-  margin-right: 8px;
-}
-
-/* 输入框样式 */
-.input {
-  flex: 1;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 14px;
-}
-
 .radio-item {
   margin-right: 16rpx;
   font-size: 18px;
@@ -66,7 +50,7 @@ page {
 .nickname-wrapper {
   display: flex;
   width: 100%;
-  padding: 10rpx 32rpx;
+  padding: 0px 32rpx;
   box-sizing: border-box;
   border-top: .5px solid transparent;
   border-bottom: .5px solid transparent;
@@ -74,56 +58,23 @@ page {
   border-image-slice: 1;
   color: black;
   border-top: 0px solid transparent;
-  
+  height: 52px;
+  line-height: 52px;
 }
 
-text.label-like-name {
-  margin-top: 5px;
-}
-
-text.label-star {
-  margin-top: 0px;
+text.label-name, text.label-star, text.label-sex {
   letter-spacing: 2px;
 }
 
-text.label-other {
-  margin-top: 0px;
+.nickname-wrapper input, .nickname-wrapper text {
+  height: 52px;
+  line-height: 52px;
 }
 
-.placeholder-class {
-  margin-top: 1px;
-}
-text.label-meaning {
-  margin-top: 0px;
-}
-
-text.label-sex {
-  margin-top: 1px;
-  letter-spacing: 2px;
-}
-
-
-text.label-name {
-  margin-top: 2px;
-  letter-spacing: 2px;
-}
-
-
-.nickname-wrapper input {
-  height: 80rpx;
-}
-.nickname-wrapper .sex-group {
-  margin-top: 8px;
-  height: 70rpx;
-}
-
-.nickname-wrapper .voice-group {
-  margin-top: 14px;
-  height: 70rpx;
-}
 .nickname-label {
   width: 210rpx;
-  padding-top: 16rpx;
+  height: 52px;
+  line-height: 52px;
 }
 
 .nickname-input {

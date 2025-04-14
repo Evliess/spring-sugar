@@ -41,8 +41,8 @@
         <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bind:change="onMeaningChange" value="{{userInput.meaning}}" placeholder-class="placeholder-class"/>
       </view>
       <view class="nickname-wrapper">
-        <text class="nickname-label label-like-name">中文名谐音</text>
-        <radio-group bindchange="onVoiceChange" class="voice-group">
+        <text class="nickname-label label-voice">中文名谐音</text>
+        <radio-group bindchange="onVoiceChange" class="sex-group">
           <label class="radio-item">
             <radio value="是" checked="{{userInput.voice == '是'}}"/> 是
           </label>
