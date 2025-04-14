@@ -7,7 +7,7 @@
 }
 
 .placeholder-token {
-  font-size: 16px;
+  font-size: 20px;
 }
 .contact-btn {
   color: #778ec9;

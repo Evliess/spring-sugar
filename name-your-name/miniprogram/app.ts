@@ -1,4 +1,5 @@
 // app.ts
+import { BASE_URL } from './utils/util'
 App({
   globalData: {
     answer: {},
@@ -18,7 +19,7 @@ App({
     maleNames:[]
   },
   towxml: require('/towxml/index'),
-  BASE_URL: 'https://www.tyty.wang',
+  BASE_URL: BASE_URL,
   onLaunch() {
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
@@ -41,12 +42,5 @@ App({
         });
       },
     })
-
-    wx.loadFontFace({
-      family: 'hs-Regular',
-      global: true,
-      source: 'url('+this.BASE_URL+'/public/fonts/SourceHanSerifCN-Regular.ttf)',
-    });
-
   },
 })
