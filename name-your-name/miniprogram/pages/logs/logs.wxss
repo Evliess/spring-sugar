@@ -160,7 +160,7 @@ button.align-right {
 .wait-indictor {
   width: 100%;
   text-align: center;
-  margin-top: 4px;
+  margin-top: 10px;
   margin-left: -4px;
 }
 .wait-msg {
