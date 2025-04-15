@@ -6,6 +6,8 @@ import com.alibaba.fastjson2.JSONObject;
 import evliess.io.config.Constants;
 import evliess.io.entity.AuditToken;
 import evliess.io.service.AuditTokenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class AuditTokenController {
+    private static final Logger log = LoggerFactory.getLogger(AuditTokenController.class);
+
 
     private final AuditTokenService auditTokenService;
 
@@ -62,6 +66,7 @@ public class AuditTokenController {
     public ResponseEntity<String> findLatestValidToken(@RequestBody String body) {
         JSONObject jsonNode = JSON.parseObject(body);
         String openid = jsonNode.getString("openId");
+        log.info("Try to get latest valid token with openId: {}", openid);
         AuditToken auditToken = this.auditTokenService.findLatestValidToken(openid);
         JSONObject jsonObject = new JSONObject();
         if (auditToken == null) {

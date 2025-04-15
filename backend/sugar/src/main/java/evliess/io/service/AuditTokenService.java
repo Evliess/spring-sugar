@@ -40,6 +40,7 @@ public class AuditTokenService {
             String principal = authenticationToken.getPrincipal().toString();
             String[] info = principal.split("::");
             saveAudit(info[0], info[1], type);
+            log.info("Save audit success! user: {}, type: {}", info[0], type);
         } catch (Exception e) {
             log.error("LLM save audit error!");
         }
@@ -47,6 +48,7 @@ public class AuditTokenService {
 
     public void saveAuditToken(String openid, String type) {
         saveAudit(openid, "free", type);
+        log.info("Save audit success! user: {}, type: {}", openid, type);
     }
 
     public List<String> findUsersByToken() {
