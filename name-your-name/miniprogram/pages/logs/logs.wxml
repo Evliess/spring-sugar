@@ -16,7 +16,7 @@
     <view class="card">
       <view class="nickname-wrapper">
         <text class="nickname-label label-name">名字</text>
-        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bind:change="onNameChange" value="{{userInput.name}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bindinput="onNameChange" value="{{userInput.name}}" placeholder-class="placeholder-class"/>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-sex">性别</text>
@@ -34,11 +34,11 @@
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-star">星座</text>
-        <input class="nickname-input" placeholder="也可输入MBTI" bind:change="onStarChange" value="{{userInput.mbti}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="也可输入MBTI" bindinput="onStarChange" value="{{userInput.mbti}}" placeholder-class="placeholder-class"/>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-meaning">期望寓意</text>
-        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bind:change="onMeaningChange" value="{{userInput.meaning}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bindinput="onMeaningChange" value="{{userInput.meaning}}" placeholder-class="placeholder-class"/>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-voice">中文名谐音</text>
@@ -53,7 +53,7 @@
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-other">更多的要求</text>
-        <input class="nickname-input" placeholder="如 A开头、小众、好听" bind:change="onOtherChange" value="{{userInput.other}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="如 A开头、小众、好听" bindinput="onOtherChange" value="{{userInput.other}}" placeholder-class="placeholder-class"/>
       </view>
 
     </view>
