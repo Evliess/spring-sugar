@@ -18,8 +18,6 @@ Page({
     try {
       const resp = await fetchSugar("/private/sugar", openId, this.data.token, this.data.userInput);
       app.globalData.answer = resp;
-      app.globalData.token = this.data.token;
-      app.globalData.validToken = true;
       wx.navigateTo({
           url: '/pages/g-result/g-result',
         });
@@ -44,10 +42,6 @@ Page({
   onLoad() {
     const app = getApp();
     this.data.userInput = app.globalData.userInput;
-    const token = app.globalData.token;
-    if(app.globalData.validToken) {
-      this.setData({"token": token, "validToken": true});
-    }
   },
 
   onReady() {},

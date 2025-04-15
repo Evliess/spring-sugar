@@ -3,9 +3,7 @@ import { BASE_URL } from './utils/util'
 App({
   globalData: {
     answer: {},
-    token: "",
     openId: "",
-    validToken: false,
     userInput: {
       name: '',
       sex: '',

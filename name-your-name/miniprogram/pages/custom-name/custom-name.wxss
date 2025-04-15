@@ -134,7 +134,7 @@
 .wait-indictor {
   width: 100%;
   text-align: center;
-  margin-top: 4px;
+  margin-top: 9px;
   margin-left: -4px;
 }
 

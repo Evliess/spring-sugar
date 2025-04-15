@@ -1,7 +1,9 @@
 package evliess.io.service;
 
 import evliess.io.entity.AuditToken;
+import evliess.io.entity.SugarToken;
 import evliess.io.jpa.AuditTokenRepository;
+import evliess.io.jpa.SugarTokenRepository;
 import evliess.io.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +23,12 @@ public class AuditTokenService {
 
     private final AuditTokenRepository auditTokenRepository;
 
+    private final SugarTokenService sugarTokenService;
+
     @Autowired
-    public AuditTokenService(AuditTokenRepository auditTokenRepository) {
+    public AuditTokenService(AuditTokenRepository auditTokenRepository, SugarTokenService sugarTokenService) {
         this.auditTokenRepository = auditTokenRepository;
+        this.sugarTokenService = sugarTokenService;
     }
 
     private void saveAudit(String openid, String token, String type) {
@@ -89,7 +94,7 @@ public class AuditTokenService {
         if (auditToken == null) {
             return null;
         } else {
-            if (TokenUtils.isValidToken(auditToken.getToken())) {
+            if (sugarTokenService.isTokenValid(auditToken.getToken())) {
                 return auditToken;
             } else {
                 return null;
