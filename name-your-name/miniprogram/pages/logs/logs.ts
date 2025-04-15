@@ -2,6 +2,7 @@ import { fetchSugar } from '../../utils/util'
 
 Component({
   data: {
+    title_name: "名字",
     logs: [],
     userInput: {
       name: '',

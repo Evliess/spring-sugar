@@ -16,19 +16,22 @@ page {
 
 .user-input .card {
   border: 0px solid #1976D2;
-  /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); */
   box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  border-radius: 0px;
 }
 
 .card-text {
   display: flex;
-  align-items: center; /* 垂直居中对齐 */
-  font-size: 28rpx; /* 设置文本大小 */
-  color: #333; /* 设置文本颜色 */
+  align-items: center;
+  font-size: 15px; 
+  font-weight: 500;
+  color: #778ec9;
 }
 
 .card-text icon {
   margin-right: 8px; /* 图标和文本之间的间距 */
+  color: #778ec9;
 }
 
 .card-row {
@@ -38,32 +41,16 @@ page {
   padding: 4px;
 }
 
-/* 标签样式 */
-.label {
-  font-size: 14px;
-  color: #333;
-  margin-right: 8px;
-}
-
-/* 输入框样式 */
-.input {
-  flex: 1;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 14px;
-}
-
 .radio-item {
   margin-right: 16rpx;
-  font-size: 14px;
+  font-size: 18px;
   color: #333;
 }
 
 .nickname-wrapper {
   display: flex;
   width: 100%;
-  padding: 10rpx 32rpx;
+  padding: 0px 32rpx;
   box-sizing: border-box;
   border-top: .5px solid transparent;
   border-bottom: .5px solid transparent;
@@ -71,23 +58,23 @@ page {
   border-image-slice: 1;
   color: black;
   border-top: 0px solid transparent;
+  height: 52px;
+  line-height: 52px;
 }
 
-.nickname-wrapper input {
-  height: 80rpx;
-}
-.nickname-wrapper .sex-group {
-  margin-top: 8px;
-  height: 70rpx;
+text.label-name, text.label-star, text.label-sex {
+  letter-spacing: 2px;
 }
 
-.nickname-wrapper .voice-group {
-  margin-top: 14px;
-  height: 70rpx;
+.nickname-wrapper input, .nickname-wrapper text {
+  height: 52px;
+  line-height: 52px;
 }
+
 .nickname-label {
   width: 210rpx;
-  padding-top: 16rpx;
+  height: 52px;
+  line-height: 52px;
 }
 
 .nickname-input {
@@ -99,15 +86,15 @@ page {
 }
 
 .card-footer {
-  padding: 16px 0 0 0;
+  padding: 32px 0 0 0;
   display: flex;
   justify-content: flex-start;
 }
 
 button.align-right {
-    width: 120px;
-    height: 40px;
-    font-size: 16px;
+    width: 160px;
+    height: 50px;
+    font-size: 22px;
 }
 
 .lds-ellipsis,
@@ -173,7 +160,7 @@ button.align-right {
 .wait-indictor {
   width: 100%;
   text-align: center;
-  margin-top: 4px;
+  margin-top: 10px;
   margin-left: -4px;
 }
 .wait-msg {
