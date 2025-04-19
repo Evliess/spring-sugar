@@ -1,4 +1,4 @@
-import { fetchSugar } from '../../utils/util'
+import { fetchSugar, fetchValidToken } from '../../utils/util'
 Page({
   data: {
     answer: {},
@@ -26,8 +26,16 @@ Page({
     this.setData({"showIndictor": true});
     const app = getApp();
     const userInput = app.globalData.userInput;
-    const token = app.globalData.token;
+    let token = "";
     const openId = app.globalData.openId;
+    try {
+      const resp = await fetchValidToken("/public/audit/user-token", openId);
+      if (resp.token != "token") {
+        token = resp.token;
+      } 
+    } catch(error) {
+      token = "";
+    }
     try {
       const resp = await fetchSugar("/private/sugar", openId, token, userInput);
       app.globalData.answer = resp;
@@ -39,7 +47,6 @@ Page({
         wx.redirectTo({
           url: '/pages/custom-name/custom-name',
         })
-        app.globalData.validToken = false;
         return;
     }
   },
