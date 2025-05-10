@@ -65,9 +65,11 @@ public class StockUserController {
     public ResponseEntity<String> getUserId(@RequestBody String body) {
         JSONObject jsonNode = JSON.parseObject(body);
         String code = jsonNode.getString("code");
+        log.info("req code: {}", code);
         String openId = RestUtils.getUid(code);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("openId", openId);
+        log.info("req openid of code: {}", openId);
         return ResponseEntity.ok(jsonObject.toString());
     }
 

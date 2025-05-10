@@ -1,7 +1,8 @@
-import { fetchSugar } from '../../utils/util'
+import { fetchSugar, fetchValidToken } from '../../utils/util'
 
 Component({
   data: {
+    title_name: "名字",
     logs: [],
     userInput: {
       name: '',
@@ -58,12 +59,24 @@ Component({
     async toCustomName(){
       const app = getApp();
       app.globalData.userInput = this.data.userInput;
-      if (!app.globalData.validToken) {
+      let validToken = false;
+      let token = "";
+      try {
+        const resp = await fetchValidToken("/public/audit/user-token", app.globalData.openId);
+        if (resp.token != "token") {
+          validToken = true;
+          token = resp.token;
+        } else {
+          validToken = false;
+        }
+      } catch(error) {
+        validToken = false;
+      }
+      if (!validToken) {
         wx.navigateTo({url: '../custom-name/custom-name'})
       } else {
         this.setData({"showIndictor": true});
         const openId = app.globalData.openId;
-        const token =  app.globalData.token;
         try {
           const resp = await fetchSugar("/private/sugar", openId, token, app.globalData.userInput);
           app.globalData.answer = resp;

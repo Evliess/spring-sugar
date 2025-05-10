@@ -5,7 +5,7 @@ interface RequestOptions {
   header?: any
 }
 // const BASE_URL = 'http://localhost:8080';
-const BASE_URL = 'https://www.tyty.wang';
+export const BASE_URL = 'https://www.jiangxinma.top';
 export const request = <T = any>(options: RequestOptions) : Promise<T> => {
   return new Promise((resolve, reject)=> {
     wx.request({
