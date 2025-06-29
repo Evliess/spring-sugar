@@ -33,7 +33,8 @@ App({
           success: (res: any) => {
             this.globalData.openId = res.data.openId;
           },
-          fail:()=> {
+          fail:(res: any)=> {
+            console.log(res);
           }
         });
       },

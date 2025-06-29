@@ -76,4 +76,11 @@ public class AuditTokenController {
         jsonObject.put("token", auditToken.getToken());
         return ResponseEntity.ok(jsonObject.toString());
     }
+
+    @PostMapping("/private/audit/check-token")
+    public ResponseEntity<String> isValidToken() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", "ok");
+        return ResponseEntity.ok(jsonObject.toString());
+    }
 }
