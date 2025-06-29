@@ -28,7 +28,8 @@ public class SugarService {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 if (apiKeyEnv.equals("QW_API_KEY")) {
-                    return RestUtils.jsonArrayToString(qwService.chat(message, System.getenv(apiKeyEnv)));
+//                    return RestUtils.jsonArrayToString(qwService.chat(message, System.getenv(apiKeyEnv)));
+                    return null;
                 } else {
                     return RestUtils.jsonArrayToString(dpskService.chat(message, System.getenv(apiKeyEnv)));
                 }
