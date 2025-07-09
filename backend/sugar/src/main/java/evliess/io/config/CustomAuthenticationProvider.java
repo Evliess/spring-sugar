@@ -1,7 +1,7 @@
 package evliess.io.config;
 
-import evliess.io.entity.SugarToken;
-import evliess.io.jpa.SugarTokenRepository;
+import evliess.io.entity.AuditToken;
+import evliess.io.jpa.AuditTokenRepository;
 import evliess.io.jpa.SugarUserRepository;
 import evliess.io.service.SugarTokenService;
 import evliess.io.service.SugarUserService;
@@ -27,6 +27,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private SugarTokenService sugarTokenService;
 
+    @Autowired
+    private AuditTokenRepository auditTokenRepository;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -45,6 +48,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             String credentials = authentication.getCredentials().toString();
             if (sugarTokenService.isTokenValid(credentials) && TokenUtils.isValidOpenid(principal)) {
                 List<SimpleGrantedAuthority> roles = List.of();
+                AuditToken auditToken = new AuditToken(principal, credentials, Constants.TYPE_LLM);
+                this.auditTokenRepository.save(auditToken);
                 return new UsernamePasswordAuthenticationToken(principal + Constants.DOUBLE_COLON + credentials, credentials, roles);
             } else {
                 return authentication;
