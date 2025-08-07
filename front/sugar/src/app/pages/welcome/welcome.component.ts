@@ -25,7 +25,7 @@ export class WelcomeComponent implements OnInit {
   user: string = '';
   logoutSubscription: Subscription | undefined;
   deactiveToken: string = '';
-  tokenLiveDays: string = '5';
+  tokenLiveDays: string = '7';
   femaleNames: string = '';
   maleNames: string = '';
   midNames: string = '';
