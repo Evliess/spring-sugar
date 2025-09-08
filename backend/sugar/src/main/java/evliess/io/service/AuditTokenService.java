@@ -1,10 +1,7 @@
 package evliess.io.service;
 
 import evliess.io.entity.AuditToken;
-import evliess.io.entity.SugarToken;
 import evliess.io.jpa.AuditTokenRepository;
-import evliess.io.jpa.SugarTokenRepository;
-import evliess.io.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +97,9 @@ public class AuditTokenService {
                 return null;
             }
         }
+    }
+
+    public int deleteLessThanConsumedAt(Long consumedAt) {
+        return this.auditTokenRepository.deleteLessThanConsumedAt(consumedAt);
     }
 }
