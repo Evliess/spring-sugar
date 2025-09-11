@@ -2,7 +2,7 @@
   <text class="card-head">英文名定制专线</text>
   <view class="{{validToken? 'card-quan card-quan-pass': 'card-quan'}}">
     <view class="card-text">
-      <input class="textarea" placeholder="请输入券码" maxlength="100" bind:change="onTokenChange"  value="{{token}}" disabled="{{validToken}}"/>
+      <input class="textarea" placeholder="请输入券码" maxlength="100" bindinput="onTokenChange"  placeholder-class="placeholder-token" value="{{token}}" disabled="{{validToken}}"/>
     </view>
   </view>
   <view class="contact">注：若您还没有激活码，可点此<button open-type="contact" class="contact-btn">联系客服</button>获取</view>

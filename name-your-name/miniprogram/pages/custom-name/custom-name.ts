@@ -1,8 +1,6 @@
-import { fetchSugar } from '../../utils/util'
+import { checkToken } from '../../utils/util'
 Page({
   data: {
-    answer: {},
-    userInput: {},
     showIndictor: false,
     token: "",
     validToken: false
@@ -16,12 +14,9 @@ Page({
       openId = app.globalData.openId;
     } catch(e) {}
     try {
-      const resp = await fetchSugar("/private/sugar", openId, this.data.token, this.data.userInput);
-      app.globalData.answer = resp;
-      app.globalData.token = this.data.token;
-      app.globalData.validToken = true;
+      const resp = await checkToken("/private/audit/check-token", openId, this.data.token);
       wx.navigateTo({
-          url: '/pages/g-result/g-result',
+          url: '/pages/logs/logs',
         });
       this.setData({"showIndictor": false, "validToken": true});
     } catch(e) {
@@ -42,12 +37,6 @@ Page({
   },
 
   onLoad() {
-    const app = getApp();
-    this.data.userInput = app.globalData.userInput;
-    const token = app.globalData.token;
-    if(app.globalData.validToken) {
-      this.setData({"token": token, "validToken": true});
-    }
   },
 
   onReady() {},

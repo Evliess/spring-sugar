@@ -5,15 +5,19 @@
 .custom-name {
   padding: 0 16px;
 }
+
+.placeholder-token {
+  font-size: 20px;
+}
 .contact-btn {
-  color: #3b71ca;
+  color: #778ec9;
   background-color: transparent;
   border: none;
   line-height: inherit;
   padding: 0;
   display: inline;
-  font-size: 16px;
-
+  height: 50px;
+  font-size: 18px;
 }
 .card-quan {
   border: 1px solid #E0E0E0;
@@ -26,9 +30,9 @@
 }
 
 .contact {
-  margin-top: 12px;
+  margin-top: 24px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .btn-check {
@@ -40,9 +44,9 @@
 }
 
 .btn-regen {
-  height: 10vw;
-  font-size: 16px;
-  margin-top: 14px;
+  height: 50px;
+  font-size: 22px;
+  margin-top: 24px;
 }
 
 .textarea {
@@ -51,9 +55,7 @@
   border-radius: 4px;
   padding: 8px;
   font-size: 14px;
-  min-height: 14px;
-  padding-top: 50px;
-  
+  min-height: 200px;
 }
 
 .answer {
@@ -132,7 +134,7 @@
 .wait-indictor {
   width: 100%;
   text-align: center;
-  margin-top: 4px;
+  margin-top: 9px;
   margin-left: -4px;
 }
 

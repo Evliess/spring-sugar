@@ -6,15 +6,19 @@ import com.alibaba.fastjson2.JSONObject;
 import evliess.io.config.Constants;
 import evliess.io.entity.AuditToken;
 import evliess.io.service.AuditTokenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.time.Duration;
+import java.time.Instant;
+
+@RestController
 public class AuditTokenController {
+    private static final Logger log = LoggerFactory.getLogger(AuditTokenController.class);
+
 
     private final AuditTokenService auditTokenService;
 
@@ -62,6 +66,7 @@ public class AuditTokenController {
     public ResponseEntity<String> findLatestValidToken(@RequestBody String body) {
         JSONObject jsonNode = JSON.parseObject(body);
         String openid = jsonNode.getString("openId");
+        log.info("Try to get latest valid token with openId: {}", openid);
         AuditToken auditToken = this.auditTokenService.findLatestValidToken(openid);
         JSONObject jsonObject = new JSONObject();
         if (auditToken == null) {
@@ -70,5 +75,27 @@ public class AuditTokenController {
         }
         jsonObject.put("token", auditToken.getToken());
         return ResponseEntity.ok(jsonObject.toString());
+    }
+
+    @PostMapping("/private/audit/check-token")
+    public ResponseEntity<String> isValidToken() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", "ok");
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
+    @DeleteMapping("/public/audit/now-minus-days")
+    public ResponseEntity<String> deleteNowMinusDays(@RequestBody String body) {
+        JSONObject jsonNode = JSON.parseObject(body);
+        String days = jsonNode.getString("days");
+        Long timestamp = Instant.now().plus(Duration.ofDays(Long.parseLong(days))).toEpochMilli();
+        int records = auditTokenService.deleteLessThanConsumedAt(timestamp);
+        log.info("timestamp: {}", timestamp);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", "ok");
+        jsonObject.put("records", records);
+        return ResponseEntity.ok(jsonObject.toString());
+
+
     }
 }

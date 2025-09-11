@@ -2,7 +2,6 @@ package evliess.io.service;
 
 import evliess.io.entity.AuditToken;
 import evliess.io.jpa.AuditTokenRepository;
-import evliess.io.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,12 @@ public class AuditTokenService {
 
     private final AuditTokenRepository auditTokenRepository;
 
+    private final SugarTokenService sugarTokenService;
+
     @Autowired
-    public AuditTokenService(AuditTokenRepository auditTokenRepository) {
+    public AuditTokenService(AuditTokenRepository auditTokenRepository, SugarTokenService sugarTokenService) {
         this.auditTokenRepository = auditTokenRepository;
+        this.sugarTokenService = sugarTokenService;
     }
 
     private void saveAudit(String openid, String token, String type) {
@@ -40,6 +42,7 @@ public class AuditTokenService {
             String principal = authenticationToken.getPrincipal().toString();
             String[] info = principal.split("::");
             saveAudit(info[0], info[1], type);
+            log.info("Save audit success! user: {}, type: {}", info[0], type);
         } catch (Exception e) {
             log.error("LLM save audit error!");
         }
@@ -47,6 +50,7 @@ public class AuditTokenService {
 
     public void saveAuditToken(String openid, String type) {
         saveAudit(openid, "free", type);
+        log.info("Save audit success! user: {}, type: {}", openid, type);
     }
 
     public List<String> findUsersByToken() {
@@ -87,11 +91,15 @@ public class AuditTokenService {
         if (auditToken == null) {
             return null;
         } else {
-            if (TokenUtils.isValidToken(auditToken.getToken())) {
+            if (sugarTokenService.isTokenValid(auditToken.getToken())) {
                 return auditToken;
             } else {
                 return null;
             }
         }
+    }
+
+    public int deleteLessThanConsumedAt(Long consumedAt) {
+        return this.auditTokenRepository.deleteLessThanConsumedAt(consumedAt);
     }
 }

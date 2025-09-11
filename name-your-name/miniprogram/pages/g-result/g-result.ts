@@ -1,8 +1,9 @@
-import { fetchSugar } from '../../utils/util'
+import { fetchSugar, fetchValidToken } from '../../utils/util'
 Page({
   data: {
     answer: {},
     showIndictor: false,
+    anchor: 'topAnchor',
   },
 
   onLoad() {
@@ -13,7 +14,7 @@ Page({
     const obj = app.towxml(
       this.data.answer, 'markdown', {theme: 'light'}
     );
-    this.setData({"answer": obj});
+    this.setData({"answer": obj, "anchor": "topAnchor"});
   },
 
   editInput() {
@@ -25,21 +26,27 @@ Page({
     this.setData({"showIndictor": true});
     const app = getApp();
     const userInput = app.globalData.userInput;
-    const token = app.globalData.token;
+    let token = "";
     const openId = app.globalData.openId;
+    try {
+      const resp = await fetchValidToken("/public/audit/user-token", openId);
+      if (resp.token != "token") {
+        token = resp.token;
+      } 
+    } catch(error) {
+      token = "";
+    }
     try {
       const resp = await fetchSugar("/private/sugar", openId, token, userInput);
       app.globalData.answer = resp;
       const obj = app.towxml(resp, 'markdown', {theme: 'light'});
-      this.setData({"answer": obj});
-      this.setData({"showIndictor": false});
+      this.setData({"answer": obj, "anchor": "topAnchor", "showIndictor": false});
     } catch(e) {
         wx.showToast({title: '券码无效！', duration: 1000});
         this.setData({"showIndictor": false});
         wx.redirectTo({
           url: '/pages/custom-name/custom-name',
         })
-        app.globalData.validToken = false;
         return;
     }
   },

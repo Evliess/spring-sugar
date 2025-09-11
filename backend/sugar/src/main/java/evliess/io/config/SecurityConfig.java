@@ -18,6 +18,15 @@ public class SecurityConfig {
     private final CustomAuthenticationProvider customAuthenticationProvider;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/public/**"
+    };
+
     @Autowired
     public SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider, CustomAccessDeniedHandler customAccessDeniedHandler) {
         this.customAuthenticationProvider = customAuthenticationProvider;
@@ -30,7 +39,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("/public/**").permitAll()
+                                .requestMatchers(AUTH_WHITELIST).permitAll()
                                 .requestMatchers("/private/**").authenticated())
                 .addFilterBefore(new CustomFilter(authManager()), AuthorizationFilter.class)
                 .exceptionHandling(

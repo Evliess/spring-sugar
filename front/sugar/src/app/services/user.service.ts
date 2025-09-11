@@ -11,9 +11,9 @@ import { Observable} from 'rxjs';
 export class UserService {
 
   constructor(private http:HttpClient) { }
-  
+
   // BASE_URL = 'http://localhost:8080';
-  BASE_URL = 'https://www.tyty.wang';
+  BASE_URL = 'https://www.jiangxinma.top';
   tokens: Array<string> = [];
 
   getToken(user: string, tokenLiveDays: string): Array<string> {

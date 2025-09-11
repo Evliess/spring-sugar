@@ -3,22 +3,20 @@ import { fetchValidToken } from '../../utils/util'
 Component({
   data: {
     motto: 'Hello World',
-    
   },
   methods: {
     async toLogs() {
       const app = getApp();
-      const openId = app.globalData.openId;
-      try {
-        const resp = await fetchValidToken("/public/audit/user-token", openId);
-        if (resp.token != "token") {
-          app.globalData.token = resp.token;
-          app.globalData.validToken = true;
-        }
-      } catch(error) {}
-      wx.navigateTo({
-        url: '../logs/logs',
-      })
+      const resp = await fetchValidToken("/public/audit/user-token", app.globalData.openId);
+      if (resp.token !== "token") {
+        wx.navigateTo({
+          url: '/pages/logs/logs',
+        });
+      } else {
+        wx.navigateTo({
+          url: '../custom-name/custom-name',
+        })
+      }
     },
     toDict() {
       wx.navigateTo({
