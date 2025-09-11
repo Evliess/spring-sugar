@@ -1,9 +1,11 @@
 name: Build Full Stack Application
 on:
   push:
+
     branches: [ release/dev, master ]   # 在推送到main或master分支时触发
   pull_request:
     branches: [ release/dev, master ] 
+
 jobs:
   build:
     runs-on: ubuntu-latest      # 使用最新的Ubuntu运行器
@@ -44,6 +46,7 @@ jobs:
         cp front/sugar/dist/sugar/browser/*.css backend/sugar/src/main/resources/static/public/sugar/
         cp front/sugar/dist/sugar/browser/*.html backend/sugar/src/main/resources/static/public/sugar/
         cat backend/sugar/src/main/resources/static/public/sugar/index.html | grep base
+
 
     # 步骤6: 设置Maven依赖缓存（可选，但可显著加速后续构建）
     - name: Cache Maven packages
