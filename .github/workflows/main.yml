@@ -37,11 +37,11 @@ jobs:
     - name: Copy Angular dist to backend
       run: |
         # 创建后端目标目录（如果不存在）
-        # 复制front/sugar/dist/browser下的所有文件到backend/sugar/src/main/resources/static/public/sugar/
-        ls front/sugar/dist/browser
-        cp front/sugar/dist/browser/*.js backend/sugar/src/main/resources/static/public/sugar/
-        cp front/sugar/dist/browser/*.css backend/sugar/src/main/resources/static/public/sugar/
-        cp front/sugar/dist/browser/*.html backend/sugar/src/main/resources/static/public/sugar/
+        # 复制front/sugar/dist/sugar/browser下的所有文件到backend/sugar/src/main/resources/static/public/sugar/
+        ls front/sugar/dist/sugar/browser
+        cp front/sugar/dist/sugar/browser/*.js backend/sugar/src/main/resources/static/public/sugar/
+        cp front/sugar/dist/sugar/browser/*.css backend/sugar/src/main/resources/static/public/sugar/
+        cp front/sugar/dist/sugar/browser/*.html backend/sugar/src/main/resources/static/public/sugar/
 
     # 步骤6: 设置Maven依赖缓存（可选，但可显著加速后续构建）
     - name: Cache Maven packages
