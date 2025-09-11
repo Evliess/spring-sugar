@@ -30,7 +30,7 @@ jobs:
     - name: Build Angular project
       run: |
         cd front/sugar             # 进入front/sugar目录
-        npm install                # 安装依赖
+        npm install -g             # 安装依赖
         ng build --configuration=production
 
     # 步骤5: 复制Angular构建产物到后端目录
