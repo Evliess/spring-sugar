@@ -64,5 +64,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: sugar     # 构件名称，替换为你的应用名
-        path: backend/target/*.jar # 上传backend/target目录下的所有JAR文件
+        path: backend/sugar/target/*.jar # 上传backend/target目录下的所有JAR文件
     # 步骤9: 创建release
