@@ -60,8 +60,9 @@ jobs:
         mvn clean package             # 执行Maven打包命令
 
     # 步骤8: （可选）上传构建产物（如JAR包）以便后续下载
-    # - name: Upload JAR artifact
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: your-app-name     # 构件名称，替换为你的应用名
-    #     path: backend/target/*.jar # 上传backend/target目录下的所有JAR文件:cite[5]
+    - name: Upload JAR artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: sugar     # 构件名称，替换为你的应用名
+        path: backend/target/*.jar # 上传backend/target目录下的所有JAR文件
+    # 步骤9: 创建release
