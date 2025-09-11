@@ -31,6 +31,7 @@ jobs:
       run: |
         cd front/sugar             # 进入front/sugar目录
         npm install -g             # 安装依赖
+        npm install -g @angular/cli
         ng build --configuration=production
 
     # 步骤5: 复制Angular构建产物到后端目录
