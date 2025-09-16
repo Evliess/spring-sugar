@@ -72,7 +72,7 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     needs: build # 确保此job在build job完成后执行
-    if: github.event_name == 'release' # 可选：如果你希望只在创建GitHub Release时运行此job。如果希望push到分支就创建，则移除或修改此条件。
+    #if: github.event_name == 'release' # 可选：如果你希望只在创建GitHub Release时运行此job。如果希望push到分支就创建，则移除或修改此条件。
 
     steps:
     - name: Download JAR artifact
