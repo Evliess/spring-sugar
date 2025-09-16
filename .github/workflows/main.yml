@@ -69,4 +69,27 @@ jobs:
       with:
         name: sugar     # 构件名称，替换为你的应用名
         path: backend/sugar/target/*.jar # 上传backend/target目录下的所有JAR文件
-    # 步骤9: 创建release
+  create-release:
+    runs-on: ubuntu-latest
+    needs: build # 确保此job在build job完成后执行
+    #if: github.event_name == 'release' # 可选：如果你希望只在创建GitHub Release时运行此job。如果希望push到分支就创建，则移除或修改此条件。
+
+    steps:
+    - name: Download JAR artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: sugar # 下载之前上传的构件
+
+    - name: List files for verification
+      run: ls -la # 列出文件，确认JAR已下载，用于调试
+
+    - name: Create GitHub Release & Upload Asset
+      uses: softprops/action-gh-release@v1 # 一个常用的创建Release的Action
+      with:
+        tag_name: ${{ github.ref_name }}       # 使用触发事件的git ref名称作为标签，例如release事件中的tag
+        name: Release ${{ github.ref_name }}
+        body: ${{ github.event.release.body }} # 读取Release事件中的描述正文
+        # 如果你是在push到分支时触发，可能需要动态生成版本号，例如从pom.xml中读取
+        files: ./*.jar # 上传当前目录下的所有JAR文件
+      env:
+        GITHUB_TOKEN: ${{ secrets.TK_RELEASE }} # 使用你之前设置的secret进行认证
