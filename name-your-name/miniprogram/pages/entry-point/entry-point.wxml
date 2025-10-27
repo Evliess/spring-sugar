@@ -8,7 +8,9 @@
     aria-label="精准定制，根据中文名谐音，寓意，MBTI，星座"
   ></image>
   
-  <button class="card-button custom-button">开始定制</button>
+  <button class="card-button custom-button" 
+  bind:tap="toEntryPoint"
+  >开始定制</button>
 </view>
 
 <view class="card-wrapper dictionary-wrapper">
@@ -19,9 +21,11 @@
     aria-label="英文名字典，每个名字都有着独特的含义"
   ></image>
 
-  <button class="card-button dictionary-button">自助查询</button>
+  <button class="card-button dictionary-button" 
+  bind:tap="toDictChoose"
+  >自助查询</button>
 </view>
 
-<button class="contact-button">联系客服</button>
+<button class="contact-button" open-type="contact">联系客服</button>
 
 </view>

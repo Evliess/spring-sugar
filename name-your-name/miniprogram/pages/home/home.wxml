@@ -12,12 +12,16 @@
       placeholder="请输入激活码" 
       placeholder-class="placeholder-style" 
       type="text"
+      value="{{token}}"
+      bindinput="onTokenChange"
     />
   </view>
 
   <view class="button-group">
-    <button class="btn contact-btn">联系客服</button>
-    <button class="btn activate-btn">激活</button>
+    <button class="btn contact-btn" 
+    open-type="contact"
+    >联系客服</button>
+    <button class="btn activate-btn" bind:tap="sendRequest">激活</button>
   </view>
 
 </view>

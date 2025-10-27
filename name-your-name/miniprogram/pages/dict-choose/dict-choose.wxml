@@ -3,49 +3,17 @@
 <text class="page-title">热门英文名</text>
 
 <view class="list-container">
-  
-  <view class="list-item item-active">
-    <image class="item-avatar" mode="aspectFill" src="./images/avatar_1.png"></image>
-    <text class="item-text">地道女生英文名</text>
-    <view class="item-dot active-dot"></view>
-  </view>
-  
-  <view class="list-item">
-    <image class="item-avatar" mode="aspectFill" src="./images/avatar_2.png"></image>
-    <text class="item-text">海外男生英文名</text>
-    <view class="item-dot normal-dot"></view>
+
+  <view class="list-item {{currentIndex === idx ? 'item-active' : ''}}" wx:for="{{items}}" 
+      wx:key="id" 
+      wx:for-index="idx"
+      bindtap="onItemTap" 
+      data-index="{{idx}}">
+    <image class="item-avatar" mode="aspectFill" src="{{item.img}}"></image>
+    <text class="item-text">{{item.name}}</text>
+    <view class="item-dot {{currentIndex === idx ? 'active-dot' : 'normal-dot'}}"></view>
   </view>
 
-  <view class="list-item">
-    <image class="item-avatar" mode="aspectFill" src="./images/avatar_3.png"></image>
-    <text class="item-text">冷淡中性风英文名</text>
-    <view class="item-dot normal-dot"></view>
-  </view>
-  
-  <view class="list-item">
-    <image class="item-avatar" mode="aspectFill" src="./images/avatar_4.png"></image>
-    <text class="item-text">精选个性英文名</text>
-    <view class="item-dot normal-dot"></view>
-  </view>
-  
-  <view class="list-item">
-    <image class="item-avatar" mode="aspectFill" src="./images/avatar_5.png"></image>
-    <text class="item-text">美国热门英文名</text>
-    <view class="item-dot normal-dot"></view>
-  </view>
-  
-  <view class="list-item">
-    <image class="item-avatar" mode="aspectFill" src="./images/avatar_6.png"></image>
-    <text class="item-text">英国热门英文名</text>
-    <view class="item-dot normal-dot"></view>
-  </view>
-  
-  <view class="list-item">
-    <image class="item-avatar" mode="aspectFill" src="./images/avatar_7.png"></image>
-    <text class="item-text">加拿大热门英文名</text>
-    <view class="item-dot normal-dot"></view>
-  </view>
-  
 </view>
 
 </view>

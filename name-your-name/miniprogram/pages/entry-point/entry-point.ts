@@ -7,7 +7,13 @@ Page({
   data: {
 
   },
+  toEntryPoint() {
+    wx.navigateTo({url: '/pages/logs/logs'});
+  },
 
+  toDictChoose() {
+    wx.navigateTo({url: '/pages/dict-choose/dict-choose'});
+  },
   /**
    * 生命周期函数--监听页面加载
    */
