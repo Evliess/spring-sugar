@@ -1,0 +1,23 @@
+<view class="home-container">
+  
+  <view class="logo-area">
+    <image class="logo-image" mode="aspectFit" src="./images/logo.png"></image>
+    </view>
+
+  <text class="main-title">英文名定制</text>
+
+  <view class="input-area">
+    <input 
+      class="activation-code-input" 
+      placeholder="请输入激活码" 
+      placeholder-class="placeholder-style" 
+      type="text"
+    />
+  </view>
+
+  <view class="button-group">
+    <button class="btn contact-btn">联系客服</button>
+    <button class="btn activate-btn">激活</button>
+  </view>
+
+</view>

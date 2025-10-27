@@ -5,7 +5,10 @@
     "pages/custom-name/custom-name",
     "pages/dict-search/dict-search",
     "pages/g-result/g-result",
-    "pages/dict-select/dict-select"
+    "pages/dict-select/dict-select",
+    "pages/home/home",
+    "pages/entry-point/entry-point",
+    "pages/dict-choose/dict-choose"
   ],
   "window": {
     "navigationBarTextStyle": "black",
