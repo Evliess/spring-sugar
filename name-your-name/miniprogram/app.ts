@@ -4,6 +4,7 @@ App({
   globalData: {
     answer: {},
     openId: "",
+    openIdCallbacks: [],
     userInput: {
       name: '',
       sex: '',
@@ -19,25 +20,36 @@ App({
   towxml: require('/towxml/index'),
   BASE_URL: BASE_URL,
   onLaunch() {
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    this.getOpenId();
+  },
 
+  getOpenId() {
     wx.login({
-      success: res => {
+      success: (res) => {
         wx.request({
           url: this.BASE_URL + '/public/uid',
           method: 'POST',
           data: {"code": res.code},
           header: {'content-type': 'application/json'},
-          success: (res: any) => {
+          success: (res) => {
             this.globalData.openId = res.data.openId;
-          },
-          fail:(res: any)=> {
-            console.log(res);
+            // 执行所有等待openId的回调
+            this.globalData.openIdCallbacks.forEach(callback => {
+              callback(this.globalData.openId)
+            })
+            this.globalData.openIdCallbacks = []
           }
-        });
-      },
+        })
+      }
     })
   },
+
+  // 注册openId就绪回调
+  onOpenIdReady(callback: any) {
+    if (this.globalData.openId) {
+      callback(this.globalData.openId)
+    } else {
+      this.globalData.openIdCallbacks.push(callback)
+    }
+  }
 })

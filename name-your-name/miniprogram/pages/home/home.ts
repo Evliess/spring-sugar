@@ -1,8 +1,8 @@
 import { fetchValidToken, checkToken } from '../../utils/util'
+const app = getApp();
 Page({
-
   data: {
-    token: ""
+    token: "",
   },
 
   onTokenChange(e: any) {
@@ -11,7 +11,6 @@ Page({
   },
 
   async sendRequest() {
-    const app = getApp();
     let openId = "";
     try {
       openId = app.globalData.openId;
@@ -30,33 +29,24 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   async onLoad() {
-    const app = getApp();
-    const resp = await fetchValidToken("/public/audit/user-token", app.globalData.openId);
-    //bbb36c95-7d10-49ff-a5ec-df262ff51d25--BHHGFJIHIFIAI
-    resp.token = "token" //测试代码 
-    if (resp.token !== "token") {
-      wx.navigateTo({
-        url: '/pages/entry-point/entry-point',
-      });
-    } 
+    
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  async onReady() {
+    app.onOpenIdReady((openId) => {
+      fetchValidToken("/public/audit/user-token", openId).then((resp)=> {
+        if (resp.token !== "token") {
+          wx.navigateTo({url: '/pages/entry-point/entry-point',});
+        } 
+      })
+    })
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
   },
 
   /**
