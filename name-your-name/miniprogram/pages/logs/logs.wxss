@@ -86,9 +86,7 @@ text.label-name, text.label-star, text.label-sex {
 }
 
 .card-footer {
-  padding: 32px 0 0 0;
-  display: flex;
-  justify-content: flex-start;
+  margin-top: 20px;
 }
 
 button.align-right {
@@ -100,19 +98,15 @@ button.align-right {
 .wait-indictor {
   margin-top: 16px;
   margin-left: 6px;
+  height: 30px;
 }
 
-.wait-msg {
-  margin-left: 48px;
-  font-size: 14px;
-  width: fit-content;
- }
-
- .hide {
-  display: none;
+.hide {
+  visibility: hidden;
 }
 
 .show {
   display: inline-block;
+  visibility: visible;
 }
 

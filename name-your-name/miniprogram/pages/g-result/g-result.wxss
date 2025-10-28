@@ -30,15 +30,15 @@
 }
 
 .wait-indictor {
-  margin-top: 10px;
-  margin-left: 6px;
-  margin-bottom: 20px;
+  margin: 10px 0 10px 6px;
+  height: 30px;
 }
 
 .hide {
-  display: none;
+  visibility: hidden;
 }
 
 .show {
   display: inline-block;
+  visibility: visible;
 }

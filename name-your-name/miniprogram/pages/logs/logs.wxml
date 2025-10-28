@@ -16,51 +16,52 @@
     <view class="card">
       <view class="nickname-wrapper">
         <text class="nickname-label label-name">名字</text>
-        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bindinput="onNameChange" value="{{userInput.name}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="可输入全名/ 姓氏/ 名字" bindinput="onNameChange" value="{{userInput.name}}" placeholder-class="placeholder-class" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-sex">性别</text>
         <radio-group bindchange="onSexChange" class="sex-group">
           <label class="radio-item">
-            <radio value="男" checked="{{userInput.sex == '男'}}"/> 男
+            <radio value="男" checked="{{userInput.sex == '男'}}" /> 男
           </label>
           <label class="radio-item">
-            <radio value="女" checked="{{userInput.sex == '女'}}"/> 女
+            <radio value="女" checked="{{userInput.sex == '女'}}" /> 女
           </label>
           <label class="radio-item">
-            <radio value="中性" checked="{{userInput.sex == '中性'}}"/> 中性
+            <radio value="中性" checked="{{userInput.sex == '中性'}}" /> 中性
           </label>
         </radio-group>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-star">星座</text>
-        <input class="nickname-input" placeholder="也可输入MBTI" bindinput="onStarChange" value="{{userInput.mbti}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="也可输入MBTI" bindinput="onStarChange" value="{{userInput.mbti}}" placeholder-class="placeholder-class" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-meaning">期望寓意</text>
-        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bindinput="onMeaningChange" value="{{userInput.meaning}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="如 甜美、沉稳、帅气" bindinput="onMeaningChange" value="{{userInput.meaning}}" placeholder-class="placeholder-class" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-voice">中文名谐音</text>
         <radio-group bindchange="onVoiceChange" class="sex-group">
           <label class="radio-item">
-            <radio value="是" checked="{{userInput.voice == '是'}}"/> 是
+            <radio value="是" checked="{{userInput.voice == '是'}}" /> 是
           </label>
           <label class="radio-item">
-            <radio value="否" checked="{{userInput.voice == '否'}}"/> 否
+            <radio value="否" checked="{{userInput.voice == '否'}}" /> 否
           </label>
         </radio-group>
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label label-other">更多的要求</text>
-        <input class="nickname-input" placeholder="如 A开头、小众、好听" bindinput="onOtherChange" value="{{userInput.other}}" placeholder-class="placeholder-class"/>
+        <input class="nickname-input" placeholder="如 A开头、小众、好听" bindinput="onOtherChange" value="{{userInput.other}}" placeholder-class="placeholder-class" />
       </view>
 
     </view>
-    <view class="card-footer"><button disabled="{{showIndictor}}" class="align-right btn btn-primary" bind:tap="toCustomName">激活定制取名</button></view>
+    <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
+      <loading-spiner id="loadingIcon"></loading-spiner>
+    </view>
+    <view class="card-footer"><button disabled="{{showIndictor}}" class="align-right btn btn-primary" bind:tap="toCustomName">立即取名</button></view>
   </view>
-  <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
-    <loading-spiner id="loadingIcon"></loading-spiner>
-  </view>
+
 
 </scroll-view>
