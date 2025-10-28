@@ -1,0 +1,59 @@
+/* components/loading/loading.wxss */
+
+/* 整体容器：使用 Flexbox 实现图标和文本的并排布局 */
+.loading-container {
+  display: flex;
+  /* 关键：使用 align-items: center; 实现图标和文本的垂直对齐 */
+  align-items: center; 
+  justify-content: center; 
+  width: 100%;
+}
+
+/* ------------------- 图片图标样式 ------------------- */
+.loading-icon-wrapper {
+  margin-right: 4px; /* 图片与文本之间的间距 */
+  flex-shrink: 0; 
+  /* 确保图片与文本行垂直对齐的关键：消除 image 默认的行内元素间隙 */
+  display: flex; 
+  align-items: center;
+  /* 图片容器高度可以根据文本行高来设置，确保垂直对齐 */
+  height: 22px; /* 与文本区域高度保持一致 */
+}
+
+.loading-image {
+  /* 设置 GIF 图片的尺寸，这里使用较小尺寸 */
+  width: 24px;
+  height: 24px; 
+  /* 确保图片以块级元素显示，消除底部的行高间隙 */
+  display: block; 
+}
+
+
+/* ------------------- 文本样式 (与之前保持一致) ------------------- */
+.loading-text-wrapper {
+  /* 确保文本区域只占一行，并且宽度足够 */
+  height: 22px; /* 固定高度以避免布局抖动，与图片高度匹配 */
+  overflow: hidden; 
+  position: relative;
+  width: 350px; /* 根据实际文本长度设置宽度 */
+}
+
+.loading-text-item {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-size: 16px;  /* 文字大小 */
+  color: #6a6c9a;
+  opacity: 0; 
+  transition: opacity 0.5s ease; 
+  
+  /* 确保文本自身在 loading-text-item 中是垂直居中的 */
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.item-visible {
+  opacity: 1; 
+}

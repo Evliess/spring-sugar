@@ -60,17 +60,7 @@
     <view class="card-footer"><button disabled="{{showIndictor}}" class="align-right btn btn-primary" bind:tap="toCustomName">激活定制取名</button></view>
   </view>
   <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
-      <view class="wait-indictor">
-        <view class="msg">
-          <view class="lds-ellipsis">
-            <view></view>
-            <view></view>
-            <view></view>
-            <view></view>
-          </view>
-          <text class="wait-msg">请等待片刻</text>
-        </view>
-      </view>
-    </view>
+    <loading-spiner id="loadingIcon"></loading-spiner>
+  </view>
 
 </scroll-view>
