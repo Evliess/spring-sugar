@@ -13,7 +13,7 @@
   font-weight: bold;
   color: #6a6c9a; /* 深紫色/蓝灰色 */
   margin-top: 80rpx; /* 顶部留白 */
-  margin-bottom: 60rpx; /* 标题与列表的间距 */
+  margin-bottom: 20px; /* 标题与列表的间距 */
   text-align: center;
 }
 
@@ -22,7 +22,7 @@
   width: 90%;
   display: flex;
   flex-direction: column;
-  gap: 20rpx; /* 列表项之间的间距 */
+  gap: 20px; /* 列表项之间的间距 */
 }
 
 /* 通用列表项样式 */

@@ -24,7 +24,7 @@ Page({
         wx.showToast({title: '券码无效, 联系客服！',duration: 3000, icon: 'none',});
       }
     } catch(e) {
-      wx.showToast({title: '券码无效, 联系客服！',duration: 3000, icon: 'none',});
+      wx.showToast({title: '券码无效, 请联系客服！',duration: 3000, icon: 'none',});
       return;
     }
   },
@@ -37,7 +37,7 @@ Page({
     app.onOpenIdReady((openId) => {
       fetchValidToken("/public/audit/user-token", openId).then((resp)=> {
         if (resp.token !== "token") {
-          wx.navigateTo({url: '/pages/entry-point/entry-point',});
+          wx.redirectTo({url: '/pages/entry-point/entry-point',});
         } 
       })
     })

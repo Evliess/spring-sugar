@@ -4,7 +4,7 @@ Component({
       "正在综合分析取名要求",
       "请稍等片刻...... ",
       "正在为您筛选最合适的英文名",
-      "💡更多中文名谐音建议设置【名字首字母开头】"
+      "更多中文名谐音建议设置【名字首字母开头】"
     ],
     currentTextIndex: 0,
     intervalId: -1
@@ -19,7 +19,7 @@ Component({
     startLoading() {
       const boundSwitchText = this.switchText.bind(this);
       this.stopLoading();
-      let id = setInterval(boundSwitchText, 1000);
+      let id = setInterval(boundSwitchText, 2500);
       this.setData({ intervalId: id });
     },
 

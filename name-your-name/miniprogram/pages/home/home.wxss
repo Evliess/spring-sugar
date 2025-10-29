@@ -28,7 +28,7 @@
 
 /* 主标题样式：英文名定制 */
 .main-title {
-  font-size: 76rpx; /* 较大的字体 */
+  font-size: 70rpx; /* 较大的字体 */
   color: #7684c0; /* 紫灰色调，与图片文字颜色匹配 */
   font-weight: bold;
 }
@@ -40,14 +40,38 @@
 
 /* 激活码输入框样式 */
 .activation-code-input {
-  height: 100rpx; /* 输入框的高度 */
-  line-height: 100rpx;
-  padding: 0 40rpx; /* 内部左右内边距 */
+  height: 200rpx; /* 输入框的高度 */
+  line-height: 200rpx;
+  padding: 0 10rpx; /* 内部左右内边距 */
   border: 2rpx solid #ddd; /* 轻微的边框 */
   border-radius: 50rpx; /* 较大的圆角 */
   background-color: #fff; /* 白色背景 */
   text-align: center; /* 文字居中 */
   font-size: 32rpx;
+}
+
+/* 模拟占位符容器 */
+.custom-placeholder {
+  position: absolute;
+  top: 69%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%); /* 垂直水平居中 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #a0a0a0; /* 占位符颜色 */
+  font-size: 32rpx;
+}
+
+.custom-placeholder .line {
+  /* 调整行间距 */
+  line-height: 1.6; 
+  text-align: center;
+}
+
+.hidden {
+  display: none; /* 用户输入后隐藏 */
 }
 
 /* 输入框 Placeholder 样式 */

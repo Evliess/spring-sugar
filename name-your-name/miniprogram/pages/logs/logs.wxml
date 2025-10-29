@@ -6,7 +6,7 @@
         <icon color="#778ec9" type="info" size="20"></icon><text class="card-text-icon">设置取名要求，精准定制最适合你的英文名</text>
       </view>
       <view class="card-text">
-        <icon color="#778ec9" type="info" size="20"></icon><text class="card-text-icon">单次推荐3个英文名，可多次调整条件重新推荐</text>
+        <icon color="#778ec9" type="info" size="20"></icon><text class="card-text-icon">单次推荐3个名字，可调整条件重新推荐</text>
       </view>
     </view>
   </view>
@@ -60,7 +60,7 @@
     <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
       <loading-spiner id="loadingIcon"></loading-spiner>
     </view>
-    <view class="card-footer"><button disabled="{{showIndictor}}" class="align-right btn btn-primary" bind:tap="toCustomName">立即取名</button></view>
+    <view class="card-footer"><button disabled="{{showIndictor}}" class="align-right btn btn-purple" bind:tap="toCustomName">立即取名</button></view>
   </view>
 
 

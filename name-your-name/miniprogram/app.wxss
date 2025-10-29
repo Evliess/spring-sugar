@@ -80,6 +80,14 @@ page {
   background-color: #FFB300;
 }
 
+.btn-purple {
+  background-color: #7684c0;
+}
+
+.btn-purple:active {
+  background-color: #91d5ff !important;
+}
+
 .btn-primary:active {
   background-color: #ffe69c;
 }
@@ -111,7 +119,4 @@ page {
   color: rgba(255, 255, 255, 0.6) !important; 
   opacity: 0.7 !important; 
   cursor: not-allowed !important;
-}
-
-.placeholder-class {
 }
