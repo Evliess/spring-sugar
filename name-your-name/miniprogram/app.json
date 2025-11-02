@@ -1,11 +1,11 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/home/home",
     "pages/logs/logs",
-    "pages/custom-name/custom-name",
     "pages/dict-search/dict-search",
     "pages/g-result/g-result",
-    "pages/dict-select/dict-select"
+    "pages/entry-point/entry-point",
+    "pages/dict-choose/dict-choose"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -1,0 +1,21 @@
+<view class="home-container">
+
+<text class="page-title">热门英文名</text>
+
+<view class="list-container">
+
+  <view class="list-item {{currentIndex === idx ? 'item-active' : ''}}" wx:for="{{items}}" 
+      wx:key="id" 
+      wx:for-index="idx"
+      bindtap="onItemTap" 
+      data-name="{{item.name}}"
+      data-type="{{item.type}}"
+      data-index="{{idx}}">
+    <image class="item-avatar" mode="aspectFill" src="{{item.img}}"></image>
+    <text class="item-text">{{item.name}}</text>
+    <view class="item-dot {{currentIndex === idx ? 'active-dot' : 'normal-dot'}}"></view>
+  </view>
+
+</view>
+
+</view>

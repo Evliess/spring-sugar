@@ -1,0 +1,31 @@
+<view class="home-container">
+  
+  <view class="logo-area">
+    <image class="logo-image" mode="aspectFit" src="./images/logo.png"></image>
+    </view>
+
+  <text class="main-title">英文名定制</text>
+
+  <view class="input-area">
+    <view class="custom-placeholder {{token ? 'hidden' : ''}}">
+      <text class="line">请输入激活码</text>
+      <text class="line">若您还没有激活码，可联系客服获取</text>
+  </view>
+    <input 
+      class="activation-code-input" 
+      placeholder="" 
+      type="text"
+      value="{{token}}"
+      bindinput="onTokenChange"
+    />
+    <text class="placeholder-style-line2"></text>
+  </view>
+
+  <view class="button-group">
+    <button class="btn contact-btn" 
+    open-type="contact"
+    >联系客服</button>
+    <button class="btn contact-btn" bind:tap="sendRequest">立即激活</button>
+  </view>
+
+</view>

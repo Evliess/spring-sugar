@@ -1,0 +1,121 @@
+/* WXSS 代码 */
+
+/* 整体页面容器样式 */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 水平居中所有内容 */
+  height: 100vh;
+  background-color: #f5f8ff; /* 浅灰色背景，与图片背景相似 */
+  justify-content: space-evenly; /* 更均匀的分布，确保边缘间距与内部间距相似 */
+}
+
+/* Logo 区域样式 */
+.logo-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px; /* 控制 Logo 外层容器的大小 */
+  height: 300px;
+  overflow: hidden; /* 确保图片不会溢出圆形容器 */
+}
+
+/* Logo 图片样式 (请确保你的 Logo 图片本身是透明背景，并且没有大面积的白色边框) */
+.logo-image {
+  width: 100%; /* 图片在圆形容器中的大小 */
+  height: 100%;
+}
+
+/* 主标题样式：英文名定制 */
+.main-title {
+  font-size: 70rpx; /* 较大的字体 */
+  color: #7684c0; /* 紫灰色调，与图片文字颜色匹配 */
+  font-weight: bold;
+}
+
+/* 输入框容器样式 */
+.input-area {
+  width: 80%; /* 输入框的宽度 */
+}
+
+/* 激活码输入框样式 */
+.activation-code-input {
+  height: 200rpx; /* 输入框的高度 */
+  line-height: 200rpx;
+  padding: 0 10rpx; /* 内部左右内边距 */
+  border: 2rpx solid #ddd; /* 轻微的边框 */
+  border-radius: 50rpx; /* 较大的圆角 */
+  background-color: #fff; /* 白色背景 */
+  text-align: center; /* 文字居中 */
+  font-size: 32rpx;
+}
+
+/* 模拟占位符容器 */
+.custom-placeholder {
+  position: absolute;
+  top: 69%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%); /* 垂直水平居中 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #a0a0a0; /* 占位符颜色 */
+  font-size: 32rpx;
+}
+
+.custom-placeholder .line {
+  /* 调整行间距 */
+  line-height: 1.6; 
+  text-align: center;
+}
+
+.hidden {
+  display: none; /* 用户输入后隐藏 */
+}
+
+/* 输入框 Placeholder 样式 */
+.placeholder-style {
+  color: #a0a0a0; /* 占位符文字颜色 */
+}
+
+/* 联系客服按钮样式 */
+
+.btn {
+  height: 90rpx;
+  line-height: 90rpx;
+  border-radius: 45rpx; /* 较大的圆角 */
+  font-size: 34rpx;
+  font-weight: normal;
+  justify-content: center; /* 水平居中 */
+  align-items: center;     /* 垂直居中 */
+}
+
+.contact-btn {
+  background-color: #7684c0; /* 蓝紫色调，与图片按钮颜色匹配 */
+  color: #fff; /* 白色文字 */
+  display: flex;
+  box-shadow: 0 4rpx 12rpx rgba(140, 144, 199, 0.4); /* 增加一点阴影，增强立体感 */
+}
+
+/* 新增按钮：激活 (作为主操作，使用更明显的颜色) */
+.activate-btn {
+  /*flex: 1; /* 让按钮占据剩余空间，使两个按钮宽度相等 */
+  display: flex;
+  background-color: #6a6c9a; 
+  color: #fff; 
+}
+
+.button-group {
+  width: 80%; /* 按钮组的宽度与输入框保持一致 */
+  display: flex;
+  flex-direction: row; /* 水平排列 */
+  justify-content: space-between; /* 按钮之间有间隔 */
+  gap: 30rpx; /* 按钮之间的间隔（也可以用 margin-right/left 实现） */
+  margin-bottom: 60rpx; /* 按钮组与页面底部的留白 */
+}
+
+/* 移除按钮的默认边框，以达到图片中的纯色效果 */
+.contact-button::after {
+  border: none;
+}

@@ -1,0 +1,96 @@
+/* 整体页面容器样式 */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 居中标题和列表容器 */
+  min-height: 100vh;
+  background-color: #f7f7f9; /* 浅灰色背景 */
+}
+
+/* 页面标题样式 */
+.page-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #6a6c9a; /* 深紫色/蓝灰色 */
+  margin-top: 80rpx; /* 顶部留白 */
+  margin-bottom: 20px; /* 标题与列表的间距 */
+  text-align: center;
+}
+
+/* 列表容器样式 */
+.list-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 列表项之间的间距 */
+}
+
+/* 通用列表项样式 */
+.list-item {
+  width: 100%;
+  height: 120rpx; /* 固定列表项高度 */
+  display: flex;
+  align-items: center; /* 垂直居中所有内容 */
+  padding: 0 40rpx;
+  box-sizing: border-box;
+  border-radius: 20rpx;
+  background-color: #fff;
+  
+  /* 默认边框样式 */
+  border: 2rpx solid #7684c0; /* 浅紫色边框 */
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05); /* 轻微阴影 */
+  
+  /* 列表项内容间的间距 */
+  justify-content: space-between; 
+}
+
+/* 第一个活跃/选中列表项的特殊样式 */
+.item-active {
+  background-color: #7684c0; /* 紫色背景 */
+  border-color: #7684c0; /* 匹配背景色，消除边框感 */
+}
+
+/* 头像图片样式 */
+.item-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%; /* 圆形头像 */
+  margin-right: 30rpx; /* 头像与文字的间距 */
+  /* 增加一个深色边框，模拟图片中的效果 */
+  border: 2rpx solid rgba(255, 255, 255, 0.2); 
+  flex-shrink: 0; /* 防止头像被压缩 */
+}
+
+/* 列表项文字样式 */
+.item-text {
+  flex-grow: 1; /* 占据中间剩余空间 */
+  font-size: 32rpx;
+  color: #333; /* 默认深色文字 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 活跃列表项中的文字颜色 */
+.item-active .item-text {
+  color: #fff; /* 活跃项文字为白色 */
+}
+
+/* 圆点图标通用样式 */
+.item-dot {
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  flex-shrink: 0; /* 防止圆点被压缩 */
+  margin-left: 20rpx; /* 圆点与文字的间距 */
+}
+
+/* 活跃列表项的圆点样式 (白色) */
+.active-dot {
+  background-color: #fff;
+}
+
+/* 普通列表项的圆点样式 (浅绿色) */
+.normal-dot {
+  background-color: #98fb98; 
+}

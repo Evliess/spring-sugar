@@ -1,0 +1,78 @@
+.home-container {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 水平居中所有内容 */
+  height: 100vh;
+  background-color: #f5f8ff; /* 浅灰色背景，与图片背景相似 */
+  justify-content: space-evenly; /* 更均匀的分布，确保边缘间距与内部间距相似 */
+}
+
+/* 通用卡片外层容器 (用于定位背景图和按钮) */
+.card-wrapper {
+  width: 90%; /* 卡片宽度 */
+  height: auto;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative; /* 确保子元素（如按钮）可以相对定位 */
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); 
+  display: block;
+}
+
+/* 卡片背景图片样式 */
+.card-background {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: static;
+  z-index: 1; /* 确保背景在按钮下面 */
+}
+
+/* 独立按钮通用样式 */
+.card-button {
+  /* 按钮尺寸和圆角 */
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 34rpx;
+  font-weight: normal;
+  border-radius: 35rpx;
+  font-weight: bold;
+  padding: 0 40rpx;
+  width: fit-content;
+  box-sizing: border-box;
+  /* 按钮定位：在卡片内部，左下角 */
+  position: absolute;
+  left: 38rpx; /* 距离卡片左侧的内边距 */
+  bottom: 40rpx; /* 距离卡片底部的内边距 */
+  z-index: 10; /* 确保按钮位于背景图之上 */
+}
+
+/* --- 精准定制卡片的按钮样式 --- */
+.custom-button {
+  background-color: #fff;
+  color: #8c90c7; /* 匹配卡片主色调 */
+}
+
+/* --- 英文名字典卡片的按钮样式 --- */
+.dictionary-button {
+  background-color: #fff;
+  color: #ffc966; /* 匹配卡片主色调 */
+}
+
+/* 底部联系客服按钮 (复用样式) */
+.contact-button {
+  width: 90% !important; 
+  line-height: 50rpx;
+  background-color: #8c90c7; 
+  color: #fff; 
+  border-radius: 45rpx; 
+  font-size: 34rpx;
+  font-weight: normal;
+  margin-top: 10rpx; 
+  justify-content: center; /* 水平居中 */
+  align-items: center;     /* 垂直居中 */
+}
+
+.contact-button::after {
+  border: none;
+}

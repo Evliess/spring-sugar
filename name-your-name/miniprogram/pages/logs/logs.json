@@ -1,4 +1,5 @@
 {
   "usingComponents": {
+    "loading-spiner": "../../components/loading-spiner"
   }
 }
