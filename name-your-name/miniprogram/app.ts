@@ -13,9 +13,7 @@ App({
       other: '',
       voice: true
     },
-    midNames: [],
-    femaleNames: [],
-    maleNames:[]
+    dictNames: [],
   },
   towxml: require('/towxml/index'),
   BASE_URL: BASE_URL,

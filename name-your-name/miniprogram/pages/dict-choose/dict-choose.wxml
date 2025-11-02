@@ -9,6 +9,7 @@
       wx:for-index="idx"
       bindtap="onItemTap" 
       data-name="{{item.name}}"
+      data-type="{{item.type}}"
       data-index="{{idx}}">
     <image class="item-avatar" mode="aspectFill" src="{{item.img}}"></image>
     <text class="item-text">{{item.name}}</text>
