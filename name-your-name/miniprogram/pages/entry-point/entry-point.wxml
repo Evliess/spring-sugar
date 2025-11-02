@@ -1,0 +1,31 @@
+<view class="home-container">
+
+<view class="card-wrapper ai-wrapper">
+  <image 
+    class="card-background" 
+    mode="widthFix" 
+    src="./images/compass1.png"
+    aria-label="精准定制，根据中文名谐音，寓意，MBTI，星座"
+  ></image>
+  
+  <button class="card-button custom-button" 
+  bind:tap="toEntryPoint"
+  >开始定制</button>
+</view>
+
+<view class="card-wrapper dictionary-wrapper">
+  <image 
+    class="card-background" 
+    mode="widthFix" 
+    src="./images/globe2.png"
+    aria-label="英文名字典，每个名字都有着独特的含义"
+  ></image>
+
+  <button class="card-button dictionary-button" 
+  bind:tap="toDictChoose"
+  >自助查询</button>
+</view>
+
+<button class="contact-button" open-type="contact">联系客服</button>
+
+</view>

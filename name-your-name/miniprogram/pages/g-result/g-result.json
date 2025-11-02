@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "towxml": "/towxml/towxml"
+    "towxml": "/towxml/towxml",
+    "loading-spiner": "../../components/loading-spiner"
   }
 }

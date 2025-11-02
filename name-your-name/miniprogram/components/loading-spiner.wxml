@@ -1,0 +1,21 @@
+<view class="loading-container">
+    
+    <view class="loading-icon-wrapper">
+        <image 
+            class="loading-image" 
+            mode="widthFix" 
+            src="./loading.gif"
+        ></image>
+    </view>
+
+    <view class="loading-text-wrapper">
+        <view 
+            wx:for="{{texts}}" 
+            wx:key="index" 
+            class="loading-text-item {{index === currentTextIndex ? 'item-visible' : ''}}"
+        >
+            {{item}}
+        </view>
+    </view>
+
+</view>

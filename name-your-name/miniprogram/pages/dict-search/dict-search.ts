@@ -3,51 +3,35 @@ Page({
     answer: {},
     answerInString: "",
     name: "",
-    filterdNames:[],
+    filteredNames:[],
     allNames:[],
   },
 
   onNameChange(e: any) {
     const name = e.detail.value;
-    this.setData({
-      "name": name,
-    })
+    this.setData({"name": name,})
   },
   sendRequest() {
     const app = getApp();
     let keyword = this.data.name.trimEnd();
-    const filterdNames = this.data.allNames.filter(item => {
+    const filteredNames = this.data.allNames.filter((item:any) => {
       return item.name.startsWith(keyword)}
     );
     let names = "";
-    filterdNames.forEach((item) => {
+    filteredNames.forEach((item: any) => {
       names = names + "- **" + item.name + "**: " + item.meaning + "\n";
     });
     const obj = app.towxml(names, 'markdown', {theme: 'light'});
     this.setData({"answer": obj});
   },
 
-  onLoad(options) {
+  onLoad() {
     const app = getApp();
-    const type = options.type;
     let names: string = "";
-    if(type == "female") {
-      this.setData({"allNames": app.globalData.femaleNames});
-      this.data.allNames.forEach((item) => {
-        names = names + "- **" + item.name + "**: " + item.meaning + "\n";
-      });
-     
-    } else if(type == "male") {
-      this.setData({"allNames": app.globalData.maleNames});
-      this.data.allNames.forEach((item) => {
-        names = names + "- **" + item.name + "**: " + item.meaning + "\n";
-      });
-    } else {
-      this.setData({"allNames": app.globalData.midNames});
-      this.data.allNames.forEach((item) => {
-        names = names + "- **" + item.name + "**: " + item.meaning + "\n";
-      });
-    }
+    this.setData({"allNames": app.globalData.dictNames});
+    this.data.allNames.forEach((item: any) => {
+      names = names + "- **" + item.name + "**: " + item.meaning + "\n";
+    });
     const obj = app.towxml(
       names, 'markdown', {theme: 'light'}
     );

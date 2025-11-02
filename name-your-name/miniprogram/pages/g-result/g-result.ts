@@ -24,6 +24,8 @@ Page({
   },
   async sendRequest(){
     this.setData({"showIndictor": true});
+    const loadingIcon = this.selectComponent("#loadingIcon");
+    loadingIcon.startLoading();
     const app = getApp();
     const userInput = app.globalData.userInput;
     let token = "";
@@ -41,9 +43,11 @@ Page({
       app.globalData.answer = resp;
       const obj = app.towxml(resp, 'markdown', {theme: 'light'});
       this.setData({"answer": obj, "anchor": "topAnchor", "showIndictor": false});
+      loadingIcon.stopLoading();
     } catch(e) {
         wx.showToast({title: '券码无效！', duration: 1000});
         this.setData({"showIndictor": false});
+        loadingIcon.stopLoading();
         wx.redirectTo({
           url: '/pages/custom-name/custom-name',
         })

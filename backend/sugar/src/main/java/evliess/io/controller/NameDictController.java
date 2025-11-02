@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -93,6 +94,15 @@ public class NameDictController {
             jsonObject.put("msg", body);
             return ResponseEntity.ok(jsonObject.toString());
         }
+    }
+
+    @PostMapping("/public/dict/batch/type/{type}")
+    public ResponseEntity<String> batchByType(@RequestBody String body, @PathVariable String type) {
+        this.nameDictService.insertOrUpdate(body, type);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg", "ok");
+        return ResponseEntity.ok(jsonObject.toString());
+
     }
 
     @PostMapping("/public/dict/batch/male")

@@ -1,31 +1,19 @@
 <!-- pages/myPage/myPage.wxml -->
 <view class="container">
   <!-- 上半部分：scroll-view -->
-  <scroll-view class="scroll-view" 
-  scroll-into-view="{{anchor}}"
-  scroll-y>
+  <scroll-view class="scroll-view" scroll-into-view="{{anchor}}" scroll-y>
     <view id="topAnchor"></view>
     <view class="answer">
       <towxml nodes="{{answer}}" />
     </view>
   </scroll-view>
 
+  <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
+      <loading-spiner id="loadingIcon"></loading-spiner>
+  </view>
   <!-- 下半部分：两个按钮 -->
   <view class="button-container">
     <button disabled="{{showIndictor}}" style="width:100px; height: 48px; font-size: 20px;" class="btn btn-primary btn-edit" bind:tap="editInput">返回修改</button>
-    <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
-      <view class="wait-indictor">
-        <view class="msg">
-          <view class="lds-ellipsis">
-            <view></view>
-            <view></view>
-            <view></view>
-            <view></view>
-          </view>
-          <text class="wait-msg">请等待片刻</text>
-        </view>
-      </view>
-    </view>
     <button disabled="{{showIndictor}}" style="width:100px; height: 48px; font-size: 20px;" class="btn btn-primary btn-req" bind:tap="sendRequest">再来一组</button>
   </view>
 </view>
