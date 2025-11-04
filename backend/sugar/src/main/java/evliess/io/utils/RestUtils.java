@@ -186,9 +186,15 @@ public class RestUtils {
         return sb.toString();
     }
 
-    public static String getUid(String code) {
-        String appId = System.getenv(Constants.APP_ID);
-        String appSecret = System.getenv(Constants.APP_SECRET);
+    public static String getUid(String code, String type) {
+        String appId = "", appSecret = "";
+        if (Constants.APP_TYPE_SUGAR.equals(type)) {
+            appId = System.getenv(Constants.APP_ID);
+            appSecret = System.getenv(Constants.APP_SECRET);
+        } else if (Constants.APP_TYPE_SWEET.equals(type)) {
+            appId = System.getenv(Constants.APP_ID_SWEET);
+            appSecret = System.getenv(Constants.APP_SECRET_SWEET);
+        }
         String url = Constants.UID_ENDPOINT.replace("${appid}", appId)
                 .replace("${secret}", appSecret).replace("${code}", code);
         RestTemplate restTemplate = buildRestTemplate();

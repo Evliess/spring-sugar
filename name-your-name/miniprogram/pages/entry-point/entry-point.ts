@@ -1,11 +1,12 @@
-// pages/entry-point/entry-point.ts
+import { BASE_URL } from '../../utils/util'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    img_compass1: BASE_URL + "/public/images/compass1.png",
+    img_globe2: BASE_URL + "/public/images/globe2.png",
   },
   toEntryPoint() {
     wx.navigateTo({url: '/pages/logs/logs'});
@@ -18,7 +19,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-
+    console.log(BASE_URL);
   },
 
   /**

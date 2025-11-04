@@ -27,7 +27,7 @@ App({
         wx.request({
           url: this.BASE_URL + '/public/uid',
           method: 'POST',
-          data: {"code": res.code},
+          data: {"code": res.code, "type": "sugar"},
           header: {'content-type': 'application/json'},
           success: (res) => {
             this.globalData.openId = res.data.openId;
