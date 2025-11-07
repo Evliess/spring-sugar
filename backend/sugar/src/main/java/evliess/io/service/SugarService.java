@@ -52,20 +52,25 @@ public class SugarService {
     private void saveHistoryMsg(String message, String username, StringBuilder sbHistoryNames) {
         SugarUserHistory sugarUserHistory = sugarUserHistoryRepository.findByNameAndMsg(username, message);
         if (sugarUserHistory == null) {
-            sugarUserHistory = new SugarUserHistory();
-            sugarUserHistory.setUsername(username);
-            sugarUserHistory.setMessage(message);
-            sugarUserHistory.setHistory(sbHistoryNames.toString());
+            sugarUserHistory = new SugarUserHistory(username, message, sbHistoryNames.toString());
         } else {
             String history = sugarUserHistory.getHistory();
-            StringBuilder sbHistory = new StringBuilder(history);
-            String[] names = sbHistoryNames.toString().split(",");
-            for (String name : names) {
-                if (!history.contains(name)) {
-                    sbHistory.append(name).append(",");
-                }
+            int count = 0;
+            for (char ch : history.toCharArray()) {
+                if (ch == ',') count++;
             }
-            sugarUserHistory.setHistory(sbHistory.toString());
+            if (count >= 90) {
+                sugarUserHistory.setHistory(sbHistoryNames.toString());
+            } else {
+                StringBuilder sbHistory = new StringBuilder(history);
+                String[] names = sbHistoryNames.toString().split(",");
+                for (String name : names) {
+                    if (!history.contains(name)) {
+                        sbHistory.append(name).append(",");
+                    }
+                }
+                sugarUserHistory.setHistory(sbHistory.toString());
+            }
         }
         sugarUserHistoryRepository.save(sugarUserHistory);
     }

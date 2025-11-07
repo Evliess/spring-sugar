@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import evliess.io.config.Constants;
 import evliess.io.entity.AuditToken;
+import evliess.io.jpa.SugarUserHistoryRepository;
 import evliess.io.service.AuditTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,13 @@ public class AuditTokenController {
 
 
     private final AuditTokenService auditTokenService;
+    private final SugarUserHistoryRepository sugarUserHistoryRepository;
 
     @Autowired
-    public AuditTokenController(AuditTokenService auditTokenService) {
+    public AuditTokenController(AuditTokenService auditTokenService,
+                                SugarUserHistoryRepository sugarUserHistoryRepository) {
         this.auditTokenService = auditTokenService;
+        this.sugarUserHistoryRepository = sugarUserHistoryRepository;
     }
 
     @GetMapping("/public/audit/users")
@@ -89,11 +93,13 @@ public class AuditTokenController {
         JSONObject jsonNode = JSON.parseObject(body);
         String days = jsonNode.getString("days");
         Long timestamp = Instant.now().plus(Duration.ofDays(Long.parseLong(days))).toEpochMilli();
+        int history = sugarUserHistoryRepository.deleteLessThanConsumedAt(timestamp);
         int records = auditTokenService.deleteLessThanConsumedAt(timestamp);
         log.info("timestamp: {}", timestamp);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "ok");
         jsonObject.put("records", records);
+        jsonObject.put("history", history);
         return ResponseEntity.ok(jsonObject.toString());
 
 

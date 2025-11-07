@@ -2,6 +2,8 @@ package evliess.io.entity;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "S_USERS_CHAT_HISTORY")
 public class SugarUserHistory {
@@ -17,6 +19,18 @@ public class SugarUserHistory {
 
     @Column(name = "s_history")
     private String history;
+
+    @Column(name = "consumed_at")
+    private Long consumedAt;
+
+    public SugarUserHistory(){}
+
+    public SugarUserHistory(String username, String message, String history) {
+        this.username = username;
+        this.message = message;
+        this.history = history;
+        this.consumedAt = Instant.now().toEpochMilli();
+    }
 
     public Long getId() {
         return id;
@@ -48,5 +62,13 @@ public class SugarUserHistory {
 
     public void setHistory(String history) {
         this.history = history;
+    }
+
+    public Long getConsumedAt() {
+        return consumedAt;
+    }
+
+    public void setConsumedAt(Long consumedAt) {
+        this.consumedAt = consumedAt;
     }
 }
