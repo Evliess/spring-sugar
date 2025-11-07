@@ -50,7 +50,7 @@ public class RestUtils {
                 - 如果该发音和中文发音相似，请指出相似的那个英文和中文部分。
             人物形象：
                 - 用大于100个字不超过270个字描述。
-                - 四个名字的人物形象语言描述不能有重复描述，可以使用不同的词语或者语气，使回复看起来丰富多彩并且用非常自然的叙述方式。
+                - 三个名字的人物形象语言描述不能有重复描述，可以使用不同的词语或者语气，使回复看起来丰富多彩并且用非常自然的叙述方式。
                 - 人物形象的描述不要出现星座的信息。
             流行度：这个名字在过去的流行度(注意：不包含欧美地区)。
             
@@ -58,7 +58,7 @@ public class RestUtils {
             </回答要求>
             """;
 
-    private static final String USER_MESSAGE = "中文名字：%1。 性别：%2。星座或者MBTI：%3。期望寓意: %4。其他要求: %5。是否需要和中文名字发音相似：%6。";
+    private static final String USER_MESSAGE = "中文名字：%1。 性别：%2。星座或者MBTI：%3。期望寓意: %4。其他要求: %5。是否需要和中文名字发音相似：%6。%7";
     private static final String DPSK_MODEL = "deepseek-chat";
     private static final String QW_MODEl = "deepseek-r1";
 
@@ -70,7 +70,7 @@ public class RestUtils {
                 .setReadTimeout(Duration.ofMinutes(2L)).build();
     }
 
-    private static String replaceUserMessage(String body) throws JsonProcessingException {
+    private static String replaceUserMessage(String body, String historyMsg) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(body);
         String name = jsonNode.get("name").asText();
@@ -79,16 +79,22 @@ public class RestUtils {
         String meaning = jsonNode.get("meaning").asText();
         String other = jsonNode.get("other").asText();
         String voice = jsonNode.get("voice").asText();
-        return USER_MESSAGE.replace("%1", name).replace("%2", sex
+        String tmp = USER_MESSAGE.replace("%1", name).replace("%2", sex
                 ).replace("%3", mbti).replace("%4", meaning)
                 .replace("%5", other).replace("%6", voice);
+        if (historyMsg != null && !historyMsg.trim().isEmpty()) {
+            tmp = tmp.replace("%7", "禁止返回下列重复的名字:[" + historyMsg + "]!");
+        } else {
+            tmp = tmp.replace("%7", "");
+        }
+        return tmp;
     }
 
 
-    public static String dpskChat(String msg, String token) throws JsonProcessingException {
+    public static String dpskChat(String msg, String historyMsg, String token) throws JsonProcessingException {
         String uuid = UUID.randomUUID().toString();
         log.info("DP is answering: {}", uuid);
-        String resp = postChat(msg, token, DPSK_MODEL, DPSK_CHAT_URL, uuid);
+        String resp = postChat(msg, historyMsg, token, DPSK_MODEL, DPSK_CHAT_URL, uuid);
         if (resp == null) {
             log.error("Failed to chat with DP");
         } else {
@@ -98,10 +104,10 @@ public class RestUtils {
     }
 
 
-    public static String qwChat(String msg, String token) throws JsonProcessingException {
+    public static String qwChat(String msg, String historyMsg, String token) throws JsonProcessingException {
         String uuid = UUID.randomUUID().toString();
         log.info("QW is answering: {}", uuid);
-        String resp = postChat(msg, token, QW_MODEl, QW_CHAT_URL, uuid);
+        String resp = postChat(msg, historyMsg, token, QW_MODEl, QW_CHAT_URL, uuid);
         if (resp == null) {
             log.error("Failed to chat with qw");
         } else {
@@ -110,12 +116,12 @@ public class RestUtils {
         return resp;
     }
 
-    private static String postChat(String msg, String token, String model, String url, String uuid) throws JsonProcessingException {
+    private static String postChat(String msg, String historyMsg, String token, String model, String url, String uuid) throws JsonProcessingException {
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         headers.add("Authorization", "Bearer " + token);
-        HttpEntity<String> request = getStringHttpEntity(uuid, model, headers, msg);
+        HttpEntity<String> request = getStringHttpEntity(uuid, model, headers, msg, historyMsg);
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
@@ -144,11 +150,11 @@ public class RestUtils {
         return SORRY_MESSAGE;
     }
 
-    private static HttpEntity<String> getStringHttpEntity(String uuid, String model, HttpHeaders headers, String msg) throws JsonProcessingException {
+    private static HttpEntity<String> getStringHttpEntity(String uuid, String model, HttpHeaders headers, String msg, String historyMsg) throws JsonProcessingException {
         Map<String, Object> body = new HashMap<>();
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "system", "content", SYSTEM_MSG));
-        String userMessage = replaceUserMessage(msg);
+        String userMessage = replaceUserMessage(msg, historyMsg);
         log.info("User message - {}: {}", uuid, userMessage);
         messages.add(Map.of("role", "user", "content", userMessage));
         body.put("messages", messages);
@@ -158,7 +164,7 @@ public class RestUtils {
         return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
     }
 
-    public static String jsonArrayToString(String resp) {
+    public static JSONArray convertRespToJSONArray(String resp) {
         if (resp == null || resp.isEmpty()) {
             return null;
         }
@@ -169,10 +175,16 @@ public class RestUtils {
         JSONArray jsonArray;
         try {
             jsonArray = JSON.parseArray(resp);
+            return jsonArray;
         } catch (Exception e) {
             log.error("{}", resp);
             return null;
         }
+    }
+
+    public static String jsonArrayToString(String resp) {
+        JSONArray jsonArray = convertRespToJSONArray(resp);
+        if (jsonArray == null) return null;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
