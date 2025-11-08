@@ -3,11 +3,14 @@ package evliess.io.service;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import evliess.io.entity.SugarUserHistory;
+import evliess.io.entity.UserRespHistory;
 import evliess.io.jpa.SugarUserHistoryRepository;
+import evliess.io.jpa.UserRespHistoryRepository;
 import evliess.io.utils.RestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -24,15 +28,36 @@ public class SugarService {
     private final DpskService dpskService;
     private final QwService qwService;
     private final SugarUserHistoryRepository sugarUserHistoryRepository;
+    private final UserRespHistoryRepository userRespHistoryRepository;
+
 
     @Autowired
-    public SugarService(DpskService dpskService, QwService qwService, SugarUserHistoryRepository sugarUserHistoryRepository) {
+    public SugarService(DpskService dpskService, QwService qwService, SugarUserHistoryRepository sugarUserHistoryRepository, UserRespHistoryRepository userRespHistoryRepository) {
         this.dpskService = dpskService;
         this.qwService = qwService;
         this.sugarUserHistoryRepository = sugarUserHistoryRepository;
+        this.userRespHistoryRepository = userRespHistoryRepository;
     }
 
-    private void saveChatHistory(String message, String llmResp, UsernamePasswordAuthenticationToken authenticationToken) {
+    private void saveHistoryResp(String respInMD, UsernamePasswordAuthenticationToken authenticationToken) {
+        String principal = authenticationToken.getPrincipal().toString();
+        String username = principal.split("::")[0];
+        if (!"请点击返回修改试试！".equals(respInMD)) {
+            UserRespHistory userRespHistory = new UserRespHistory(username, respInMD);
+            this.userRespHistoryRepository.save(userRespHistory);
+        }
+    }
+
+    public ResponseEntity<String> findUserRespHistoryByUsername(String username) {
+        List<UserRespHistory> histories = this.userRespHistoryRepository.findUserRespHistoryByUsername(username);
+        StringBuilder sb = new StringBuilder();
+        for (UserRespHistory userRespHistory : histories) {
+            sb.append(userRespHistory.getMessage());
+        }
+        return ResponseEntity.ok(sb.toString());
+    }
+
+    private void saveHistoryNames(String message, String llmResp, UsernamePasswordAuthenticationToken authenticationToken) {
         try {
             JSONArray jsonArray = RestUtils.convertRespToJSONArray(llmResp);
             if (jsonArray == null) return;
@@ -59,7 +84,7 @@ public class SugarService {
             for (char ch : history.toCharArray()) {
                 if (ch == ',') count++;
             }
-            if (count >= 90) {
+            if (count >= 40) {
                 sugarUserHistory.setHistory(sbHistoryNames.toString());
             } else {
                 StringBuilder sbHistory = new StringBuilder(history);
@@ -91,8 +116,10 @@ public class SugarService {
                         history = sugarUserHistory.getHistory();
                     }
                     String llmResp = dpskService.chat(message, history, System.getenv(apiKeyEnv));
-                    saveChatHistory(message, llmResp, authenticationToken);
-                    return RestUtils.jsonArrayToString(llmResp);
+                    saveHistoryNames(message, llmResp, authenticationToken);
+                    String respInMD = RestUtils.jsonArrayToString(llmResp);
+                    saveHistoryResp(respInMD, authenticationToken);
+                    return respInMD;
                 }
             } catch (Exception e) {
                 log.error("{}", e.getMessage(), e);
@@ -107,12 +134,18 @@ public class SugarService {
     }
 
     public String chat(String message) {
-        CompletableFuture<String> future1 = createFuture(message, "QW_API_KEY");
-        CompletableFuture<String> future2 = createFuture(message, "API_KEY0");
-        CompletableFuture<String> future3 = createFuture(message, "API_KEY1");
+//        CompletableFuture<String> future1 = createFuture(message, "QW_API_KEY");
+//        CompletableFuture<String> future2 = createFuture(message, "API_KEY0");
+        CompletableFuture<String> future3;
+        int random = new Random().nextInt(99);
+        if (random % 2 == 0) {
+            future3 = createFuture(message, "API_KEY1");
+        } else {
+            future3 = createFuture(message, "API_KEY0");
+        }
         List<CompletableFuture<String>> futureList = new ArrayList<>();
-        futureList.add(future1);
-        futureList.add(future2);
+//        futureList.add(future1);
+//        futureList.add(future2);
         futureList.add(future3);
         CompletableFuture<Object> firstValid = CompletableFuture.anyOf(
                 futureList.toArray(new CompletableFuture[0])

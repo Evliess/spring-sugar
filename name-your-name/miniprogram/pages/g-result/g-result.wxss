@@ -42,3 +42,44 @@
   display: inline-block;
   visibility: visible;
 }
+
+.floating-button {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: #7684c0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  transition: all 0.3s ease;
+  object-fit: contain;
+}
+
+.floating-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  outline: none;
+}

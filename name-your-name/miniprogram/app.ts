@@ -4,6 +4,7 @@ App({
   globalData: {
     answer: {},
     openId: "",
+    historyResp: "",
     openIdCallbacks: [],
     userInput: {
       name: '',
