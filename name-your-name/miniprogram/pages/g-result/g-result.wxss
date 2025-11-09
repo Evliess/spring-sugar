@@ -2,11 +2,10 @@
   display: flex;
   flex-direction: column;
   padding: 0 4px 0 4px;
-  margin-top: 1rem;
 }
 
 .scroll-view {
-  height: 90vh - 60px;
+  height: 90vh - 20px;
   border: 1px solid #E0E0E0;
   border-radius: 8px;
 }
@@ -17,20 +16,23 @@
 
 .button-container {
   display: flex;
-  padding: 14px;
+  padding: 0 4px 14px 4px;
   width: 100%;
+  margin-bottom: 20px;
 }
 
+
+
 .btn-edit {
-  margin-left: 14px !important;
+  margin-left: 40px !important;
 }
 
 .btn-req {
-  margin-right: 14px !important;
+  margin-right: 40px !important;
 }
 
 .wait-indictor {
-  margin: 10px 0 10px 6px;
+  margin: 6px 0 2px 6px;
   height: 30px;
 }
 
@@ -42,38 +44,15 @@
   display: inline-block;
   visibility: visible;
 }
-
-.floating-button {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 56px;
-  height: 56px;
-  border-radius: 28px;
+.btn-history {
   background-color: #7684c0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: none;
-  outline: none;
-  padding: 0;
-  margin: 0;
-  line-height: normal;
 }
-
-.button-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
 .icon {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   transition: all 0.3s ease;
   object-fit: contain;
 }
