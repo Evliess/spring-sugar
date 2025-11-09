@@ -5,7 +5,8 @@
     "pages/dict-search/dict-search",
     "pages/g-result/g-result",
     "pages/entry-point/entry-point",
-    "pages/dict-choose/dict-choose"
+    "pages/dict-choose/dict-choose",
+    "pages/history-result/history-result"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -1,8 +1,9 @@
-import { fetchValidToken, checkToken } from '../../utils/util'
+import { fetchValidToken, checkToken, BASE_URL } from '../../utils/util'
 const app = getApp();
 Page({
   data: {
     token: "",
+    img_logo: BASE_URL + "/public/images/logo.png",
   },
 
   onTokenChange(e: any) {

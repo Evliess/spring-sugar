@@ -1,5 +1,6 @@
 package evliess.io.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import evliess.io.config.Constants;
 import evliess.io.service.AuditTokenService;
 import evliess.io.service.SugarService;
@@ -34,7 +35,6 @@ public class StockController {
 
     @PostMapping("/private/sugar")
     public ResponseEntity<String> getSugar(@RequestBody String body) {
-        log.info(body);
         String checkResult = RestUtils.checkParams(body);
         if (!checkResult.equals(Constants.VERIFIED)) {
             return ResponseEntity.ok(checkResult);
@@ -43,9 +43,15 @@ public class StockController {
         if (null == result) {
             result = service.chat(body);
         }
-        log.info(result);
         auditTokenService.saveAuditToken(Constants.TYPE_LLM);
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/private/historyResp")
+    public ResponseEntity<String> findUserRespHistoryByUsername(@RequestBody String body) {
+        JSONObject jsonObject = JSONObject.parseObject(body);
+        String name = jsonObject.getString("name");
+        return service.findUserRespHistoryByUsername(name);
     }
 
 

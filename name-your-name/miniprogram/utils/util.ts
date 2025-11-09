@@ -4,8 +4,7 @@ interface RequestOptions {
   data?: any,
   header?: any
 }
-// export const BASE_URL = 'http://localhost:8080';
-export const BASE_URL = 'https://www.jiangxinma.top';
+
 export const request = <T = any>(options: RequestOptions) : Promise<T> => {
   return new Promise((resolve, reject)=> {
     wx.request({
@@ -30,6 +29,8 @@ export const fetchDictNamesByType = (url: string, type: string, openId: string) 
 export const fetchValidToken = (url: string, openId: string) => request<any>({url: url, method: 'POST', data: {"openId": openId}});
 export const fetchSugar = (url: string, openId: string, token: string, data: any)=> request<any>({url: url, method: 'POST', data: data, 
                             header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId}});
+export const fetchHistory = (url: string, openId: string, token: string, data: any)=> request<any>({url: url, method: 'POST', data: data, 
+header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId}});
 export const fetchOpenid = (url: string, code: string) => request<any>({url: url, method: 'POST', data: {"code": code}});
 export const checkToken = (url: string, openId: string, token: string) => request<any>({url: url, method: 'POST',
                             header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId}});
