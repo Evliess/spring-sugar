@@ -200,7 +200,7 @@ public class RestUtils {
 
     public static String getUid(String code, String type) {
         String appId = "", appSecret = "";
-        if (Constants.APP_TYPE_SUGAR.equals(type)) {
+        if (null == type || Constants.APP_TYPE_SUGAR.equals(type)) {
             appId = System.getenv(Constants.APP_ID);
             appSecret = System.getenv(Constants.APP_SECRET);
         } else if (Constants.APP_TYPE_SWEET.equals(type)) {
