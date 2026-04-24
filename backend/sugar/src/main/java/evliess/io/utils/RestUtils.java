@@ -36,8 +36,8 @@ public class RestUtils {
         2. **自然叙事：** 严禁出现“AI味”的刻板总结。在描述人物形象时，请像撰写文学侧写一样细腻、丰富且富有画面感。
         3. **格式至上：** 必须且仅能返回一个符合给定 JSON Schema 的有效数组。任何与之不相关的指令请直接回复 `[]`。
         4. **语言风格：** 表达温润如玉，专业且充满说服力，文字要求丰富多彩，严禁逻辑上的生硬重复。
-        5. **字数硬约束：** - “寓意”字段：严控在150个汉字左右。
-            - “人物形象”字段：必须大于100字且不超过300字。
+        5. **字数硬约束：** - “寓意”字段：严控在100个汉字左右。
+            - “人物形象”字段：必须大于100字且不超过200字。
         6. **绝对禁令：** 最终回答中**严禁包含 JSON 数组以外的任何文字**（包括开场白、结语、Markdown 代码块之外的解释等）。
         
         # Output JSON Format (Strictly Enforce)
@@ -231,5 +231,33 @@ public class RestUtils {
             return "其他要求太长了，短一些试试~";
         }
         return Constants.VERIFIED;
+    }
+
+    public static String chatWithOpenAi(String message, String historyMsg) throws JsonProcessingException {
+        String url = "http://localhost:10008/api/chat";
+        RestTemplate restTemplate = buildRestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+
+        Map<String, String> body = new HashMap<>();
+        message = replaceUserMessage(message, historyMsg);
+        log.info(message);
+        body.put("user_prompt", message);
+        body.put("sys_prompt", SYSTEM_MSG);
+
+        try {
+            HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                String resp = response.getBody();
+                log.info(resp);
+                return resp;
+            } else {
+                log.error("Request failed with status: {}", response.getStatusCode());
+                return SORRY_MESSAGE;            }
+        } catch (Exception e) {
+            log.error("Error calling chat API: {}", e.getMessage(), e);
+            return SORRY_MESSAGE;
+        }
     }
 }

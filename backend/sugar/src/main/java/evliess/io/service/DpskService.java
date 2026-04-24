@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class DpskService implements Inference {
     @Override
     public String chat(String message, String historyMsg, String token) throws JsonProcessingException {
-        return RestUtils.dpskChat(message, historyMsg, token);
+        return RestUtils.chatWithOpenAi(message, historyMsg);
     }
 
 

@@ -10,6 +10,7 @@ import evliess.io.utils.RestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -29,14 +31,16 @@ public class SugarService {
     private final QwService qwService;
     private final SugarUserHistoryRepository sugarUserHistoryRepository;
     private final UserRespHistoryRepository userRespHistoryRepository;
+    private final Executor executor;
 
 
     @Autowired
-    public SugarService(DpskService dpskService, QwService qwService, SugarUserHistoryRepository sugarUserHistoryRepository, UserRespHistoryRepository userRespHistoryRepository) {
+    public SugarService(@Qualifier("myCustomExecutor") Executor executor, DpskService dpskService, QwService qwService, SugarUserHistoryRepository sugarUserHistoryRepository, UserRespHistoryRepository userRespHistoryRepository) {
         this.dpskService = dpskService;
         this.qwService = qwService;
         this.sugarUserHistoryRepository = sugarUserHistoryRepository;
         this.userRespHistoryRepository = userRespHistoryRepository;
+        this.executor = executor;
     }
 
     private void saveHistoryResp(String respInMD, UsernamePasswordAuthenticationToken authenticationToken) {
@@ -116,9 +120,19 @@ public class SugarService {
                         history = sugarUserHistory.getHistory();
                     }
                     String llmResp = dpskService.chat(message, history, System.getenv(apiKeyEnv));
-                    saveHistoryNames(message, llmResp, authenticationToken);
                     String respInMD = RestUtils.jsonArrayToString(llmResp);
-                    saveHistoryResp(respInMD, authenticationToken);
+
+                    CompletableFuture.runAsync(() -> {
+                        try {
+                            saveHistoryNames(message, llmResp, authenticationToken);
+                            saveHistoryResp(respInMD, authenticationToken);
+                        } catch (Exception e) {
+                            log.error("异步任务执行发生异常: {}", e.getMessage());
+                        }
+                    }, executor).exceptionally(ex -> {
+                        log.error("异步任务执行发生异常: {}", ex.getMessage());
+                        return null;
+                    });
                     return respInMD;
                 }
             } catch (Exception e) {
