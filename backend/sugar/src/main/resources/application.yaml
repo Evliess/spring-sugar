@@ -1,8 +1,25 @@
-spring.datasource.url: ${DB_URL}
-spring.datasource.driverClassName: org.h2.Driver
-spring.datasource.username: ${DB_USER}
-spring.datasource.password: ${DB_ACCESS_KEY}
-spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  datasource:
+    url: ${DB_URL}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${DB_USER}
+    password: ${DB_ACCESS_KEY}
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      idle-timeout: 600000
+  jpa:
+    open-in-view: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        boot:
+          allow_jdbc_metadata_access: true
 
 springdoc:
   api-docs:
