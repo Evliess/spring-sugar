@@ -6,6 +6,11 @@ import com.wechat.pay.java.service.payments.jsapi.JsapiServiceExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StreamUtils;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 public class WepayConfig {
@@ -14,8 +19,7 @@ public class WepayConfig {
     private String mchId;
     @Value("${wxpay.api-v3-key}")
     private String apiV3Key;
-    @Value("${wxpay.private-key-path}")
-    private String privateKeyPath;
+
     @Value("${wxpay.mch-serial-no}")
     private String mchSerialNo;
 
@@ -34,11 +38,12 @@ public class WepayConfig {
      */
     @Bean
     public Config wxPayConfig() {
+        String privateKeyContent = loadClassPathFile("apiclient_key.pem");
         // 【关键】请根据你项目实际使用的 Config 实现类来替换这里
         // 如果你用的是微信支付平台证书（自动更新），就是 RSAAutoCertificateConfig
         return new RSAAutoCertificateConfig.Builder()
                 .merchantId(mchId)
-                .privateKeyFromPath(privateKeyPath)
+                .privateKey(privateKeyContent)
                 .merchantSerialNumber(mchSerialNo)
                 .apiV3Key(apiV3Key)
                 .build();
@@ -62,5 +67,16 @@ public class WepayConfig {
         return new JsapiServiceExtension.Builder()
                 .config(wxPayConfig)
                 .build();
+    }
+
+    private String loadClassPathFile(String path) {
+        try {
+            ClassPathResource resource = new ClassPathResource(path);
+            try (InputStream inputStream = resource.getInputStream()) {
+                return StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("读取私钥文件失败：" + path, e);
+        }
     }
 }

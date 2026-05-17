@@ -33,7 +33,6 @@ wxpay:
   appid: wx1234567890abcdef  # 你的小程序AppID
   mchid: 1230000109           # 你的商户号
   api-v3-key: "yourApiV3Key"  # APIv3密钥
-  private-key-path: classpath:apiclient_key.pem  # 商户私钥文件路径
   mch-serial-no: "yourMchSerialNo"  # 商户证书序列号
   notify-url: "https://your-domain.com/api/wxpay/notify" # 回调地址
   connect-timeout: 5000
