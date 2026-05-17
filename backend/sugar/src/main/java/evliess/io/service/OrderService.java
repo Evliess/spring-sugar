@@ -7,6 +7,7 @@ import evliess.io.entity.OrderStatus;
 import evliess.io.entity.WOrder;
 import evliess.io.jpa.AuditTokenRepository;
 import evliess.io.jpa.OrderRepository;
+import evliess.io.jpa.SugarUserRepository;
 import evliess.io.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +29,15 @@ public class OrderService {
     private final ThreadPoolTaskExecutor paymentExecutor;
     private final OrderRepository orderRepository;
     private final AuditTokenRepository auditTokenRepository;
+    private final SugarUserRepository sugarUserRepository;
 
     @Autowired
-    public OrderService(AuditTokenRepository auditTokenRepository, OrderRepository orderRepository, WepayService wepayService, @Qualifier("paymentAsyncExecutor") ThreadPoolTaskExecutor paymentExecutor) {
+    public OrderService(SugarUserRepository sugarUserRepository, AuditTokenRepository auditTokenRepository, OrderRepository orderRepository, WepayService wepayService, @Qualifier("paymentAsyncExecutor") ThreadPoolTaskExecutor paymentExecutor) {
         this.wepayService = wepayService;
         this.paymentExecutor = paymentExecutor;
         this.orderRepository = orderRepository;
         this.auditTokenRepository = auditTokenRepository;
+        this.sugarUserRepository = sugarUserRepository;
     }
 
     /**
@@ -99,7 +102,9 @@ public class OrderService {
      */
     private void executePostPaymentBusiness(WOrder order) {
         log.info("Generate token for OutTradeNo: {} ", order.getOutTradeNo());
-        String credentials = TokenUtils.generateToken("7");
+        String credentials = TokenUtils.generateToken(
+                sugarUserRepository.findByUsername(SugarUserService.S_DAYS)
+                        .getAccessKey());
         AuditToken auditToken = new AuditToken(order.getOpenId(), credentials, Constants.TYPE_LLM);
         this.auditTokenRepository.save(auditToken);
 
