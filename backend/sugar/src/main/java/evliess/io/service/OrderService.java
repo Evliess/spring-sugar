@@ -1,8 +1,13 @@
 package evliess.io.service;
 
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayWithRequestPaymentResponse;
+import evliess.io.config.Constants;
+import evliess.io.entity.AuditToken;
 import evliess.io.entity.OrderStatus;
 import evliess.io.entity.WOrder;
+import evliess.io.jpa.AuditTokenRepository;
+import evliess.io.jpa.OrderRepository;
+import evliess.io.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +16,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class OrderService {
@@ -19,11 +26,15 @@ public class OrderService {
 
     private final WepayService wepayService;
     private final ThreadPoolTaskExecutor paymentExecutor;
+    private final OrderRepository orderRepository;
+    private final AuditTokenRepository auditTokenRepository;
 
     @Autowired
-    public OrderService(WepayService wepayService, @Qualifier("paymentAsyncExecutor") ThreadPoolTaskExecutor paymentExecutor) {
+    public OrderService(AuditTokenRepository auditTokenRepository, OrderRepository orderRepository, WepayService wepayService, @Qualifier("paymentAsyncExecutor") ThreadPoolTaskExecutor paymentExecutor) {
         this.wepayService = wepayService;
         this.paymentExecutor = paymentExecutor;
+        this.orderRepository = orderRepository;
+        this.auditTokenRepository = auditTokenRepository;
     }
 
     /**
@@ -32,14 +43,14 @@ public class OrderService {
      * @param outTradeNo    商户订单号
      * @param transactionId 微信支付订单号
      * @param totalAmount   支付金额（分）
-     * @param payerOpenid   支付者openid
+     * @param payerOpenId   支付者openid
      * @return true-首次处理成功，false-重复通知
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean processPaymentCallback(String outTradeNo,
                                           String transactionId,
                                           Integer totalAmount,
-                                          String payerOpenid) {
+                                          String payerOpenId) {
         // 1. 根据商户订单号查询订单
         WOrder order = findOrderByOutTradeNo(outTradeNo);
 
@@ -62,7 +73,7 @@ public class OrderService {
         }
 
         // 4. 更新订单状态
-        updateOrderAfterPayment(outTradeNo, transactionId, payerOpenid);
+        updateOrderAfterPayment(outTradeNo, transactionId, payerOpenId);
 
         // 5. 这里可以异步执行后续业务逻辑
         // 例如：发送消息队列、记录支付日志、发放会员权益等
@@ -77,35 +88,25 @@ public class OrderService {
      */
     private void updateOrderAfterPayment(String outTradeNo,
                                          String transactionId,
-                                         String payerOpenid) {
-        // 数据库更新操作
-        // orderMapper.updatePaymentSuccess(outTradeNo, transactionId, payerOpenid, LocalDateTime.now());
+                                         String openId) {
+        this.updateOrderByOutTradeNo(outTradeNo, transactionId, openId);
         log.info("Update Order {} to Paid status, transactionId：{}", outTradeNo, transactionId);
     }
 
     /**
      * 执行支付后的业务逻辑
-     * 推荐使用异步方式处理，例如 @Async 或消息队列
+     * 通过线程池处理
      */
     private void executePostPaymentBusiness(WOrder order) {
-        // 这里建议用异步方式执行，避免阻塞微信回调响应
-        log.info("开始处理订单 {} 的后续业务逻辑...", order.getOutTradeNo());
+        log.info("Generate token for OutTradeNo: {} ", order.getOutTradeNo());
+        String credentials = TokenUtils.generateToken("7");
+        AuditToken auditToken = new AuditToken(order.getOpenId(), credentials, Constants.TYPE_LLM);
+        this.auditTokenRepository.save(auditToken);
 
-        // 示例业务：
-        // 1. 发送支付成功通知给用户
-        // 2. 更新库存
-        // 3. 发放积分/优惠券
-        // 4. 记录支付流水
     }
 
-    // 以下为示例方法，实际需要连接数据库
     private WOrder findOrderByOutTradeNo(String outTradeNo) {
-        // 模拟从数据库查询
-        WOrder order = new WOrder();
-        order.setOutTradeNo(outTradeNo);
-        order.setStatus(OrderStatus.UNPAID);
-        order.setTotalAmount(100); // 1元 = 100分
-        return order;
+        return orderRepository.findByOutTradeNo(outTradeNo);
     }
 
     public Map<String, String> createJsapiOrder(String openid, String amount) {
@@ -115,8 +116,31 @@ public class OrderService {
         if (amount == null || amount.isEmpty()) {
             throw new RuntimeException("amount is empty!");
         }
-        PrepayWithRequestPaymentResponse resp = wepayService.createWxPrepay(openid, Integer.parseInt(amount));
-        return wepayService.buildPayParams(resp);
+        String outTradeNo = generateOutTradeNo();
+        PrepayWithRequestPaymentResponse resp = wepayService.createWxPrepay(outTradeNo, openid, Integer.parseInt(amount));
+        Map<String, String> respMap = wepayService.buildPayParams(resp);
+        this.saveUnpaidOrder(outTradeNo, Integer.parseInt(amount), openid);
+        return respMap;
+    }
+
+    private void saveUnpaidOrder(String outTradeNo, Integer totalAmount, String openId) {
+        WOrder order = new WOrder(outTradeNo, OrderStatus.UNPAID, totalAmount, openId);
+        orderRepository.save(order);
+    }
+
+    private void updateOrderByOutTradeNo(String outTradeNo, String transactionId,
+                                         String openId) {
+        WOrder order = this.orderRepository.findByOutTradeNo(outTradeNo);
+        order.setStatus(OrderStatus.PAID);
+        order.setTransactionId(transactionId);
+        order.setUpdatedAt(Instant.now().toEpochMilli());
+        this.orderRepository.save(order);
+    }
+
+    private String generateOutTradeNo() {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String random = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        return "WORDER" + timestamp + random;
     }
 
 }

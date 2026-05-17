@@ -2,6 +2,8 @@ package evliess.io.entity;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "WOrder")
 public class WOrder {
@@ -15,6 +17,39 @@ public class WOrder {
     private OrderStatus status;
     @Column(name = "totalAmount")
     private Integer totalAmount;
+    @Column(name = "openId")
+    private String openId;
+    @Column(name = "transactionId")
+    private String transactionId;
+    @Column(name = "updated_at")
+    private Long updatedAt;
+
+    public WOrder() {
+    }
+
+    public WOrder(String outTradeNo, OrderStatus status, Integer totalAmount, String openId) {
+        this.outTradeNo = outTradeNo;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.openId = openId;
+        this.updatedAt = Instant.now().toEpochMilli();
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public Long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public String getOutTradeNo() {
         return outTradeNo;
@@ -38,5 +73,21 @@ public class WOrder {
 
     public void setTotalAmount(Integer totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

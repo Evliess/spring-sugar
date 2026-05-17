@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class WepayService {
@@ -30,11 +29,11 @@ public class WepayService {
         this.jsapiService = jsapiService;
     }
 
-    public PrepayWithRequestPaymentResponse createWxPrepay(String openid, int amount) {
+    public PrepayWithRequestPaymentResponse createWxPrepay(String outTradeNo, String openid, int amount) {
         PrepayRequest request = new PrepayRequest();
         request.setAppid(appId);
         request.setMchid(mchId);
-        request.setOutTradeNo(generateOutTradeNo());
+        request.setOutTradeNo(outTradeNo);
         request.setDescription("desc");
         request.setNotifyUrl(notifyUrl);
 
@@ -59,11 +58,7 @@ public class WepayService {
         return payParams;
     }
 
-    private String generateOutTradeNo() {
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        String random = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-        return "WORDER" + timestamp + random;
-    }
+
 
 
 }

@@ -73,7 +73,6 @@ public class WxPayController {
                 // 大多数官方 Config（如 RSAAutoCertificateConfig）都实现了此接口
                 parser = new NotificationParser((NotificationConfig) wxPayConfig);
             } else {
-                // 理论上不会发生，但万一有自定义实现，请根据你的 Config 类型手动构建 NotificationConfig
                 log.error("当前的 Config 类型 {} 未实现 NotificationConfig 接口", wxPayConfig.getClass().getName());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(createErrorResponse("服务器配置错误"));
