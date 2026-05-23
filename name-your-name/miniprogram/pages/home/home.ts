@@ -1,4 +1,4 @@
-import { fetchValidToken, checkToken, BASE_URL } from '../../utils/util'
+import { fetchValidToken, checkToken, createPreOrder,BASE_URL } from '../../utils/util'
 const app = getApp();
 Page({
   data: {
@@ -12,6 +12,53 @@ Page({
   },
 
   async sendRequest() {
+    let openId = "";
+    try {
+      openId = app.globalData.openId;
+    } catch(e) {}
+    try {
+      const resp = await createPreOrder("/public/order/create", openId);
+      if(resp.timeStamp) {
+        wx.requestPayment({
+          timeStamp: resp.timeStamp,
+          nonceStr: resp.nonceStr,
+          package: resp.package,
+          signType: resp.signType,
+          paySign: resp.paySign,
+          success() {
+            console.log('支付成功');
+            let checkCount = 0;
+            const maxChecks = 10;
+            const checkInterval = setInterval(async () => {
+              checkCount++;
+              try {
+                const checkResp = await fetchValidToken("/public/audit/user-token", openId);
+                if (checkResp.token !== "token") {
+                  clearInterval(checkInterval);
+                  wx.redirectTo({url: '/pages/entry-point/entry-point'});
+                }
+              } catch (e) {
+                console.error('检查token失败', e);
+              }
+              
+              if (checkCount >= maxChecks) {
+                clearInterval(checkInterval);
+              }
+            }, 2000);
+          },
+          fail(err) {
+            console.log('支付失败', err);
+          }
+        });
+      }
+
+    } catch(e) {
+      wx.showToast({title: '创建订单失败, 请联系客服！',duration: 3000, icon: 'none',});
+      return;
+    }
+  },
+
+  async sendRequestOld() {
     let openId = "";
     try {
       openId = app.globalData.openId;
@@ -33,7 +80,7 @@ Page({
   async onLoad() {
     
   },
-
+  
   async onReady() {
     app.onOpenIdReady((openId) => {
       fetchValidToken("/public/audit/user-token", openId).then((resp)=> {
