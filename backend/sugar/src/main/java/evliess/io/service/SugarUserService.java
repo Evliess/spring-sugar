@@ -16,6 +16,8 @@ import java.time.Instant;
 
 @Service
 public class SugarUserService {
+    public static final String S_AMOUNT = "S_AMOUNT";
+    public static final String S_DAYS = "S_DAYS";
     private static final Logger log = LoggerFactory.getLogger(SugarUserService.class);
 
     private final SugarUserRepository sugarUserRepository;
@@ -68,5 +70,18 @@ public class SugarUserService {
             return Instant.now().minusSeconds(60).toEpochMilli() + "";
         }
 
+    }
+
+    public SugarUser findSettingByName(String name) {
+        return this.sugarUserRepository.findByUsername(name);
+    }
+
+    public void updateAmountAndDays(String days, String amount) {
+        SugarUser uDays = this.sugarUserRepository.findByUsername(S_DAYS);
+        uDays.setAccessKey(days);
+        this.sugarUserRepository.save(uDays);
+        SugarUser uAmount = this.sugarUserRepository.findByUsername(S_AMOUNT);
+        uAmount.setAccessKey(amount);
+        this.sugarUserRepository.save(uAmount);
     }
 }

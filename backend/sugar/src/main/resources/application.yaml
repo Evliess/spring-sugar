@@ -28,3 +28,15 @@ springdoc:
 #    path: /swagger-ui.html
 #    title: AiDi
 #    version: 1.0.0
+
+wxpay:
+  appid: ${APP_ID}  # 小程序AppID
+  mchid: ${MCHID}           # 商户号
+  api-v3-key: ${API_V3_KEY} # APIv3密钥
+  mch-serial-no: ${MCH_SERIAL_NO}  # 商户证书序列号
+  pub-key-id: ${PUB_KEY_ID}
+  notify-url: ${NOTIFY_URL} # 回调地址
+  apiclient_key_path: ${APICLIENT_KEY_PATH}
+  pub_key_path: ${PUB_KEY_PATH}
+  connect-timeout: 5000
+  read-timeout: 10000

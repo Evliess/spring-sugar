@@ -51,6 +51,29 @@ public class StockUserController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
+    @PostMapping("/private/settings/days-amount/update")
+    public ResponseEntity<String> updateDaysAndAmount(@RequestBody String body) {
+        if (body == null || body.isEmpty()) {
+            return ResponseEntity.ok("Invalid request");
+        }
+        JSONObject jsonNode = JSON.parseObject(body);
+        String days = jsonNode.getString("days");
+        String amount = jsonNode.getString("amount");
+        sugarUserService.updateAmountAndDays(days, amount);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("days", days);
+        jsonObject.put("amount", amount);
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
+    @PostMapping("/private/settings/days-amount/get")
+    public ResponseEntity<String> getDaysAndAmount() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("days", sugarUserService.findSettingByName(SugarUserService.S_DAYS).getAccessKey());
+        jsonObject.put("amount", sugarUserService.findSettingByName(SugarUserService.S_AMOUNT).getAccessKey());
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
     @PostMapping("/private/token/deactive")
     public ResponseEntity<String> deactiveToken(@RequestBody String body) {
         JSONObject jsonNode = JSON.parseObject(body);
