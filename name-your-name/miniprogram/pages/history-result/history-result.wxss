@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px 0 4px;
+  margin-top: 1rem;
+}
+
+.scroll-view {
+  height: 90vh - 60px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+}
+
+.answer {
+  margin-top: 4px;
+}

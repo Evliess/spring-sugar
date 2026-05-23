@@ -4,7 +4,7 @@
   <image 
     class="card-background" 
     mode="widthFix" 
-    src="./images/compass1.png"
+    src="{{img_compass1}}"
     aria-label="精准定制，根据中文名谐音，寓意，MBTI，星座"
   ></image>
   
@@ -17,7 +17,7 @@
   <image 
     class="card-background" 
     mode="widthFix" 
-    src="./images/globe2.png"
+    src="{{img_globe2}}"
     aria-label="英文名字典，每个名字都有着独特的含义"
   ></image>
 

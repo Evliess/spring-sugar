@@ -1,7 +1,7 @@
 <view class="home-container">
   
   <view class="logo-area">
-    <image class="logo-image" mode="aspectFit" src="./images/logo.png"></image>
+    <image class="logo-image" mode="aspectFit" src="{{img_logo}}"></image>
     </view>
 
   <text class="main-title">英文名定制</text>

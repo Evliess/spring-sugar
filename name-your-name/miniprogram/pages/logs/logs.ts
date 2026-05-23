@@ -23,7 +23,6 @@ Page({
   },
   onNameChange(e: any) {
     const name = e.detail.value;
-    console.log(name);
     if (name !== null && name.length > 0) {
       this.setData({
         "userInput.name": name,

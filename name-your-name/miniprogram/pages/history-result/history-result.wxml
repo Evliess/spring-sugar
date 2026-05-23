@@ -1,0 +1,10 @@
+<!-- pages/myPage/myPage.wxml -->
+<view class="container">
+  <!-- 上半部分：scroll-view -->
+  <scroll-view class="scroll-view" scroll-into-view="{{anchor}}" scroll-y>
+    <view id="topAnchor"></view>
+    <view class="answer">
+      <towxml nodes="{{answer}}" />
+    </view>
+  </scroll-view>
+</view>

@@ -9,11 +9,12 @@
   </scroll-view>
 
   <view class="{{showIndictor?'show wait-indictor':'hide wait-indictor'}}">
-      <loading-spiner id="loadingIcon"></loading-spiner>
+    <loading-spiner id="loadingIcon"></loading-spiner>
   </view>
   <!-- 下半部分：两个按钮 -->
   <view class="button-container">
-    <button disabled="{{showIndictor}}" style="width:100px; height: 48px; font-size: 20px;" class="btn btn-primary btn-edit" bind:tap="editInput">返回修改</button>
-    <button disabled="{{showIndictor}}" style="width:100px; height: 48px; font-size: 20px;" class="btn btn-primary btn-req" bind:tap="sendRequest">再来一组</button>
+    <button disabled="{{showIndictor}}" style="width:100px; height: 48px; font-size: 20px;" class="btn btn-purple btn-edit" bind:tap="editInput">返回修改</button>
+    <button disabled="{{showIndictor}}" style="width:50px; height: 48px; font-size: 20px;" class="btn btn-purple btn-history" bind:tap="viewHistory"><image class="icon" src="{{historyIcon}}"></image></button>
+    <button disabled="{{showIndictor}}" style="width:100px; height: 48px; font-size: 20px;" class="btn btn-purple btn-req" bind:tap="sendRequest">再来一组</button>
   </view>
 </view>

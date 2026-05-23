@@ -5,6 +5,7 @@
   align-items: center; /* 居中标题和列表容器 */
   min-height: 100vh;
   background-color: #f7f7f9; /* 浅灰色背景 */
+  padding-bottom: 20rpx;
 }
 
 /* 页面标题样式 */
@@ -12,7 +13,7 @@
   font-size: 48rpx;
   font-weight: bold;
   color: #6a6c9a; /* 深紫色/蓝灰色 */
-  margin-top: 80rpx; /* 顶部留白 */
+  margin-top: 40rpx; /* 顶部留白 */
   margin-bottom: 20px; /* 标题与列表的间距 */
   text-align: center;
 }

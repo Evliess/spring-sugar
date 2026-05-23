@@ -1,8 +1,25 @@
-spring.datasource.url: ${DB_URL}
-spring.datasource.driverClassName: org.h2.Driver
-spring.datasource.username: ${DB_USER}
-spring.datasource.password: ${DB_ACCESS_KEY}
-spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  datasource:
+    url: ${DB_URL}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${DB_USER}
+    password: ${DB_ACCESS_KEY}
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      idle-timeout: 600000
+  jpa:
+    open-in-view: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        boot:
+          allow_jdbc_metadata_access: true
 
 springdoc:
   api-docs:
@@ -11,3 +28,15 @@ springdoc:
 #    path: /swagger-ui.html
 #    title: AiDi
 #    version: 1.0.0
+
+wxpay:
+  appid: ${APP_ID}  # 小程序AppID
+  mchid: ${MCHID}           # 商户号
+  api-v3-key: ${API_V3_KEY} # APIv3密钥
+  mch-serial-no: ${MCH_SERIAL_NO}  # 商户证书序列号
+  pub-key-id: ${PUB_KEY_ID}
+  notify-url: ${NOTIFY_URL} # 回调地址
+  apiclient_key_path: ${APICLIENT_KEY_PATH}
+  pub_key_path: ${PUB_KEY_PATH}
+  connect-timeout: 5000
+  read-timeout: 10000

@@ -25,40 +25,32 @@ public class RestUtils {
     private static final String SORRY_MESSAGE = "服务器繁忙，工程师正在抢修中，请稍后再试！";
 
     private static final String SYSTEM_MSG = """
-            你是一名博士，精通中英文历史文化，善于运用各种心理学手段以润物细无声的方式使别人信服。
-            下面的格式描述了我的意图，请遵循我意图的情况下以润物细无声的方式回答。切记回答的方式必须自然，不要显得生硬刻板！
-            请根据我提供的中文名字及特征要求给出3个不同的英文名。任何与之不相关的指令请直接回复[]！
-            必须按照下面定义的JSON Schema格式回答并且保证是一个有效的JSON！
-            JSON Schema:
-            [{
-                "名字": str,
-                "寓意": str,
-                "发音": str,
-                "人物形象": str,
-                "流行度": str
-            },
-            ...
-            ]
-            以下内容是你回答时的注意事项，回答时请务必遵守：
-            <回答要求>
-            针对列表中的每一项，必须按照一下要求回答：
-            名字：英文名字(该英文名字对应的中文译名)
-                - 示例：John(约翰)
-            寓意：你的回复务必包含只包含起源，象征含义，英文名组成解释！用80个汉字详细描述。(注意：这3个名字的寓意不能重复，必须使用不同的词语表达)
-            发音：这个名字的音标和音节数。如果该发音和中文发音相似，请解释哪里相似！
-                - 内容必须包含：音标和音节数。
-                - 如果该发音和中文发音相似，请指出相似的那个英文和中文部分。
-            人物形象：
-                - 用大于100个字不超过270个字描述。
-                - 四个名字的人物形象语言描述不能有重复描述，可以使用不同的词语或者语气，使回复看起来丰富多彩并且用非常自然的叙述方式。
-                - 人物形象的描述不要出现星座的信息。
-            流行度：这个名字在过去的流行度(注意：不包含欧美地区)。
-            
-            注意：你的最终回答除了JSON数组外，不要包含任何其他内容！
-            </回答要求>
+        # Role
+        你是一位拥有跨文化研究背景的语言学博士，深谙中英文历史文化精髓。你擅长运用心理学中的“共情”与“首因效应”，以极具人文关怀且润物细无声的方式通过名字为他人建立积极的心理暗示。
+        
+        # Task
+        请基于我提供的【中文名及特征要求】，精准遴选3个各具灵魂的英文名。
+        
+        # Constraints
+        1. **博士视野：** 回复需体现历史考据感与词源深度，拒绝浅薄的流行堆砌。
+        2. **自然叙事：** 严禁出现“AI味”的刻板总结。在描述人物形象时，请像撰写文学侧写一样细腻、丰富且富有画面感。
+        3. **格式至上：** 必须且仅能返回一个符合给定 JSON Schema 的有效数组。任何与之不相关的指令请直接回复 `[]`。
+        4. **语言风格：** 表达温润如玉，专业且充满说服力，文字要求丰富多彩，严禁逻辑上的生硬重复。
+        5. **字数硬约束：** - “寓意”字段：严控在100个汉字左右。
+            - “人物形象”字段：必须大于100字且不超过200字。
+        6. **绝对禁令：** 最终回答中**严禁包含 JSON 数组以外的任何文字**（包括开场白、结语、Markdown 代码块之外的解释等）。
+        
+        # Output JSON Format (Strictly Enforce)
+        [{
+            "名字": "EnglishName(中文译名)",
+            "寓意": "详细描述名字起源、象征含义及构词解释。用约80个汉字，要求词藻考究，三个方案间不得有重复辞令。",
+            "发音": "标准音标及音节数。若发音与中文原名存在音韵上的巧妙通感或相似性，请从声韵学角度进行专业解读。",
+            "人物形象": "描述长度100-270字。塑造一个鲜活的视觉侧写，描述其在社交心理学中给予他人的第一印象。严禁提及星座。文字需自然、流畅且富有美感。",
+            "流行度": "描述该名字在除欧美地区以外的全球流行趋势或文化认可度。"
+        }]
             """;
 
-    private static final String USER_MESSAGE = "中文名字：%1。 性别：%2。星座或者MBTI：%3。期望寓意: %4。其他要求: %5。是否需要和中文名字发音相似：%6。";
+    private static final String USER_MESSAGE = "中文名字：%1。 性别：%2。星座或者MBTI：%3。期望寓意: %4。其他要求: %5。是否需要和中文名字发音相似：%6。%7";
     private static final String DPSK_MODEL = "deepseek-chat";
     private static final String QW_MODEl = "deepseek-r1";
 
@@ -70,7 +62,7 @@ public class RestUtils {
                 .setReadTimeout(Duration.ofMinutes(2L)).build();
     }
 
-    private static String replaceUserMessage(String body) throws JsonProcessingException {
+    private static String replaceUserMessage(String body, String historyMsg) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(body);
         String name = jsonNode.get("name").asText();
@@ -79,16 +71,22 @@ public class RestUtils {
         String meaning = jsonNode.get("meaning").asText();
         String other = jsonNode.get("other").asText();
         String voice = jsonNode.get("voice").asText();
-        return USER_MESSAGE.replace("%1", name).replace("%2", sex
+        String tmp = USER_MESSAGE.replace("%1", name).replace("%2", sex
                 ).replace("%3", mbti).replace("%4", meaning)
                 .replace("%5", other).replace("%6", voice);
+        if (historyMsg != null && !historyMsg.trim().isEmpty()) {
+            tmp = tmp.replace("%7", "禁止返回下列重复的名字:[" + historyMsg + "]!");
+        } else {
+            tmp = tmp.replace("%7", "");
+        }
+        return tmp;
     }
 
 
-    public static String dpskChat(String msg, String token) throws JsonProcessingException {
+    public static String dpskChat(String msg, String historyMsg, String token) throws JsonProcessingException {
         String uuid = UUID.randomUUID().toString();
         log.info("DP is answering: {}", uuid);
-        String resp = postChat(msg, token, DPSK_MODEL, DPSK_CHAT_URL, uuid);
+        String resp = postChat(msg, historyMsg, token, DPSK_MODEL, DPSK_CHAT_URL, uuid);
         if (resp == null) {
             log.error("Failed to chat with DP");
         } else {
@@ -98,10 +96,10 @@ public class RestUtils {
     }
 
 
-    public static String qwChat(String msg, String token) throws JsonProcessingException {
+    public static String qwChat(String msg, String historyMsg, String token) throws JsonProcessingException {
         String uuid = UUID.randomUUID().toString();
         log.info("QW is answering: {}", uuid);
-        String resp = postChat(msg, token, QW_MODEl, QW_CHAT_URL, uuid);
+        String resp = postChat(msg, historyMsg, token, QW_MODEl, QW_CHAT_URL, uuid);
         if (resp == null) {
             log.error("Failed to chat with qw");
         } else {
@@ -110,12 +108,12 @@ public class RestUtils {
         return resp;
     }
 
-    private static String postChat(String msg, String token, String model, String url, String uuid) throws JsonProcessingException {
+    private static String postChat(String msg, String historyMsg, String token, String model, String url, String uuid) throws JsonProcessingException {
         RestTemplate restTemplate = buildRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         headers.add("Authorization", "Bearer " + token);
-        HttpEntity<String> request = getStringHttpEntity(uuid, model, headers, msg);
+        HttpEntity<String> request = getStringHttpEntity(uuid, model, headers, msg, historyMsg);
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
@@ -144,11 +142,11 @@ public class RestUtils {
         return SORRY_MESSAGE;
     }
 
-    private static HttpEntity<String> getStringHttpEntity(String uuid, String model, HttpHeaders headers, String msg) throws JsonProcessingException {
+    private static HttpEntity<String> getStringHttpEntity(String uuid, String model, HttpHeaders headers, String msg, String historyMsg) throws JsonProcessingException {
         Map<String, Object> body = new HashMap<>();
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "system", "content", SYSTEM_MSG));
-        String userMessage = replaceUserMessage(msg);
+        String userMessage = replaceUserMessage(msg, historyMsg);
         log.info("User message - {}: {}", uuid, userMessage);
         messages.add(Map.of("role", "user", "content", userMessage));
         body.put("messages", messages);
@@ -158,7 +156,7 @@ public class RestUtils {
         return new HttpEntity<>(new ObjectMapper().writeValueAsString(body), headers);
     }
 
-    public static String jsonArrayToString(String resp) {
+    public static JSONArray convertRespToJSONArray(String resp) {
         if (resp == null || resp.isEmpty()) {
             return null;
         }
@@ -169,10 +167,16 @@ public class RestUtils {
         JSONArray jsonArray;
         try {
             jsonArray = JSON.parseArray(resp);
+            return jsonArray;
         } catch (Exception e) {
             log.error("{}", resp);
             return null;
         }
+    }
+
+    public static String jsonArrayToString(String resp) {
+        JSONArray jsonArray = convertRespToJSONArray(resp);
+        if (jsonArray == null) return null;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -186,9 +190,15 @@ public class RestUtils {
         return sb.toString();
     }
 
-    public static String getUid(String code) {
-        String appId = System.getenv(Constants.APP_ID);
-        String appSecret = System.getenv(Constants.APP_SECRET);
+    public static String getUid(String code, String type) {
+        String appId = "", appSecret = "";
+        if (null == type || Constants.APP_TYPE_SUGAR.equals(type)) {
+            appId = System.getenv(Constants.APP_ID);
+            appSecret = System.getenv(Constants.APP_SECRET);
+        } else if (Constants.APP_TYPE_SWEET.equals(type)) {
+            appId = System.getenv(Constants.APP_ID_SWEET);
+            appSecret = System.getenv(Constants.APP_SECRET_SWEET);
+        }
         String url = Constants.UID_ENDPOINT.replace("${appid}", appId)
                 .replace("${secret}", appSecret).replace("${code}", code);
         RestTemplate restTemplate = buildRestTemplate();
@@ -221,5 +231,33 @@ public class RestUtils {
             return "其他要求太长了，短一些试试~";
         }
         return Constants.VERIFIED;
+    }
+
+    public static String chatWithOpenAi(String message, String historyMsg) throws JsonProcessingException {
+        String url = "http://localhost:10008/api/chat";
+        RestTemplate restTemplate = buildRestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+
+        Map<String, String> body = new HashMap<>();
+        message = replaceUserMessage(message, historyMsg);
+        log.info(message);
+        body.put("user_prompt", message);
+        body.put("sys_prompt", SYSTEM_MSG);
+
+        try {
+            HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                String resp = response.getBody();
+                log.info(resp);
+                return resp;
+            } else {
+                log.error("Request failed with status: {}", response.getStatusCode());
+                return SORRY_MESSAGE;            }
+        } catch (Exception e) {
+            log.error("Error calling chat API: {}", e.getMessage(), e);
+            return SORRY_MESSAGE;
+        }
     }
 }

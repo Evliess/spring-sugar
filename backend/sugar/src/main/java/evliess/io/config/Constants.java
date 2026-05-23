@@ -5,6 +5,8 @@ public class Constants {
     public static final String X_OPENID = "X-Openid";
     public static final String APP_SECRET = "APP_SECRET";
     public static final String APP_ID = "APP_ID";
+    public static final String APP_SECRET_SWEET = "APP_SECRET_SWEET";
+    public static final String APP_ID_SWEET = "APP_ID_SWEET";
     public static final String CODE = "code";
     public static final String CODE_401 = "401";
     public static final String PUBLIC_PATH_PREFIX = "/public/";
@@ -20,4 +22,6 @@ public class Constants {
     public static final int MAX_LENGTH_20 = 20;
     public static final int MAX_LENGTH_100 = 100;
     public static final String VERIFIED = "verified";
+    public static final String APP_TYPE_SUGAR = "sugar";
+    public static final String APP_TYPE_SWEET = "sweet";
 }
