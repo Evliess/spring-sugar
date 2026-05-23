@@ -52,7 +52,7 @@ public class WepayService {
         Map<String, String> payParams = new HashMap<>();
         payParams.put("timeStamp", response.getTimeStamp());
         payParams.put("nonceStr", response.getNonceStr());
-        payParams.put("package", "prepay_id=" + response.getPackageVal());
+        payParams.put("package", response.getPackageVal());
         payParams.put("signType", response.getSignType());
         payParams.put("paySign", response.getPaySign());
         return payParams;

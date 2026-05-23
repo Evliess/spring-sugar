@@ -14,6 +14,7 @@ public class WOrder {
     @Column(name = "out_trade_no")
     private String outTradeNo;
     @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
     @Column(name = "total_amount")
     private Integer totalAmount;

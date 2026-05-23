@@ -10,6 +10,7 @@ import com.wechat.pay.java.core.notification.RequestParam;
 import com.wechat.pay.java.service.payments.model.Transaction;
 import evliess.io.config.Constants;
 import evliess.io.service.OrderService;
+import evliess.io.service.SugarUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,18 +31,20 @@ public class WxPayController {
     private final Config wxPayConfig;
 
     private final OrderService orderService;
+    private final SugarUserService sugarUserService;
 
     @Autowired
-    public WxPayController(OrderService orderService, Config wxPayConfig) {
+    public WxPayController(OrderService orderService, Config wxPayConfig, SugarUserService sugarUserService) {
         this.orderService = orderService;
         this.wxPayConfig = wxPayConfig;
+        this.sugarUserService = sugarUserService;
     }
 
     @PostMapping("/public/order/create")
     public ResponseEntity<String> createOrder(@RequestBody String body) {
         JSONObject jsonNode = JSON.parseObject(body);
         String openId = jsonNode.getString(Constants.X_OPENID);
-        String amount = jsonNode.getString("amount");
+        String amount = sugarUserService.findSettingByName(SugarUserService.S_AMOUNT).getAccessKey();
         Map<String, String> resp = this.orderService.createJsapiOrder(openId, amount);
         JSONObject jsonObject = new JSONObject(resp);
         return ResponseEntity.ok(jsonObject.toString());
@@ -83,6 +86,7 @@ public class WxPayController {
 
             // 5. 你的业务逻辑（只处理支付成功）
             if ("SUCCESS".equals(transaction.getTradeState().name())) {
+                log.info("User paid success! out_trade_no: {}", transaction.getOutTradeNo());
                 boolean success = orderService.processPaymentCallback(
                         transaction.getOutTradeNo(),
                         transaction.getTransactionId(),
