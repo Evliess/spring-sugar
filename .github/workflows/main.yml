@@ -1,10 +1,10 @@
 name: Build Full Stack Application
 on:
   push:
-
     branches: [ release/dev, master ]   # 在推送到main或master分支时触发
   pull_request:
     branches: [ release/dev, master ] 
+  workflow_dispatch:
 
 jobs:
   build:
