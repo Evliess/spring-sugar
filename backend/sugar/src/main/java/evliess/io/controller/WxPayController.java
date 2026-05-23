@@ -47,7 +47,7 @@ public class WxPayController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
-    @PostMapping("/notify")
+    @PostMapping("/public/order/notify")
     public ResponseEntity<String> callbackPayment(HttpServletRequest request) {
         try {
             // 1. 获取原始报文和请求头

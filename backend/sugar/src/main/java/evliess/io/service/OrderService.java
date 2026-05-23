@@ -122,8 +122,10 @@ public class OrderService {
             throw new RuntimeException("amount is empty!");
         }
         String outTradeNo = generateOutTradeNo();
+        log.info("Creating preOrder with openid: {}, amount: {}", openid, amount);
         PrepayWithRequestPaymentResponse resp = wepayService.createWxPrepay(outTradeNo, openid, Integer.parseInt(amount));
         Map<String, String> respMap = wepayService.buildPayParams(resp);
+        log.info("Succeed Created preOrder with prepay_id: {}, nonceStr: {}", respMap.get("package"), respMap.get("nonceStr"));
         this.saveUnpaidOrder(outTradeNo, Integer.parseInt(amount), openid);
         return respMap;
     }
