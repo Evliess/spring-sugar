@@ -4,8 +4,6 @@ on:
     branches: [ release/dev, master ]   # 在推送到main或master分支时触发
   pull_request:
     branches: [ release/dev, master ] 
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest      # 使用最新的Ubuntu运行器
