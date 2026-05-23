@@ -86,6 +86,7 @@ public class WxPayController {
 
             // 5. 你的业务逻辑（只处理支付成功）
             if ("SUCCESS".equals(transaction.getTradeState().name())) {
+                log.info("User paid success! out_trade_no: {}", transaction.getOutTradeNo());
                 boolean success = orderService.processPaymentCallback(
                         transaction.getOutTradeNo(),
                         transaction.getTransactionId(),
