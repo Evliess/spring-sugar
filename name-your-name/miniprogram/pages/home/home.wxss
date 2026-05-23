@@ -104,7 +104,7 @@
   /* 调整行间距 */
   line-height: 1.2; 
   text-align: center;
-  color: #000;
+  color: #444;
   font-weight: 600;
 }
 
