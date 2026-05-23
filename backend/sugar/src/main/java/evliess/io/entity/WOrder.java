@@ -11,15 +11,15 @@ public class WOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "outTradeNo")
+    @Column(name = "out_trade_no")
     private String outTradeNo;
-    @Column(name = "orderStatus")
+    @Column(name = "order_status")
     private OrderStatus status;
-    @Column(name = "totalAmount")
+    @Column(name = "total_amount")
     private Integer totalAmount;
-    @Column(name = "openId")
+    @Column(name = "open_id")
     private String openId;
-    @Column(name = "transactionId")
+    @Column(name = "transaction_id")
     private String transactionId;
     @Column(name = "updated_at")
     private Long updatedAt;
