@@ -34,5 +34,5 @@ header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openI
 export const fetchOpenid = (url: string, code: string) => request<any>({url: url, method: 'POST', data: {"code": code}});
 export const checkToken = (url: string, openId: string, token: string) => request<any>({url: url, method: 'POST',
                             header: {'content-type': 'application/json', 'X-token': token, 'X-openId': openId}});
-export const createPreOrder = (url: string, openId: string) => request<any>({url: url, method: 'POST', data: {'X-Openid': openId}, 
+export const createPreOrder = (url: string, openId: string) => request<any>({url: url, method: 'POST', data: {'X-Openid': openId, 'type': 'sugar'}, 
                             header: {'content-type': 'application/json'}});
