@@ -1,5 +1,10 @@
 <view class="home-container">
   
+  <button class="customer-service-btn" open-type="contact">
+    <text class="service-text">在线客服</text>
+    <text class="service-icon">🎧</text>
+  </button>
+  
   <view class="logo-area">
     <image class="logo-image" mode="aspectFit" src="{{img_logo}}"></image>
     </view>
@@ -8,8 +13,8 @@
 
   <view class="input-area">
     <view class="custom-placeholder {{token ? 'hidden' : ''}}">
-      <text class="line">请输入激活码</text>
-      <text class="line">若您还没有激活码，可联系客服获取</text>
+      <text class="line-head">请输入激活码</text>
+      <text class="line-title">若无激活码，点击下方【购买券码】，可立即使用</text>
   </view>
     <input 
       class="activation-code-input" 
@@ -22,10 +27,8 @@
   </view>
 
   <view class="button-group">
-    <button class="btn contact-btn" 
-    open-type="contact"
-    >联系客服</button>
-    <button class="btn contact-btn" bind:tap="sendRequest">立即激活</button>
+    <button class="btn contact-btn" bind:tap="sendRequest">购买券码</button>
+    <button class="btn contact-btn" bind:tap="sendRequestOld">立即激活</button>
   </view>
 
 </view>

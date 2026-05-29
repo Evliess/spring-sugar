@@ -47,5 +47,16 @@
         <button nz-button nzType="primary" (click)="onMidNamesChange()" class="btn-token" nzSize="large">录入中性名字</button>
       </div>
     </nz-tab>
+    <nz-tab nzTitle="金额管理">
+      <div class="amount-row">
+        <input nz-input placeholder="金额（单位：分）" [(ngModel)]="amount" nzSize="large" class="amount-input" (change)="onAmountChange($event)"/>
+      </div>
+      <div class="amount-row">
+        <input nz-input placeholder="有效期 days" [(ngModel)]="days" nzSize="large" class="amount-input" (change)="onDaysChange($event)"/>
+      </div>
+      <div class="amount-row">
+        <button nz-button nzType="primary" (click)="updateDaysAndAmount()" class="btn-token" nzSize="large">提交更新</button>
+      </div>
+    </nz-tab>
   </nz-tabset>
 </div>

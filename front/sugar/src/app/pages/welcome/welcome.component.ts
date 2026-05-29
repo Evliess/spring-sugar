@@ -29,6 +29,8 @@ export class WelcomeComponent implements OnInit {
   femaleNames: string = '';
   maleNames: string = '';
   midNames: string = '';
+  amount: string = '190';
+  days: string = '7';
 
   constructor(
     private userService: UserService,
@@ -125,6 +127,24 @@ export class WelcomeComponent implements OnInit {
         }
       });
     }
+  }
+
+  onAmountChange(event: any): void {
+    this.amount = event.target.value;
+  }
+
+  onDaysChange(event: any): void {
+    this.days = event.target.value;
+  }
+
+  updateDaysAndAmount(): void {
+    this.userService.updateDaysAndAmount(this.user, this.amount, this.days).subscribe((data: any) => {
+      if(data.msg == "ok") {
+        this.notification.success('更新成功', `金额: ${this.amount}, 有效期: ${this.days}天`, {
+          nzPlacement: 'bottomRight'
+        });
+      }
+    });
   }
 
 }

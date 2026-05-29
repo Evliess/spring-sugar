@@ -1,5 +1,41 @@
 /* WXSS 代码 */
 
+/* 在线客服按钮样式 - 子弹形状贴右侧边缘 */
+.customer-service-btn {
+  position: fixed !important;
+  right: 0 !important;
+  top: 50rpx !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #7684c0 !important;
+  border-radius: 30rpx 0 0 30rpx !important;
+  padding: 0 !important;
+  box-shadow: -4rpx 4rpx 12rpx rgba(118, 132, 192, 0.4) !important;
+  z-index: 100 !important;
+  border: none !important;
+  font-size: 0 !important;
+  width: 160rpx !important;
+  height: 60rpx !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  line-height: 0 !important;
+}
+
+.customer-service-btn::after {
+  border: none !important;
+}
+
+.service-text {
+  color: #fff;
+  font-size: 24rpx;
+  margin-right: 10rpx;
+}
+
+.service-icon {
+  font-size: 28rpx;
+}
+
 /* 整体页面容器样式 */
 .home-container {
   display: flex;
@@ -64,10 +100,20 @@
   font-size: 32rpx;
 }
 
-.custom-placeholder .line {
+.custom-placeholder .line-head {
   /* 调整行间距 */
-  line-height: 1.6; 
+  line-height: 1.2; 
   text-align: center;
+  color: #444;
+  font-weight: 600;
+}
+
+.custom-placeholder .line-title {
+  /* 调整行间距 */
+  line-height: 1; 
+  text-align: center;
+  font-size: 12px;
+  margin-top:6px;
 }
 
 .hidden {
