@@ -73,6 +73,18 @@ export class UserService {
     return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
   }
 
+  updateDaysAndAmount(user: string, amount: string, days: string): Observable<any> {
+    const apiUrl = this.BASE_URL + '/private/settings/days-amount/update';
+    const headers = {
+      "X-Openid": user
+    };
+    const body = {
+      "amount": amount,
+      "days": days
+    }
+    return this.http.post(apiUrl, body, {headers});
+  }
+
   insertNames(names: string, type: string): Observable<any> {
     if(type == "female") {
       const apiUrl = this.BASE_URL + '/public/dict/batch/female';
