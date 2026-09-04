@@ -8,9 +8,12 @@ spring:
     password: ${DB_ACCESS_KEY}
     hikari:
       connection-timeout: 30000
-      maximum-pool-size: 10
-      minimum-idle: 10
+      maximum-pool-size: 20
+      minimum-idle: 5
       idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
   jpa:
     open-in-view: false
     hibernate:
