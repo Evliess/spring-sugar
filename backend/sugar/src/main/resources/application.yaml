@@ -1,9 +1,12 @@
 server:
   tomcat:
-    max-http-header-size: 4096
-    max-http-post-size: 2097152
+    max-http-header-size: 2048
+    max-http-post-size: 1048576
     connection-timeout: 30000
 spring:
+  jackson:
+    deserialization:
+      max-input-length: 1048576
   lifecycle:
     timeout-per-shutdown-phase: 30s
   datasource:
