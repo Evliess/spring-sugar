@@ -3,10 +3,11 @@ package evliess.io.controller;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import evliess.io.config.Constants;
 import evliess.io.entity.AuditToken;
 import evliess.io.jpa.SugarUserHistoryRepository;
-import evliess.io.jpa.UserRespHistoryRepository;
 import evliess.io.service.AuditTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class AuditTokenController {
@@ -24,15 +27,17 @@ public class AuditTokenController {
 
     private final AuditTokenService auditTokenService;
     private final SugarUserHistoryRepository sugarUserHistoryRepository;
-    private final UserRespHistoryRepository userRespHistoryRepository;
+    private final Cache<String, Optional<AuditToken>> tokenCache = Caffeine.newBuilder()
+            .expireAfterWrite(30, TimeUnit.SECONDS)
+            .maximumSize(10_000)
+            .build();
 
     @Autowired
     public AuditTokenController(AuditTokenService auditTokenService,
-                                SugarUserHistoryRepository sugarUserHistoryRepository,
-                                UserRespHistoryRepository userRespHistoryRepository) {
+                                SugarUserHistoryRepository sugarUserHistoryRepository
+                                ) {
         this.auditTokenService = auditTokenService;
         this.sugarUserHistoryRepository = sugarUserHistoryRepository;
-        this.userRespHistoryRepository = userRespHistoryRepository;
     }
 
     @GetMapping("/public/audit/users")
@@ -75,7 +80,7 @@ public class AuditTokenController {
         JSONObject jsonNode = JSON.parseObject(body);
         String openid = jsonNode.getString("openId");
         log.info("Try to get latest valid token with openId: {}", openid);
-        AuditToken auditToken = this.auditTokenService.findLatestValidToken(openid);
+        AuditToken auditToken = this.auditTokenService.findLatestValidTokenCached(openid);
         JSONObject jsonObject = new JSONObject();
         if (auditToken == null) {
             jsonObject.put("token", "token");
